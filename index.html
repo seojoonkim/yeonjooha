@@ -23,14 +23,13 @@
             
             /* 폰트 변수 */
             --font-sans: 'Pretendard', -apple-system, sans-serif;
-            --font-serif: 'Playfair Display', serif; /* 제목용 명조 */
+            --font-serif: 'Playfair Display', serif;
             --font-jp: 'Noto Sans JP', sans-serif;
             --font-cn: 'Noto Sans SC', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* [기능] 부드러운 스크롤 */
         html { scroll-behavior: smooth; }
 
         body {
@@ -41,7 +40,7 @@
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; } a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
-        /* --- [Animation: Fade Up] --- */
+        /* --- [Animation] --- */
         .fade-wrap { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-wrap.visible { opacity: 1; transform: translateY(0); }
         .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
@@ -50,15 +49,10 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
-        /* --- [Typography] --- */
+        /* Typography */
         h1 { font-family: var(--font-serif); font-size: 5.5rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin-bottom: 20px; }
-        
-        h2 { 
-            font-family: var(--font-serif); font-size: 3rem; font-weight: 400; 
-            letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; 
-        }
+        h2 { font-family: var(--font-serif); font-size: 3rem; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; }
         h2::after { content: ''; display: block; width: 1px; height: 60px; background: #000; margin: 30px auto 0; }
-        
         h3 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; letter-spacing: 1px; }
 
         /* --- [Header & Nav] --- */
@@ -70,69 +64,38 @@
         .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
-        
         .lang-switch { display: flex; gap: 15px; font-family: var(--font-sans); }
         .lang-btn { font-size: 0.8rem; font-weight: 600; color: #999; cursor: pointer; transition: color 0.3s; }
         .lang-btn:hover, .lang-btn.active { color: #000; }
 
-        /* --- [Hero Section] --- */
+        /* --- [Hero] --- */
         .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; padding-top: 100px; }
         .hero-text span.subtitle { display: block; font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; }
         .hero-img { width: 100%; height: 85vh; background: #f5f5f5; overflow: hidden; position: relative; }
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
 
-        /* --- [Profile Section] --- */
+        /* --- [Profile] --- */
         .profile-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 100px; align-items: start; }
         .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; row-gap: 60px; }
-        
-        /* 프로필 항목 스타일 */
-        .spec-item strong { 
-            display: block; font-family: var(--font-serif); font-size: 1.4rem; 
-            margin-bottom: 5px; color: var(--text-primary); line-height: 1.3; 
-        }
-        .spec-desc { 
-            font-family: var(--font-sans); color: var(--text-secondary); 
-            font-size: 0.95rem; font-weight: 400; margin-top: 5px; line-height: 1.5; 
-        }
+        .spec-item strong { display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); line-height: 1.3; }
+        .spec-desc { font-family: var(--font-sans); color: var(--text-secondary); font-size: 0.95rem; font-weight: 400; margin-top: 5px; line-height: 1.5; }
 
-        /* --- [Filmography Section] --- */
+        /* --- [Filmography] --- */
         .career-list { margin-top: 80px; }
-        .career-category-title { 
-            margin-top: 60px; margin-bottom: 25px; 
-            font-family: var(--font-serif); font-size: 1.3rem;
-            border-bottom: 1px solid #000; padding-bottom: 10px; 
-        }
-        
-        .career-item {
-            display: grid; grid-template-columns: 80px 1fr; gap: 25px;
-            padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center;
-            transition: background 0.3s;
-        }
+        .career-category-title { margin-top: 60px; margin-bottom: 25px; font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; }
+        .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center; transition: background 0.3s; }
         .career-item:hover { background: #fafafa; }
-        
-        .career-thumb {
-            width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; 
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
-        }
+        .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
         .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
         .career-info { display: flex; flex-direction: column; gap: 5px; }
         .year { font-weight: 700; font-size: 0.85rem; color: #999; letter-spacing: 1px; }
-        
-        /* [요청사항 반영] 작품 제목 폰트 변경 (Serif, Bold) */
-        .career-title { 
-            font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; 
-            line-height: 1.3; margin-bottom: 5px; 
-        }
+        .career-title { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1.3; margin-bottom: 5px; }
         .career-role { color: var(--text-secondary); font-size: 0.95rem; }
-        .broadcast { 
-            display: inline-block; font-size: 0.75rem; color: #999; border: 1px solid #ddd; 
-            padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; margin-top: -3px; 
-        }
+        .broadcast { display: inline-block; font-size: 0.75rem; color: #999; border: 1px solid #ddd; padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; margin-top: -3px; }
 
-        /* --- [Gallery Section] --- */
+        /* --- [Gallery] --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px; }
         .gallery-item { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f0f0f0; cursor: pointer; }
         .gallery-item::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); opacity: 0; transition: 0.3s; }
@@ -152,7 +115,7 @@
         .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* --- [Mobile Responsive] --- */
+        /* --- [Mobile] --- */
         @media (max-width: 1024px) {
             h1 { font-size: 3.5rem; }
             section { padding: 100px 0; }
@@ -170,17 +133,15 @@
             .menu { display: none; }
         }
 
-        /* --- [다국어 처리 (Language Logic)] --- */
+        /* 다국어 처리 */
         .lang-text { display: none !important; }
         html[lang="ko"] .ko { display: inline-block !important; }
         html[lang="en"] .en { display: inline-block !important; }
         html[lang="zh"] .cn { display: inline-block !important; font-family: var(--font-cn); }
-        html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); } /* 일본어 수정됨 */
+        html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); }
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
-        
-        /* 아랍어 RTL 설정 */
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -264,6 +225,32 @@
                         <strong>MENSA Korea</strong>
                         <div class="spec-desc"><span>IQ 156</span></div>
                     </div>
+
+                    <div class="spec-item">
+                        <h3>Hobbies</h3>
+                        <strong>
+                            <span class="lang-text ko">요가, 발레, 골프, 이케바나</span>
+                            <span class="lang-text en">Yoga, Ballet, Golf, Ikebana</span>
+                            <span class="lang-text cn">瑜伽, 芭蕾, 高尔夫, 插花</span>
+                            <span class="lang-text ja">ヨガ, バレエ, ゴルフ, 生け花</span>
+                            <span class="lang-text pt">Ioga, Balé, Golfe, Ikebana</span>
+                            <span class="lang-text es">Yoga, Ballet, Golf, Ikebana</span>
+                            <span class="lang-text ar">اليوجا، الباليه، الجولف، إيكيبانا</span>
+                        </strong>
+                    </div>
+
+                    <div class="spec-item">
+                        <h3>Languages</h3>
+                        <strong>
+                            <span class="lang-text ko">한국어, 영어</span>
+                            <span class="lang-text en">Korean, English</span>
+                            <span class="lang-text cn">韩语, 英语</span>
+                            <span class="lang-text ja">韓国語, 英語</span>
+                            <span class="lang-text pt">Coreano, Inglês</span>
+                            <span class="lang-text es">Coreano, Inglés</span>
+                            <span class="lang-text ar">الكورية، الإنجليزية</span>
+                        </strong>
+                    </div>
                 </div>
             </div>
         </div>
@@ -302,7 +289,6 @@
     <script>
         const instagramFeedUrl = ""; 
 
-        // data.js 로드 (Cache Busting)
         var script = document.createElement('script');
         script.src = "data.js?v=" + new Date().getTime(); 
         script.onload = function() { initPage(); };
@@ -360,6 +346,9 @@
                         observer.observe(catDiv);
                     }
 
+                    // [수정됨] 방송사 정보가 있을 때만 노출 (조건부 렌더링)
+                    const broadcastHtml = item.broadcast ? `<span class="broadcast">${item.broadcast}</span>` : '';
+
                     const div = document.createElement('div');
                     div.className = 'career-item fade-wrap';
                     div.innerHTML = `
@@ -374,7 +363,7 @@
                                 <span class="lang-text pt">${item.title.pt}</span>
                                 <span class="lang-text es">${item.title.es}</span>
                                 <span class="lang-text ar">${item.title.ar}</span>
-                                <span class="broadcast">${item.broadcast || ''}</span>
+                                ${broadcastHtml}
                             </div>
                             <div class="career-role">
                                 <span class="lang-text ko">${item.role.ko}</span>
