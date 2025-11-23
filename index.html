@@ -72,26 +72,42 @@
         /* --- [Profile] --- */
         .profile-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 100px; align-items: start; }
         .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; row-gap: 60px; }
-        /* 첫째 줄 스타일 (강조) */
-        .spec-item strong { display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); }
-        /* [수정] 둘째 줄 스타일 통일 (Birth 항목과 동일하게 강제 적용) */
-        .spec-item span { 
-            display: block; 
-            font-family: var(--font-sans); /* 고딕체 통일 */
-            color: var(--text-secondary); 
-            font-size: 0.95rem; 
+        
+        /* 프로필 텍스트 스타일 (수정됨) */
+        .spec-item strong { 
+            display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); line-height: 1.3;
+        }
+        
+        /* [중요] 둘째 줄 설명용 클래스 (새로 만듦 - span 충돌 방지) */
+        .spec-desc {
+            font-family: var(--font-sans);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
             font-weight: 400;
-            margin-top: 2px;
+            margin-top: 5px;
+            line-height: 1.5;
         }
 
         /* --- [Filmography] --- */
         .career-list { margin-top: 80px; }
-        .career-category-title { margin-top: 60px; margin-bottom: 25px; font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; }
-        .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center; transition: background 0.3s; }
+        .career-category-title { 
+            margin-top: 60px; margin-bottom: 25px; 
+            font-family: var(--font-serif); font-size: 1.3rem;
+            border-bottom: 1px solid #000; padding-bottom: 10px; 
+        }
+        .career-item {
+            display: grid; grid-template-columns: 80px 1fr; gap: 25px;
+            padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center;
+            transition: background 0.3s;
+        }
         .career-item:hover { background: #fafafa; }
-        .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .career-thumb {
+            width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
+        }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
         .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
         .career-info { display: flex; flex-direction: column; gap: 5px; }
         .year { font-weight: 700; font-size: 0.85rem; color: #999; letter-spacing: 1px; }
         .career-title { font-size: 1.35rem; font-weight: 400; line-height: 1.3; margin-bottom: 5px; }
@@ -136,15 +152,15 @@
             .menu { display: none; }
         }
 
-        /* 다국어 처리 */
-        .lang-text { display: none; }
-        html[lang="ko"] .ko { display: inline !important; }
-        html[lang="en"] .en { display: inline !important; }
-        html[lang="zh"] .cn { display: inline !important; }
-        html[lang="ja"] .jp { display: inline !important; }
-        html[lang="pt"] .pt { display: inline !important; }
-        html[lang="es"] .es { display: inline !important; }
-        html[lang="ar"] .ar { display: inline !important; }
+        /* 다국어 처리 (display: none !important로 확실히 숨김) */
+        .lang-text { display: none !important; }
+        html[lang="ko"] .ko { display: inline-block !important; }
+        html[lang="en"] .en { display: inline-block !important; }
+        html[lang="zh"] .cn { display: inline-block !important; }
+        html[lang="ja"] .jp { display: inline-block !important; }
+        html[lang="pt"] .pt { display: inline-block !important; }
+        html[lang="es"] .es { display: inline-block !important; }
+        html[lang="ar"] .ar { display: inline-block !important; }
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -201,17 +217,57 @@
             <div class="profile-wrap">
                 <div class="profile-summary"><h2>PROFILE</h2></div>
                 <div class="specs-grid">
-                    <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
+                    <div class="spec-item">
+                        <h3>Name</h3>
+                        <strong>
+                            <span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span>
+                        </strong>
+                    </div>
                     
-                    <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><span><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></span></div>
+                    <div class="spec-item">
+                        <h3>Birth</h3>
+                        <strong>1987. 08. 06</strong>
+                        <div class="spec-desc">
+                            <span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span>
+                        </div>
+                    </div>
                     
-                    <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><span><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></span></div>
+                    <div class="spec-item">
+                        <h3>Physical</h3>
+                        <strong>172cm, 48kg, B-Type</strong>
+                        <div class="spec-desc">
+                            <span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span>
+                        </div>
+                    </div>
                     
-                    <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생, 배우자</span><span class="lang-text en">Parents, Sister, Brother, Spouse</span><span class="lang-text cn">父母, 姐姐, 弟弟, 配偶</span><span class="lang-text ja">両親, 姉, 弟, 配偶者</span><span class="lang-text pt">Pais, Irmã, Irmão, Cônjuge</span><span class="lang-text es">Padres, Hermana, Hermano, Cónyuge</span><span class="lang-text ar">الوالدان، الأخت، الأخ، الزوج</span></strong></div>
+                    <div class="spec-item">
+                        <h3>Family</h3>
+                        <strong>
+                            <span class="lang-text ko">부모님, 언니, 남동생, 배우자</span>
+                            <span class="lang-text en">Parents, Sister, Brother, Spouse</span>
+                            <span class="lang-text cn">父母, 姐姐, 弟弟, 配偶</span>
+                            <span class="lang-text ja">両親, 姉, 弟, 配偶者</span>
+                            <span class="lang-text pt">Pais, Irmã, Irmão, Cônjuge</span>
+                            <span class="lang-text es">Padres, Hermana, Hermano, Cónyuge</span>
+                            <span class="lang-text ar">الوالدان، الأخت، الأخ، الزوج</span>
+                        </strong>
+                    </div>
 
-                    <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><span><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></span></div>
+                    <div class="spec-item">
+                        <h3>Debut</h3>
+                        <strong>2008 MBC</strong>
+                        <div class="spec-desc">
+                            <span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span>
+                        </div>
+                    </div>
                     
-                    <div class="spec-item"><h3>Specialty</h3><strong>MENSA Korea</strong><span>IQ 156</span></div>
+                    <div class="spec-item">
+                        <h3>Specialty</h3>
+                        <strong>MENSA Korea</strong>
+                        <div class="spec-desc">
+                            <span>IQ 156</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
