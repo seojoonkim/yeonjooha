@@ -21,7 +21,6 @@
             --line-color: #e0e0e0;
             --accent-color: #1a1a1a;
             
-            /* 폰트 변수 */
             --font-sans: 'Pretendard', -apple-system, sans-serif;
             --font-serif: 'Playfair Display', serif;
             --font-jp: 'Noto Sans JP', sans-serif;
@@ -29,14 +28,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-sans); color: var(--text-primary); background-color: var(--bg-white);
-            line-height: 1.7; word-break: keep-all; overflow-x: hidden;
-        }
-
+        body { font-family: var(--font-sans); color: var(--text-primary); background-color: var(--bg-white); line-height: 1.7; word-break: keep-all; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; } a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
@@ -59,19 +52,58 @@
         header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 20px 0; transition: all 0.3s; }
         nav { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
         .nav-left { display: flex; align-items: center; gap: 50px; }
-        .logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; }
+        .logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; white-space: nowrap; }
         .menu { display: flex; gap: 30px; }
         .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
-        .lang-switch { display: flex; gap: 15px; font-family: var(--font-sans); }
-        .lang-btn { font-size: 0.8rem; font-weight: 600; color: #999; cursor: pointer; transition: color 0.3s; }
-        .lang-btn:hover, .lang-btn.active { color: #000; }
 
-        /* --- [Hero] --- */
+        /* --- [Dropdown Language Switcher] --- */
+        .lang-dropdown { position: relative; font-family: var(--font-sans); z-index: 200; }
+        
+        .current-lang { 
+            font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; 
+            display: flex; align-items: center; gap: 5px; padding: 5px 0;
+        }
+        .current-lang:hover { opacity: 0.7; }
+        .arrow-icon { font-size: 0.7rem; transition: transform 0.3s; }
+        .lang-dropdown.active .arrow-icon { transform: rotate(180deg); }
+
+        .lang-list {
+            position: absolute; top: 120%; right: 0; 
+            background: white; border: 1px solid #eee; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 10px 0; 
+            min-width: 160px; 
+            white-space: nowrap;
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .lang-dropdown.active .lang-list { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .lang-option {
+            display: block; padding: 10px 20px; 
+            font-size: 0.85rem; color: #555; cursor: pointer; text-align: left;
+            transition: background 0.2s;
+        }
+        .lang-option:hover { background: #f5f5f5; color: #000; }
+        .lang-option.selected { font-weight: 700; color: #000; background-color: #f9f9f9; }
+
+
+        /* --- [Hero] (수정됨) --- */
         .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; padding-top: 100px; }
         .hero-text span.subtitle { display: block; font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; }
-        .hero-img { width: 100%; height: 85vh; background: #f5f5f5; overflow: hidden; position: relative; }
+        
+        /* [핵심 수정] 이미지 컨테이너 */
+        .hero-img { 
+            width: 100%; 
+            /* height: 85vh; -> 고정 높이 삭제 */
+            aspect-ratio: 4 / 5; /* [추가] 가로:세로 비율 고정 (가로가 늘면 세로도 같이 늠) */
+            max-height: 90vh; /* [추가] 너무 커져서 화면을 넘어가는 것 방지 */
+            background: #f5f5f5; 
+            overflow: hidden; 
+            position: relative; 
+        }
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
 
@@ -83,9 +115,20 @@
 
         /* --- [Filmography] --- */
         .career-list { margin-top: 80px; }
-        .career-category-title { margin-top: 60px; margin-bottom: 25px; font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; }
-        .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center; transition: background 0.3s; }
-        .career-item:hover { background: #fafafa; }
+        .filmo-group { margin-bottom: 100px; }
+        .career-category-title { 
+            font-family: var(--font-serif); font-size: 1.3rem; 
+            border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 30px;
+        }
+        .filmo-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 1024px) {
+            .filmo-grid { grid-template-columns: 1fr 1fr; column-gap: 60px; row-gap: 40px; }
+        }
+        .career-item {
+            display: grid; grid-template-columns: 80px 1fr; gap: 25px;
+            padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; 
+            align-items: center; transition: background 0.3s;
+        }
         .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
         .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -115,22 +158,39 @@
         .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* --- [Mobile] --- */
+        /* --- [Mobile Responsive] --- */
         @media (max-width: 1024px) {
             h1 { font-size: 3.5rem; }
             section { padding: 100px 0; }
+            
+            /* 모바일 헤더 고정 (1줄 유지) */
+            nav { 
+                flex-direction: row; 
+                align-items: center; 
+                justify-content: space-between; 
+                padding: 0 20px;
+            }
+            .nav-left { width: auto; margin-bottom: 0; gap: 0; }
+            .menu { display: none; }
+            
+            .logo { font-size: 1.2rem; }
+
             .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; min-height: auto; }
-            .hero-img { height: 50vh; order: -1; }
+            
+            /* 모바일 이미지 높이 재조정 (필요시 aspect-ratio 사용 가능) */
+            .hero-img { 
+                height: auto; /* 고정 높이 해제 */
+                aspect-ratio: 4/5; /* 모바일에서도 비율 유지 */
+                max-height: 60vh; /* 모바일 화면 너무 차지하지 않게 */
+                order: -1; 
+            }
+
             .profile-wrap { grid-template-columns: 1fr; gap: 50px; }
             .specs-grid { gap: 40px; }
             .career-item { grid-template-columns: 70px 1fr; gap: 15px; }
             .career-thumb { width: 70px; height: 105px; }
             .career-title { font-size: 1.2rem; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            nav { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .nav-left { width: 100%; justify-content: space-between; }
-            .lang-switch { width: 100%; justify-content: flex-start; gap: 20px; }
-            .menu { display: none; }
         }
 
         /* 다국어 처리 */
@@ -142,7 +202,6 @@
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
-        
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -159,14 +218,21 @@
                     <a href="#gallery">Gallery</a>
                 </div>
             </div>
-            <div class="lang-switch">
-                <div class="lang-btn active" data-lang="ko">KO</div>
-                <div class="lang-btn" data-lang="en">EN</div>
-                <div class="lang-btn" data-lang="zh">CN</div>
-                <div class="lang-btn" data-lang="ja">JP</div>
-                <div class="lang-btn" data-lang="pt">PT</div>
-                <div class="lang-btn" data-lang="es">ES</div>
-                <div class="lang-btn" data-lang="ar">AR</div>
+            
+            <div class="lang-dropdown" id="langDropdown">
+                <div class="current-lang" onclick="toggleLangMenu()">
+                    <span id="currentLangLabel">KO</span>
+                    <span class="arrow-icon">▼</span>
+                </div>
+                <ul class="lang-list">
+                    <li class="lang-option selected" data-lang="ko" onclick="changeLang('ko')">Korean (KO)</li>
+                    <li class="lang-option" data-lang="en" onclick="changeLang('en')">English (EN)</li>
+                    <li class="lang-option" data-lang="cn" onclick="changeLang('cn')">Chinese (CN)</li>
+                    <li class="lang-option" data-lang="ja" onclick="changeLang('ja')">Japanese (JA)</li>
+                    <li class="lang-option" data-lang="pt" onclick="changeLang('pt')">Portuguese (PT)</li>
+                    <li class="lang-option" data-lang="es" onclick="changeLang('es')">Spanish (ES)</li>
+                    <li class="lang-option" data-lang="ar" onclick="changeLang('ar')">Arabic (AR)</li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -180,17 +246,11 @@
                 <h1 class="fade-wrap delay-2">HA<br>YEON JOO</h1>
                 <p class="fade-wrap delay-3" style="margin-top: 30px; font-size: 1.1rem; color: #555;">
                     <span class="lang-text ko">화려함보다는 깊이를, 정답보다는 끊임없는 탐구를 지향합니다.<br>이성과 감성 사이에서 균형을 잃지 않고, 주어진 역할에 감사하며 묵묵히 저만의 호흡으로 성장하겠습니다.</span>
-                    
                     <span class="lang-text en">I aim for depth rather than splendor, and constant inquiry rather than a single correct answer.<br>Without losing balance between reason and emotion, I will grow at my own pace, grateful for every given role.</span>
-                    
                     <span class="lang-text cn">比起华丽，我更追求深度；比起标准答案，我更向往不断的探索。<br>在理性与感性之间保持平衡，对每一个角色心存感激，默默地以自己的节奏不断成长。</span>
-                    
                     <span class="lang-text ja">華やかさより深みを、正解より絶え間ない探求を志向します。<br>理性と感性のバランスを保ちながら、与えられた役割に感謝し、黙々と自分だけの呼吸で成長していきます。</span>
-                    
                     <span class="lang-text pt">Busco profundidade em vez de esplendor, e questionamento constante em vez de uma única resposta certa.<br>Sem perder o equilíbrio entre a razão e a emoção, crescerei no meu próprio ritmo, grata por cada papel.</span>
-                    
                     <span class="lang-text es">Busco profundidad en lugar de esplendor, e indagación constante en lugar de una respuesta correcta.<br>Sin perder el equilibrio entre la razón y la emoción, creceré a mi propio ritmo, agradecida por cada papel.</span>
-                    
                     <span class="lang-text ar">أسعى إلى العمق بدلاً من الروعة، وإلى البحث المستمر بدلاً من الإجابة الصحيحة.<br>دون أن أفقد التوازن بين العقل والعاطفة، سأنمو بإيقاعي الخاص، ممتنة لكل دور يُمنح لي.</span>
                 </p>
             </div>
@@ -206,58 +266,13 @@
                 <div class="profile-summary"><h2>PROFILE</h2></div>
                 <div class="specs-grid">
                     <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
-                    
-                    <div class="spec-item">
-                        <h3>Birth</h3>
-                        <strong>1987. 08. 06</strong>
-                        <div class="spec-desc"><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></div>
-                    </div>
-                    
-                    <div class="spec-item">
-                        <h3>Physical</h3>
-                        <strong>172cm, 48kg, B-Type</strong>
-                        <div class="spec-desc"><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></div>
-                    </div>
-                    
+                    <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><div class="spec-desc"><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></div></div>
+                    <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><div class="spec-desc"><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></div></div>
                     <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생, 배우자</span><span class="lang-text en">Parents, Sister, Brother, Spouse</span><span class="lang-text cn">父母, 姐姐, 弟弟, 配偶</span><span class="lang-text ja">両親, 姉, 弟, 配偶者</span><span class="lang-text pt">Pais, Irmã, Irmão, Cônjuge</span><span class="lang-text es">Padres, Hermana, Hermano, Cónyuge</span><span class="lang-text ar">الوالدان، الأخت، الأخ، الزوج</span></strong></div>
-
-                    <div class="spec-item">
-                        <h3>Debut</h3>
-                        <strong>2008 MBC</strong>
-                        <div class="spec-desc"><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></div>
-                    </div>
-                    
-                    <div class="spec-item">
-                        <h3>Specialty</h3>
-                        <strong>MENSA Korea</strong>
-                        <div class="spec-desc"><span>IQ 156</span></div>
-                    </div>
-
-                    <div class="spec-item">
-                        <h3>Hobbies</h3>
-                        <strong>
-                            <span class="lang-text ko">독서, 요가, 발레, 골프, 이케바나</span>
-                            <span class="lang-text en">Reading, Yoga, Ballet, Golf, Ikebana</span>
-                            <span class="lang-text cn">阅读, 瑜伽, 芭蕾, 高尔夫, 插花</span>
-                            <span class="lang-text ja">読書, ヨガ, バレエ, ゴルフ, 生け花</span>
-                            <span class="lang-text pt">Leitura, Ioga, Balé, Golfe, Ikebana</span>
-                            <span class="lang-text es">Lectura, Yoga, Ballet, Golf, Ikebana</span>
-                            <span class="lang-text ar">القراءة، اليوجا، الباليه، الجولف، إيكيبانا</span>
-                        </strong>
-                    </div>
-
-                    <div class="spec-item">
-                        <h3>Languages</h3>
-                        <strong>
-                            <span class="lang-text ko">한국어, 영어</span>
-                            <span class="lang-text en">Korean, English</span>
-                            <span class="lang-text cn">韩语, 英语</span>
-                            <span class="lang-text ja">韓国語, 英語</span>
-                            <span class="lang-text pt">Coreano, Inglês</span>
-                            <span class="lang-text es">Coreano, Inglés</span>
-                            <span class="lang-text ar">الكورية، الإنجليزية</span>
-                        </strong>
-                    </div>
+                    <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><div class="spec-desc"><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></div></div>
+                    <div class="spec-item"><h3>Specialty</h3><strong>MENSA Korea</strong><div class="spec-desc"><span>IQ 156</span></div></div>
+                    <div class="spec-item"><h3>Hobbies</h3><strong><span class="lang-text ko">독서, 요가, 발레, 골프, 이케바나</span><span class="lang-text en">Reading, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text cn">阅读, 瑜伽, 芭蕾, 高尔夫, 插花</span><span class="lang-text ja">読書, ヨガ, バレエ, ゴルフ, 生け花</span><span class="lang-text pt">Leitura, Ioga, Balé, Golfe, Ikebana</span><span class="lang-text es">Lectura, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text ar">القراءة، اليوجا، الباليه، الجولف، إيكيبانا</span></strong></div>
+                    <div class="spec-item"><h3>Languages</h3><strong><span class="lang-text ko">한국어, 영어</span><span class="lang-text en">Korean, English</span><span class="lang-text cn">韩语, 英语</span><span class="lang-text ja">韓国語, 英語</span><span class="lang-text pt">Coreano, Inglês</span><span class="lang-text es">Coreano, Inglés</span><span class="lang-text ar">الكورية، الإنجليزية</span></strong></div>
                 </div>
             </div>
         </div>
@@ -343,63 +358,96 @@
                 careerList.innerHTML = '';
                 let currentCategory = '';
                 
-                portfolioData.filmography.forEach((item, index) => {
-                    if (item.category !== currentCategory) {
-                        currentCategory = item.category;
-                        const catDiv = document.createElement('div');
-                        catDiv.className = 'career-category-title fade-wrap';
-                        catDiv.textContent = currentCategory;
-                        careerList.appendChild(catDiv);
-                        observer.observe(catDiv);
+                const groupedItems = {};
+                const orderedCategories = [];
+                
+                portfolioData.filmography.forEach(item => {
+                    if (!groupedItems[item.category]) {
+                        groupedItems[item.category] = [];
+                        orderedCategories.push(item.category);
                     }
+                    groupedItems[item.category].push(item);
+                });
 
-                    // 방송사 빈칸 숨김 처리
-                    const broadcastHtml = item.broadcast ? `<span class="broadcast">${item.broadcast}</span>` : '';
-
-                    const div = document.createElement('div');
-                    div.className = 'career-item fade-wrap';
-                    div.innerHTML = `
-                        <div class="career-thumb"><img src="${item.thumb}" alt="Poster"></div>
-                        <div class="career-info">
-                            <div class="year">${item.year}</div>
-                            <div class="career-title">
-                                <span class="lang-text ko">${item.title.ko}</span>
-                                <span class="lang-text en">${item.title.en}</span>
-                                <span class="lang-text cn">${item.title.cn}</span>
-                                <span class="lang-text ja">${item.title.ja}</span>
-                                <span class="lang-text pt">${item.title.pt}</span>
-                                <span class="lang-text es">${item.title.es}</span>
-                                <span class="lang-text ar">${item.title.ar}</span>
-                                ${broadcastHtml}
+                orderedCategories.forEach(cat => {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'filmo-group fade-wrap';
+                    
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'career-category-title';
+                    titleDiv.textContent = cat;
+                    groupDiv.appendChild(titleDiv);
+                    
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'filmo-grid';
+                    
+                    groupedItems[cat].forEach(item => {
+                        const broadcastHtml = item.broadcast ? `<span class="broadcast">${item.broadcast}</span>` : '';
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'career-item';
+                        itemDiv.innerHTML = `
+                            <div class="career-thumb"><img src="${item.thumb}" alt="Poster"></div>
+                            <div class="career-info">
+                                <div class="year">${item.year}</div>
+                                <div class="career-title">
+                                    <span class="lang-text ko">${item.title.ko}</span>
+                                    <span class="lang-text en">${item.title.en}</span>
+                                    <span class="lang-text cn">${item.title.cn}</span>
+                                    <span class="lang-text ja">${item.title.ja}</span>
+                                    <span class="lang-text pt">${item.title.pt}</span>
+                                    <span class="lang-text es">${item.title.es}</span>
+                                    <span class="lang-text ar">${item.title.ar}</span>
+                                    ${broadcastHtml}
+                                </div>
+                                <div class="career-role">
+                                    <span class="lang-text ko">${item.role.ko}</span>
+                                    <span class="lang-text en">${item.role.en}</span>
+                                    <span class="lang-text cn">${item.role.cn}</span>
+                                    <span class="lang-text ja">${item.role.ja}</span>
+                                    <span class="lang-text pt">${item.role.pt}</span>
+                                    <span class="lang-text es">${item.role.es}</span>
+                                    <span class="lang-text ar">${item.role.ar}</span>
+                                </div>
                             </div>
-                            <div class="career-role">
-                                <span class="lang-text ko">${item.role.ko}</span>
-                                <span class="lang-text en">${item.role.en}</span>
-                                <span class="lang-text cn">${item.role.cn}</span>
-                                <span class="lang-text ja">${item.role.ja}</span>
-                                <span class="lang-text pt">${item.role.pt}</span>
-                                <span class="lang-text es">${item.role.es}</span>
-                                <span class="lang-text ar">${item.role.ar}</span>
-                            </div>
-                        </div>
-                    `;
-                    careerList.appendChild(div);
-                    observer.observe(div);
+                        `;
+                        gridDiv.appendChild(itemDiv);
+                    });
+                    
+                    groupDiv.appendChild(gridDiv);
+                    careerList.appendChild(groupDiv);
+                    observer.observe(groupDiv);
                 });
             }
 
             document.querySelectorAll('.fade-wrap').forEach(el => observer.observe(el));
-            setLanguage(document.querySelector('.lang-btn.active').getAttribute('data-lang'));
+            
+            const browserLang = navigator.language || navigator.userLanguage;
+            let initialLang = 'en';
+            if (browserLang.toLowerCase().startsWith('ko')) {
+                initialLang = 'ko';
+            }
+            changeLang(initialLang);
         }
 
-        const langBtns = document.querySelectorAll('.lang-btn');
-        langBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                langBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                setLanguage(btn.getAttribute('data-lang'));
-            });
+        function toggleLangMenu() {
+            document.getElementById('langDropdown').classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('langDropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
         });
+
+        function changeLang(lang) {
+            setLanguage(lang);
+            document.getElementById('currentLangLabel').textContent = lang.toUpperCase();
+            document.getElementById('langDropdown').classList.remove('active');
+            document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('selected'));
+            const selectedOpt = document.querySelector(`.lang-option[data-lang="${lang}"]`);
+            if(selectedOpt) selectedOpt.classList.add('selected');
+        }
 
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
