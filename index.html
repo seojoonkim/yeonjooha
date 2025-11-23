@@ -4,36 +4,236 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HA YEON JOO | Official Portfolio</title>
+    
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /* --- [CSS Variables] --- */
         :root {
-            --text-primary: #111111;
-            --text-secondary: #666666;
-            --text-light: #999999;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --text-light: #888888;
             --bg-white: #ffffff;
-            --line-color: #e5e5e5;
-            --accent-color: #2c3e50;
+            --line-color: #e0e0e0;
+            --accent-color: #1a1a1a;
+            
+            /* 폰트 변수 정의 */
+            --font-sans: 'Pretendard', -apple-system, sans-serif;
+            --font-serif: 'Playfair Display', serif; /* 우아한 제목용 */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Pretendard', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans Arabic', sans-serif;
+            font-family: var(--font-sans);
             color: var(--text-primary);
             background-color: var(--bg-white);
-            line-height: 1.6;
+            line-height: 1.7;
             word-break: keep-all;
-            transition: all 0.3s ease;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
         }
 
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
         a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
-        /* --- [Language Logic] --- */
+        /* --- [애니메이션 효과 (Fade Up)] --- */
+        .fade-wrap {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); /* 매우 부드러운 움직임 */
+        }
+        .fade-wrap.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* 순차적 등장 (Delay) */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* --- [Layout Common] --- */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        section { padding: 160px 0; } /* 여백을 더 넓게 주어 시원하게 */
+        
+        /* Typography Upgrade */
+        h1 { 
+            font-family: var(--font-serif); 
+            font-size: 5.5rem; 
+            font-weight: 700; 
+            line-height: 1; 
+            letter-spacing: -0.02em; 
+            margin-bottom: 20px;
+        }
+        h2 { 
+            font-family: var(--font-serif); 
+            font-size: 3rem; 
+            font-weight: 400; 
+            letter-spacing: -0.01em; 
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+        }
+        /* 제목 아래 장식 선 */
+        h2::after {
+            content: ''; display: block; width: 1px; height: 60px; background: #000;
+            margin: 30px auto 0;
+        }
+
+        h3 { 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            color: var(--text-light); 
+            margin-bottom: 8px; 
+            letter-spacing: 1px; 
+        }
+
+        /* --- [Header & Nav] --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px); /* 유리 같은 효과 */
+            z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+        nav { 
+            max-width: 1280px; margin: 0 auto; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .nav-left { display: flex; align-items: center; gap: 50px; }
+        .logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; }
+        .menu { display: flex; gap: 30px; }
+        .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
+        /* 메뉴 밑줄 애니메이션 */
+        .menu a::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s;
+        }
+        .menu a:hover::after { width: 100%; }
+
+        .lang-switch {
+            display: flex; gap: 15px; font-family: var(--font-sans);
+        }
+        .lang-btn {
+            font-size: 0.8rem; font-weight: 600; color: #999; cursor: pointer; transition: color 0.3s;
+        }
+        .lang-btn:hover, .lang-btn.active { color: #000; }
+
+        /* --- [Hero Section] --- */
+        .hero { 
+            min-height: 100vh; 
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; 
+            align-items: center; padding-top: 100px;
+        }
+        .hero-text span.subtitle { 
+            display: block; font-family: var(--font-serif); font-style: italic; font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; 
+        }
+        .hero-img { 
+            width: 100%; height: 85vh; background: #f5f5f5; overflow: hidden; position: relative;
+        }
+        .hero-img img { 
+            width: 100%; height: 100%; object-fit: cover; object-position: top; 
+            transition: transform 1.5s ease; /* 이미지 부드러운 줌인 */
+        }
+        .hero:hover .hero-img img { transform: scale(1.03); }
+
+        /* --- [Profile Section] --- */
+        .profile-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 100px; align-items: start; }
+        .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; row-gap: 60px; }
+        .spec-item strong { display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); }
+        .spec-item span { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* --- [Filmography] --- */
+        .career-list { margin-top: 80px; }
+        .career-category-title { 
+            margin-top: 100px; margin-bottom: 40px; 
+            font-family: var(--font-serif); font-size: 1.5rem; font-style: italic;
+            border-bottom: 1px solid #000; padding-bottom: 10px; 
+        }
+        
+        .career-item {
+            display: grid; grid-template-columns: 100px 1fr; gap: 40px;
+            padding: 30px 0; border-bottom: 1px solid var(--line-color); align-items: center;
+            transition: background 0.3s;
+        }
+        .career-item:hover { background: #fafafa; }
+        
+        .career-thumb {
+            width: 100px; height: 150px; background: #f0f0f0; overflow: hidden; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
+        }
+        .career-item:hover .career-thumb { transform: translateY(-5px); }
+        .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        .career-info { display: flex; flex-direction: column; gap: 5px; }
+        .year { font-weight: 700; font-size: 0.9rem; color: #999; letter-spacing: 1px; }
+        .career-title { font-size: 1.6rem; font-weight: 400; line-height: 1.3; margin-bottom: 5px; }
+        .career-role { color: var(--text-secondary); font-size: 1.05rem; }
+        .broadcast { 
+            display: inline-block; font-size: 0.75rem; color: #999; border: 1px solid #ddd; 
+            padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; margin-top: -3px;
+        }
+
+        /* --- [Gallery] --- */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); /* 4열 */
+            gap: 20px; margin-top: 60px;
+        }
+        .gallery-item {
+            position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f0f0f0; cursor: pointer;
+        }
+        .gallery-item::after { /* 호버 시 오버레이 효과 */
+            content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.1); opacity: 0; transition: 0.3s;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+        
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(255,255,255,0.95); backdrop-filter: blur(10px); /* 배경 블러 */
+            justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;
+        }
+        .lightbox.show { opacity: 1; }
+        .lightbox-content { max-width: 85%; max-height: 85%; object-fit: contain; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; top: 30px; right: 40px; color: #000; font-size: 50px; font-weight: 300; cursor: pointer; transition: transform 0.3s; }
+        .close-btn:hover { transform: rotate(90deg); }
+
+        /* --- [Footer] --- */
+        footer { padding: 100px 0 50px; text-align: center; font-size: 0.85rem; color: #aaa; letter-spacing: 1px; }
+        .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
+        .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
+
+        /* --- [Mobile] --- */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3.5rem; }
+            section { padding: 100px 0; }
+            .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; min-height: auto; }
+            .hero-img { height: 50vh; order: -1; }
+            .profile-wrap { grid-template-columns: 1fr; gap: 50px; }
+            .specs-grid { gap: 40px; }
+            .career-item { grid-template-columns: 70px 1fr; gap: 20px; }
+            .career-thumb { width: 70px; height: 105px; }
+            .career-title { font-size: 1.3rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            
+            nav { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .nav-left { width: 100%; justify-content: space-between; }
+            .lang-switch { width: 100%; justify-content: flex-start; gap: 20px; }
+            .menu { display: none; }
+        }
+
+        /* 다국어 처리 */
         .lang-text { display: none; }
         html[lang="ko"] .ko { display: inline !important; }
         html[lang="en"] .en { display: inline !important; }
@@ -42,122 +242,8 @@
         html[lang="pt"] .pt { display: inline !important; }
         html[lang="es"] .es { display: inline !important; }
         html[lang="ar"] .ar { display: inline !important; }
-
         html[lang="ar"] body { direction: rtl; text-align: right; }
-        html[lang="ar"] .career-role { text-align: left; } 
-        html[lang="ar"] .menu { gap: 30px; }
-        
-        /* --- [Header & Nav] --- */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 100; border-bottom: 1px solid var(--line-color);
-            padding: 15px 0;
-        }
-        nav { 
-            max-width: 1280px; margin: 0 auto; padding: 0 40px;
-            display: flex; justify-content: space-between; align-items: center; 
-        }
-        .nav-left { display: flex; align-items: center; gap: 40px; }
-        .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; white-space: nowrap; }
-        .menu { display: flex; gap: 25px; }
-        .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; }
-
-        /* Language Switcher */
-        .lang-switch {
-            display: flex; border: 1px solid var(--line-color); border-radius: 4px;
-            overflow: hidden; background: white; flex-wrap: wrap; max-width: 300px;
-        }
-        .lang-btn {
-            padding: 5px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer;
-            transition: all 0.2s; background: transparent; border-right: 1px solid #eee;
-        }
-        .lang-btn:last-child { border-right: none; }
-        .lang-btn:hover { background: #f5f5f5; }
-        .lang-btn.active { background: var(--accent-color); color: white; }
-
-        /* --- [Layout Common] --- */
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
-        section { padding: 120px 0; border-bottom: 1px solid var(--line-color); }
-        h1 { font-size: 4.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
-        h2 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
-        h3 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; letter-spacing: 1px; }
-
-        /* --- [Hero Section] --- */
-        .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding-top: 150px; }
-        .hero-text span.subtitle { display: block; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; }
-        .hero-img { width: 100%; height: 700px; background: #f0f0f0; overflow: hidden; }
-        .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-
-        /* --- [Profile Section] --- */
-        .profile-wrap { display: grid; grid-template-columns: 350px 1fr; gap: 80px; }
-        .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; row-gap: 50px; }
-        .spec-item strong { display: block; font-size: 1.1rem; margin-bottom: 5px; color: var(--text-primary); }
-        .spec-item span { color: var(--text-secondary); font-size: 0.95rem; }
-
-        /* --- [Filmography] --- */
-        .career-list { margin-top: 60px; }
-        .career-category-title { margin-top: 60px; padding-bottom: 15px; border-bottom: 2px solid var(--text-primary); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .career-item {
-            display: grid; grid-template-columns: 90px 1fr; gap: 25px;
-            padding: 25px 0; border-bottom: 1px solid var(--line-color); align-items: start;
-        }
-        .career-item:hover { background: #fafafa; }
-        
-        .career-thumb {
-            width: 90px; height: 135px; background: #f0f0f0; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-        .career-info { display: flex; flex-direction: column; gap: 8px; }
-        .year { font-weight: 700; font-size: 0.9rem; color: var(--accent-color); }
-        .career-title { font-size: 1.3rem; font-weight: 600; line-height: 1.3; }
-        .career-role { color: var(--text-secondary); font-size: 1rem; }
-        .broadcast { color: var(--text-light); font-size: 0.85rem; margin-left: 8px; font-weight: 400; border:1px solid #ddd; padding:2px 6px; border-radius:4px; }
-
-        /* --- [Gallery] --- */
-        .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px; margin-top: 40px;
-        }
-        .gallery-item {
-            position: relative; padding-bottom: 100%; overflow: hidden; background: #f0f0f0; cursor: pointer;
-        }
-        .gallery-item img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
-        }
-        .gallery-item:hover img { transform: scale(1.1); }
-        
-        /* Lightbox */
-        .lightbox {
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;
-        }
-        .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
-        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; }
-
-        /* --- [Footer] --- */
-        footer { padding: 60px 0; border-top: 1px solid var(--text-primary); text-align: center; font-size: 0.9rem; color: #888; }
-        .footer-sns { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
-        .footer-sns a { color: #333; font-weight: 600; }
-
-        /* --- [Mobile] --- */
-        @media (max-width: 1024px) {
-            .hero { grid-template-columns: 1fr; gap: 40px; }
-            .hero-img { height: 500px; }
-            .profile-wrap { grid-template-columns: 1fr; gap: 40px; }
-            .career-item { grid-template-columns: 70px 1fr; gap: 15px; padding: 20px 0; }
-            .career-thumb { width: 70px; height: 105px; }
-            .career-title { font-size: 1.15rem; }
-            
-            nav { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .nav-left { width: 100%; justify-content: space-between; }
-            .lang-switch { width: 100%; max-width: none; justify-content: flex-start; }
-            .lang-btn { flex: 1; text-align: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-            .menu { display: none; }
-        }
+        html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
 </head>
 <body>
@@ -167,31 +253,31 @@
             <div class="nav-left">
                 <a href="#" class="logo">HA YEON JOO</a>
                 <div class="menu">
-                    <a href="#about">
-                        <span class="lang-text ko">소개</span><span class="lang-text en">About</span><span class="lang-text cn">介绍</span><span class="lang-text ja">紹介</span><span class="lang-text pt">Sobre</span><span class="lang-text es">Perfil</span><span class="lang-text ar">نبذة</span>
-                    </a>
-                    <a href="#filmography">
-                        <span class="lang-text ko">작품</span><span class="lang-text en">Works</span><span class="lang-text cn">作品</span><span class="lang-text ja">作品</span><span class="lang-text pt">Obras</span><span class="lang-text es">Obras</span><span class="lang-text ar">أعمال</span>
-                    </a>
-                    <a href="#gallery">
-                        <span class="lang-text ko">갤러리</span><span class="lang-text en">Gallery</span><span class="lang-text cn">画廊</span><span class="lang-text ja">ギャラリー</span><span class="lang-text pt">Galeria</span><span class="lang-text es">Galería</span><span class="lang-text ar">معرض</span>
-                    </a>
+                    <a href="#about">About</a>
+                    <a href="#filmography">Works</a>
+                    <a href="#gallery">Gallery</a>
                 </div>
             </div>
             <div class="lang-switch">
-                <div class="lang-btn active" data-lang="ko">KO</div><div class="lang-btn" data-lang="en">EN</div><div class="lang-btn" data-lang="zh">CN</div><div class="lang-btn" data-lang="ja">JP</div><div class="lang-btn" data-lang="pt">PT</div><div class="lang-btn" data-lang="es">ES</div><div class="lang-btn" data-lang="ar">AR</div>
+                <div class="lang-btn active" data-lang="ko">KO</div>
+                <div class="lang-btn" data-lang="en">EN</div>
+                <div class="lang-btn" data-lang="zh">CN</div>
+                <div class="lang-btn" data-lang="ja">JP</div>
+                <div class="lang-btn" data-lang="pt">PT</div>
+                <div class="lang-btn" data-lang="es">ES</div>
+                <div class="lang-btn" data-lang="ar">AR</div>
             </div>
         </nav>
     </header>
 
     <div class="container">
-        <section class="hero">
+        <section class="hero fade-wrap">
             <div class="hero-text">
-                <span class="subtitle">
+                <span class="subtitle fade-wrap delay-1">
                     <span class="lang-text ko">배우</span><span class="lang-text en">Actress</span><span class="lang-text cn">演员</span><span class="lang-text ja">女優</span><span class="lang-text pt">Atriz</span><span class="lang-text es">Actriz</span><span class="lang-text ar">ممثلة</span>
                 </span>
-                <h1>HA<br>YEON JOO</h1>
-                <p style="margin-top: 30px;">
+                <h1 class="fade-wrap delay-2">HA<br>YEON JOO</h1>
+                <p class="fade-wrap delay-3" style="margin-top: 30px; font-size: 1.1rem; color: #555;">
                     <span class="lang-text ko">지적인 이미지와 탄탄한 연기력.<br>배우 하연주는 깊이 있는 필모그래피를 만들어갑니다.</span>
                     <span class="lang-text en">With an intellectual image and solid acting skills,<br>Ha Yeon-joo builds a profound filmography.</span>
                     <span class="lang-text cn">拥有知性形象与扎实演技。<br>演员河恋姝正构建着富有深度的影视作品。</span>
@@ -201,33 +287,25 @@
                     <span class="lang-text ar">تتميز بصورة مثقفة ومهارات تمثيلية قوية.<br>الممثلة ها يون جو تبني مسيرتها الفنية العميقة.</span>
                 </p>
             </div>
-            <div class="hero-img">
+            <div class="hero-img fade-wrap delay-2">
                 <img src="" alt="Ha Yeon-joo">
             </div>
         </section>
     </div>
 
-    <section id="about">
+    <section id="about" class="fade-wrap">
         <div class="container">
             <div class="profile-wrap">
-                <div class="profile-summary"><h2>PROFILE</h2><p>Updated 2025</p></div>
+                <div class="profile-summary"><h2>PROFILE</h2></div>
                 <div class="specs-grid">
                     <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
                     <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><span><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></span></div>
                     <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><span><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></span></div>
-                    
                     <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생</span><span class="lang-text en">Parents, Sister, Brother</span><span class="lang-text cn">父母, 姐姐, 弟弟</span><span class="lang-text ja">両親, 姉, 弟</span><span class="lang-text pt">Pais, Irmã, Irmão</span><span class="lang-text es">Padres, Hermana, Hermano</span><span class="lang-text ar">الوالدان، الأخت، الأخ</span></strong>
                         <span>
-                            <span class="lang-text ko">배우자</span>
-                            <span class="lang-text en">Spouse</span>
-                            <span class="lang-text cn">配偶</span>
-                            <span class="lang-text ja">配偶者</span>
-                            <span class="lang-text pt">Cônjuge</span>
-                            <span class="lang-text es">Cónyuge</span>
-                            <span class="lang-text ar">الزوج</span>
+                            <span class="lang-text ko">배우자</span><span class="lang-text en">Spouse</span><span class="lang-text cn">配偶</span><span class="lang-text ja">配偶者</span><span class="lang-text pt">Cônjuge</span><span class="lang-text es">Cónyuge</span><span class="lang-text ar">الزوج</span>
                         </span>
                     </div>
-
                     <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><span><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></span></div>
                     <div class="spec-item"><h3>Specialty</h3><strong>MENSA Korea</strong><span>IQ 156</span></div>
                 </div>
@@ -237,93 +315,100 @@
 
     <section id="filmography">
         <div class="container">
-            <h2>FILMOGRAPHY</h2>
-            <p style="margin-bottom: 40px;">Selected Works</p>
+            <h2 class="fade-wrap">FILMOGRAPHY</h2>
             <div class="career-list">
-                <div style="text-align:center; padding:50px; color:#999;">Loading Works...</div>
+                <div style="text-align:center; padding:50px; color:#999;">Loading...</div>
             </div>
         </div>
     </section>
 
     <section id="gallery">
         <div class="container">
-            <h2 style="margin-bottom: 20px;">GALLERY</h2>
-            <p style="margin-bottom: 30px; color:#888; font-size:0.9rem;">
-                <span class="lang-text ko">클릭하면 이미지가 확대됩니다.</span><span class="lang-text en">Click to enlarge.</span><span class="lang-text cn">点击放大。</span><span class="lang-text ja">クリックで拡大。</span>
-            </p>
+            <h2 class="fade-wrap">GALLERY</h2>
             <div class="gallery-grid">
-                <div style="text-align:center; padding:50px; color:#999;">Loading Gallery...</div>
+                <div style="text-align:center; padding:50px; color:#999;">Loading...</div>
             </div>
         </div>
     </section>
     
-    <div id="lightbox" class="lightbox"><span class="close-btn">&times;</span><img class="lightbox-content" id="lightbox-img"></div>
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
 
     <footer>
-        <div class="container">
+        <div class="container fade-wrap">
             <div class="footer-sns"><a href="https://www.instagram.com/hi_iamjoojoo" target="_blank">INSTAGRAM</a><a href="#">OFFICIAL</a></div>
             <p>&copy; 2025 HA YEON JOO. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
-        // 1. data.js 동적 로드 (Cache Busting)
+        // 1. Load Data with Cache Busting
         var script = document.createElement('script');
-        script.src = "data.js?v=" + new Date().getTime(); // 뒤에 시간을 붙여서 매번 새 파일로 인식시킴
-        script.onload = function() {
-            initPage(); // 로드 완료되면 페이지 그리기 시작
-        };
+        script.src = "data.js?v=" + new Date().getTime(); 
+        script.onload = function() { initPage(); };
         document.body.appendChild(script);
 
-        // 2. 페이지 초기화 및 렌더링 함수
+        // 2. Scroll Animation Observer
+        const observerOptions = { threshold: 0.15 }; // 15% 보이면 작동
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // 한 번 나타나면 관찰 중지 (계속 깜빡이는 것 방지)
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // 3. Page Initialization
         function initPage() {
             if (typeof portfolioData === 'undefined') return;
 
-            // (1) 메인 이미지
+            // Hero Image
             const heroImg = document.querySelector('.hero-img img');
             if (heroImg) heroImg.src = portfolioData.mainImage;
 
-            // (2) 갤러리
+            // Gallery Rendering
             const galleryGrid = document.querySelector('.gallery-grid');
             if (galleryGrid) {
                 galleryGrid.innerHTML = '';
-                portfolioData.gallery.forEach(url => {
+                portfolioData.gallery.forEach((url, index) => {
                     const div = document.createElement('div');
-                    div.className = 'gallery-item';
-                    div.innerHTML = `<img src="${url}" alt="Gallery Image">`;
-                    div.querySelector('img').addEventListener('click', () => {
-                        const lightbox = document.getElementById('lightbox');
-                        const lightboxImg = document.getElementById('lightbox-img');
-                        lightbox.style.display = 'flex';
-                        lightboxImg.src = url;
-                    });
+                    // 순차적 애니메이션을 위해 delay 클래스 부여 (0~3 반복)
+                    div.className = `gallery-item fade-wrap delay-${index % 4}`;
+                    div.innerHTML = `<img src="${url}" alt="Gallery">`;
+                    div.addEventListener('click', () => openLightbox(url));
                     galleryGrid.appendChild(div);
+                    
+                    // 옵저버 등록
+                    observer.observe(div);
                 });
             }
 
-            // (3) 필모그래피
+            // Filmography Rendering
             const careerList = document.querySelector('.career-list');
             if (careerList) {
                 careerList.innerHTML = '';
                 let currentCategory = '';
                 
-                portfolioData.filmography.forEach(item => {
-                    // 카테고리 구분선
+                portfolioData.filmography.forEach((item, index) => {
+                    // Category Title
                     if (item.category !== currentCategory) {
                         currentCategory = item.category;
                         const catDiv = document.createElement('div');
-                        catDiv.className = 'career-category-title';
+                        catDiv.className = 'career-category-title fade-wrap';
                         catDiv.textContent = currentCategory;
                         careerList.appendChild(catDiv);
+                        observer.observe(catDiv);
                     }
 
-                    // 아이템 생성
+                    // Career Item
                     const div = document.createElement('div');
-                    div.className = 'career-item';
+                    div.className = 'career-item fade-wrap';
                     div.innerHTML = `
-                        <div class="career-thumb">
-                            <img src="${item.thumb}" alt="Poster">
-                        </div>
+                        <div class="career-thumb"><img src="${item.thumb}" alt="Poster"></div>
                         <div class="career-info">
                             <div class="year">${item.year}</div>
                             <div class="career-title">
@@ -348,32 +433,50 @@
                         </div>
                     `;
                     careerList.appendChild(div);
+                    observer.observe(div);
                 });
-                
-                // (4) 언어 설정 다시 적용 (동적 생성된 요소들을 위해)
-                const activeLangBtn = document.querySelector('.lang-btn.active');
-                if(activeLangBtn) {
-                    const lang = activeLangBtn.getAttribute('data-lang');
-                    document.documentElement.setAttribute('lang', lang);
-                }
             }
+
+            // 기본 애니메이션 요소 관찰 시작
+            document.querySelectorAll('.fade-wrap').forEach(el => observer.observe(el));
+            
+            // 언어 설정 적용
+            setLanguage(document.querySelector('.lang-btn.active').getAttribute('data-lang'));
         }
 
-        // 3. UI 이벤트 리스너 (언어변경, 라이트박스)
+        // 4. Event Listeners
         const langBtns = document.querySelectorAll('.lang-btn');
-        const htmlTag = document.documentElement;
         langBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 langBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                htmlTag.setAttribute('lang', btn.getAttribute('data-lang'));
+                setLanguage(btn.getAttribute('data-lang'));
             });
         });
 
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+        }
+
+        // Lightbox Logic
         const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.querySelector('.close-btn');
-        closeBtn.addEventListener('click', () => { lightbox.style.display = 'none'; });
-        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) { lightbox.style.display = 'none'; } });
+
+        function openLightbox(url) {
+            lightbox.style.display = 'flex';
+            // 약간의 딜레이 후 투명도 조절 (페이드인 효과)
+            setTimeout(() => lightbox.classList.add('show'), 10);
+            lightboxImg.src = url;
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            setTimeout(() => lightbox.style.display = 'none', 300);
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
     </script>
 
 </body>
