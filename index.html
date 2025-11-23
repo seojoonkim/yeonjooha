@@ -20,13 +20,17 @@
             --bg-white: #ffffff;
             --line-color: #e0e0e0;
             --accent-color: #1a1a1a;
+            
+            /* 폰트 변수 */
             --font-sans: 'Pretendard', -apple-system, sans-serif;
-            --font-serif: 'Playfair Display', serif;
+            --font-serif: 'Playfair Display', serif; /* 제목용 명조 */
+            --font-jp: 'Noto Sans JP', sans-serif;
+            --font-cn: 'Noto Sans SC', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* [수정됨] 부드러운 스크롤 적용 */
+        /* [기능] 부드러운 스크롤 */
         html { scroll-behavior: smooth; }
 
         body {
@@ -37,7 +41,7 @@
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; } a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
-        /* --- [Animation] --- */
+        /* --- [Animation: Fade Up] --- */
         .fade-wrap { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-wrap.visible { opacity: 1; transform: translateY(0); }
         .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
@@ -46,10 +50,15 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
-        /* Typography */
+        /* --- [Typography] --- */
         h1 { font-family: var(--font-serif); font-size: 5.5rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin-bottom: 20px; }
-        h2 { font-family: var(--font-serif); font-size: 3rem; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; }
+        
+        h2 { 
+            font-family: var(--font-serif); font-size: 3rem; font-weight: 400; 
+            letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; 
+        }
         h2::after { content: ''; display: block; width: 1px; height: 60px; background: #000; margin: 30px auto 0; }
+        
         h3 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; letter-spacing: 1px; }
 
         /* --- [Header & Nav] --- */
@@ -61,47 +70,69 @@
         .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
+        
         .lang-switch { display: flex; gap: 15px; font-family: var(--font-sans); }
         .lang-btn { font-size: 0.8rem; font-weight: 600; color: #999; cursor: pointer; transition: color 0.3s; }
         .lang-btn:hover, .lang-btn.active { color: #000; }
 
-        /* --- [Hero] --- */
+        /* --- [Hero Section] --- */
         .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; padding-top: 100px; }
         .hero-text span.subtitle { display: block; font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; }
         .hero-img { width: 100%; height: 85vh; background: #f5f5f5; overflow: hidden; position: relative; }
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
 
-        /* --- [Profile] --- */
+        /* --- [Profile Section] --- */
         .profile-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 100px; align-items: start; }
         .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; row-gap: 60px; }
-        .spec-item strong { display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); line-height: 1.3; }
-        .spec-desc { font-family: var(--font-sans); color: var(--text-secondary); font-size: 0.95rem; font-weight: 400; margin-top: 5px; line-height: 1.5; }
+        
+        /* 프로필 항목 스타일 */
+        .spec-item strong { 
+            display: block; font-family: var(--font-serif); font-size: 1.4rem; 
+            margin-bottom: 5px; color: var(--text-primary); line-height: 1.3; 
+        }
+        .spec-desc { 
+            font-family: var(--font-sans); color: var(--text-secondary); 
+            font-size: 0.95rem; font-weight: 400; margin-top: 5px; line-height: 1.5; 
+        }
 
-        /* --- [Filmography] --- */
+        /* --- [Filmography Section] --- */
         .career-list { margin-top: 80px; }
-        .career-category-title { margin-top: 60px; margin-bottom: 25px; font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; }
-        .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center; transition: background 0.3s; }
+        .career-category-title { 
+            margin-top: 60px; margin-bottom: 25px; 
+            font-family: var(--font-serif); font-size: 1.3rem;
+            border-bottom: 1px solid #000; padding-bottom: 10px; 
+        }
+        
+        .career-item {
+            display: grid; grid-template-columns: 80px 1fr; gap: 25px;
+            padding: 20px 0; border-bottom: 1px solid var(--line-color); align-items: center;
+            transition: background 0.3s;
+        }
         .career-item:hover { background: #fafafa; }
-        .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        
+        .career-thumb {
+            width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
+        }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
         .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        
+
         .career-info { display: flex; flex-direction: column; gap: 5px; }
         .year { font-weight: 700; font-size: 0.85rem; color: #999; letter-spacing: 1px; }
         
-        /* [수정됨] 작품 제목 폰트 변경 (생일 폰트와 동일하게: Serif + Bold) */
+        /* [요청사항 반영] 작품 제목 폰트 변경 (Serif, Bold) */
         .career-title { 
-            font-family: var(--font-serif); 
-            font-size: 1.35rem; 
-            font-weight: 700; /* 생일 폰트처럼 굵게 */
-            line-height: 1.3; 
-            margin-bottom: 5px; 
+            font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; 
+            line-height: 1.3; margin-bottom: 5px; 
         }
         .career-role { color: var(--text-secondary); font-size: 0.95rem; }
-        .broadcast { display: inline-block; font-size: 0.75rem; color: #999; border: 1px solid #ddd; padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; margin-top: -3px; }
+        .broadcast { 
+            display: inline-block; font-size: 0.75rem; color: #999; border: 1px solid #ddd; 
+            padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; margin-top: -3px; 
+        }
 
-        /* --- [Gallery] --- */
+        /* --- [Gallery Section] --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px; }
         .gallery-item { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f0f0f0; cursor: pointer; }
         .gallery-item::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); opacity: 0; transition: 0.3s; }
@@ -121,7 +152,7 @@
         .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* --- [Mobile] --- */
+        /* --- [Mobile Responsive] --- */
         @media (max-width: 1024px) {
             h1 { font-size: 3.5rem; }
             section { padding: 100px 0; }
@@ -139,15 +170,17 @@
             .menu { display: none; }
         }
 
-        /* 다국어 처리 */
+        /* --- [다국어 처리 (Language Logic)] --- */
         .lang-text { display: none !important; }
         html[lang="ko"] .ko { display: inline-block !important; }
         html[lang="en"] .en { display: inline-block !important; }
-        html[lang="zh"] .cn { display: inline-block !important; }
-        html[lang="ja"] .jp { display: inline-block !important; }
+        html[lang="zh"] .cn { display: inline-block !important; font-family: var(--font-cn); }
+        html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); } /* 일본어 수정됨 */
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
+        
+        /* 아랍어 RTL 설정 */
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -258,7 +291,10 @@
 
     <footer>
         <div class="container fade-wrap">
-            <div class="footer-sns"><a href="https://www.instagram.com/hi_iamjoojoo" target="_blank">INSTAGRAM</a><a href="#">OFFICIAL</a></div>
+            <div class="footer-sns">
+                <a href="https://www.instagram.com/hi_iamjoojoo" target="_blank">INSTAGRAM</a>
+                <a href="#">OFFICIAL</a>
+            </div>
             <p>&copy; 2025 HA YEON JOO. All Rights Reserved.</p>
         </div>
     </footer>
@@ -266,6 +302,7 @@
     <script>
         const instagramFeedUrl = ""; 
 
+        // data.js 로드 (Cache Busting)
         var script = document.createElement('script');
         script.src = "data.js?v=" + new Date().getTime(); 
         script.onload = function() { initPage(); };
@@ -312,11 +349,6 @@
             if (careerList) {
                 careerList.innerHTML = '';
                 let currentCategory = '';
-                
-                // [수정됨] AUDIOBOOK 포함된 카테고리 순서 정의 (여기에 'AUDIOBOOK' 추가)
-                // 기존 data.js에 카테고리 데이터가 없다면 어드민에서 추가해야 보입니다.
-                // 하지만 정렬 로직에서 이 순서를 따르게 하려면 어드민 로직과 별개로 보여주는 로직이 필요할 수 있습니다.
-                // 여기서는 data.js의 순서대로 뿌려주되, 어드민에서 순서를 정해서 내려주는 것을 원칙으로 합니다.
                 
                 portfolioData.filmography.forEach((item, index) => {
                     if (item.category !== currentCategory) {
