@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio Admin (Auto-Save & History)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <style>
+        /* --- [기본 스타일] --- */
+        body { font-family: 'Pretendard', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        
+        /* 헤더 및 설정 영역 */
+        .sticky-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000; padding: 15px 0; border-bottom: 1px solid #eee; margin-bottom: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .config-panel { background: #eef2f5; padding: 15px; border-radius: 8px; font-size: 0.9rem; display: none; margin-bottom: 15px; }
+        .config-panel.open { display: block; }
+        .config-row { display: flex; gap: 10px; margin-bottom: 5px; }
+        
+        /* 버튼 스타일 */
+        .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-primary { background: #2c3e50; color: white; }
+        .btn-primary:hover { background: #1a252f; }
+        .btn-outline { border: 1px solid #ddd; background: white; color: #555; }
+        .btn-danger { background: #ff6b6b; color: white; font-size: 0.8rem; padding: 5px 10px; }
+        .btn-history { background: #007bff; color: white; }
+
+        /* 입력 폼 */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
+        input[type="text"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; }
+        .preview-img { max-width: 150px; max-height: 150px; border: 1px solid #eee; margin-top: 10px; border-radius: 4px; }
+
+        /* 갤러리 & 필모그래피 스타일 (이전과 동일) */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+        .gallery-item { position: relative; aspect-ratio: 1/1; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .remove-btn { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; }
+
+        .category-section { margin-bottom: 30px; background: #f8f9fa; border-radius: 8px; padding: 20px; border: 1px solid #e9ecef; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .category-title { font-size: 1.2rem; font-weight: 800; color: #2c3e50; }
+        .filmo-item { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+        .filmo-summary { display: flex; align-items: center; padding: 15px; cursor: pointer; }
+        .filmo-summary:hover { background: #f1f3f5; }
+        .filmo-details { display: none; padding: 20px; border-top: 1px solid #eee; background: #fafafa; }
+        .filmo-item.active .filmo-details { display: block; }
+        .thumb-preview { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; background: #eee; }
+        .info-preview { flex: 1; }
+        
+        .btn-add-section { width: 100%; padding: 12px; background-color: white; border: 2px dashed #cbd5e0; color: #4a5568; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 10px;}
+        .empty-message { text-align: center; color: #888; padding: 20px; }
+        
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* 히스토리 모달 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 500px; max-height: 80vh; border-radius: 12px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0; }
+        .history-item:hover { background: #f9f9f9; }
+        .history-info div { font-size: 0.9rem; font-weight: bold; }
+        .history-info span { font-size: 0.8rem; color: #888; }
+        
+        /* 로딩 인디케이터 */
+        .loading { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; text-align: center; line-height: 100vh; font-size: 1.5rem; font-weight: bold; color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+    <div class="loading" id="loadingSpinner">처리 중입니다... (잠시만 기다려주세요)</div>
+
+    <div class="container">
+        <div class="sticky-header">
+            <div class="header-top">
+                <h1>ADMIN PAGE (Auto-Save)</h1>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" onclick="toggleConfig()">⚙️ 설정</button>
+                    <button class="btn btn-history" onclick="loadHistory()">🕒 히스토리/복구</button>
+                    <button class="btn btn-primary" onclick="saveToGitHub()">☁️ GitHub 자동 저장</button>
+                </div>
+            </div>
+            
+            <div id="configPanel" class="config-panel">
+                <p style="margin:0 0 10px 0; font-weight:bold; color:#e74c3c;">※ 최초 1회 설정 필요 (GitHub 정보 입력)</p>
+                <div class="config-row">
+                    <input type="text" id="confOwner" placeholder="GitHub 아이디 (예: seojoonkim)">
+                    <input type="text" id="confRepo" placeholder="레포지토리 이름 (예: yeonjooha)">
+                </div>
+                <div class="config-row">
+                    <input type="password" id="confToken" placeholder="GitHub Token (ghp_... 시작하는 코드)">
+                    <button class="btn btn-primary" onclick="saveConfig()">설정 저장</button>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>1. 메인 프로필</h2>
+            <div class="form-group">
+                <div style="display:flex; gap:20px;">
+                    <div style="flex:1;">
+                        <label>이미지 변경</label>
+                        <input type="file" accept="image/*" onchange="handleImageUpload(this, 'mainImage')">
+                    </div>
+                    <img id="mainImagePreview" class="preview-img" src="">
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. 갤러리</h2>
+            <div class="form-group">
+                <input type="file" accept="image/*" multiple onchange="handleGalleryUpload(this)">
+            </div>
+            <div id="galleryContainer" class="gallery-grid"></div>
+        </section>
+
+        <section>
+            <h2>3. 필모그래피</h2>
+            <div id="filmoContainer"></div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>버전 히스토리</h3>
+                <button class="btn btn-outline" onclick="closeHistory()">닫기</button>
+            </div>
+            <ul class="history-list" id="historyList">
+                </ul>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        /* --- [전역 설정] --- */
+        const MAX_WIDTH = 800;
+        const QUALITY = 0.7;
+        const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "COMMERCIALS (ADS)"];
+        
+        // GitHub 설정값 (로컬스토리지에서 불러옴)
+        let ghConfig = JSON.parse(localStorage.getItem('ghConfig')) || { owner: '', repo: '', token: '' };
+
+        /* --- [초기화] --- */
+        window.onload = function() {
+            // 설정값 UI에 채우기
+            document.getElementById('confOwner').value = ghConfig.owner;
+            document.getElementById('confRepo').value = ghConfig.repo;
+            document.getElementById('confToken').value = ghConfig.token;
+
+            if(typeof portfolioData !== 'undefined') {
+                initAdmin();
+            } else {
+                alert("data.js 파일이 없습니다. GitHub에서 불러오거나 새로 설정해주세요.");
+            }
+        };
+
+        function initAdmin() {
+            document.getElementById('mainImagePreview').src = portfolioData.mainImage;
+            renderGallery();
+            renderFilmoGroups();
+        }
+
+        /* --- [설정 관련] --- */
+        function toggleConfig() {
+            document.getElementById('configPanel').classList.toggle('open');
+        }
+        function saveConfig() {
+            const owner = document.getElementById('confOwner').value.trim();
+            const repo = document.getElementById('confRepo').value.trim();
+            const token = document.getElementById('confToken').value.trim();
+            
+            if(!owner || !repo || !token) return alert("모든 정보를 입력해주세요.");
+            
+            ghConfig = { owner, repo, token };
+            localStorage.setItem('ghConfig', JSON.stringify(ghConfig));
+            alert("설정이 저장되었습니다. 이제 'GitHub 자동 저장'이 가능합니다.");
+            toggleConfig();
+        }
+
+        /* --- [이미지 처리 (압축)] --- */
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = e => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width, h = img.height;
+                    if (w > MAX_WIDTH) { h *= MAX_WIDTH / w; w = MAX_WIDTH; }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL('image/jpeg', QUALITY));
+                }
+            }
+        }
+        function handleImageUpload(input, key) {
+            if (input.files[0]) compressImage(input.files[0], res => {
+                portfolioData[key] = res;
+                document.getElementById('mainImagePreview').src = res;
+            });
+        }
+        function handleGalleryUpload(input) {
+            Array.from(input.files).forEach(file => {
+                compressImage(file, res => {
+                    portfolioData.gallery.unshift(res);
+                    renderGallery();
+                });
+            });
+            input.value = '';
+        }
+
+        /* --- [UI 렌더링 (이전과 동일)] --- */
+        function renderGallery() {
+            document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `
+                <div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>
+            `).join('');
+        }
+
+        function renderFilmoGroups() {
+            const container = document.getElementById('filmoContainer');
+            container.innerHTML = '';
+            const groups = {};
+            CATEGORY_ORDER.forEach(cat => groups[cat] = []);
+            portfolioData.filmography.forEach((item, index) => {
+                item._originIndex = index;
+                if (!groups[item.category]) groups[item.category] = [];
+                groups[item.category].push(item);
+            });
+
+            Object.keys(groups).forEach(cat => {
+                const section = document.createElement('section');
+                section.className = 'category-section';
+                section.innerHTML = `
+                    <div class="category-header"><span class="category-title">${cat}</span></div>
+                    <button class="btn-add-section" onclick="addFilmo('${cat}')">+ Add to <b>${cat}</b></button>
+                    <div class="filmo-list"></div>
+                `;
+                const list = section.querySelector('.filmo-list');
+                if(groups[cat].length === 0) list.innerHTML = `<div class="empty-message">작품 없음</div>`;
+                else groups[cat].forEach(item => list.appendChild(createFilmoItem(item)));
+                container.appendChild(section);
+            });
+        }
+
+        function createFilmoItem(item) {
+            const el = document.createElement('div');
+            el.className = 'filmo-item';
+            el.innerHTML = `
+                <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')">
+                    <img src="${item.thumb}" class="thumb-preview">
+                    <div class="info-preview">
+                        <div style="font-weight:bold">${item.title.ko || '(제목)'}</div>
+                        <div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="filmo-details">
+                    <div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div>
+                    <div class="form-group"><label>썸네일</label><input type="file" accept="image/*" onchange="updateThumb(this, ${item._originIndex})"></div>
+                    <div class="lang-grid">
+                        <div class="form-group"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div>
+                        <div class="form-group"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div>
+                    </div>
+                    <div class="form-group"><label>제목 (KO)</label><input type="text" value="${item.title.ko}" onchange="portfolioData.filmography[${item._originIndex}].title.ko=this.value"></div>
+                    <div class="form-group"><label>제목 (EN)</label><input type="text" value="${item.title.en}" onchange="portfolioData.filmography[${item._originIndex}].title.en=this.value"></div>
+                    </div>
+            `;
+            return el;
+        }
+
+        function addFilmo(cat) {
+            portfolioData.filmography.unshift({ category: cat, year: new Date().getFullYear(), thumb: "https://placehold.co/200", broadcast:"", title:{ko:"새 작품", en:""}, role:{ko:"", en:""} });
+            renderFilmoGroups();
+        }
+        function deleteFilmo(i) { if(confirm('삭제?')) { portfolioData.filmography.splice(i, 1); renderFilmoGroups(); } }
+        function updateThumb(input, i) { if(input.files[0]) compressImage(input.files[0], res => { portfolioData.filmography[i].thumb = res; renderFilmoGroups(); }); }
+
+
+        /* =========================================
+           ★ 핵심: GitHub API 연동 (자동 저장 및 히스토리)
+           ========================================= */
+        
+        // 1. GitHub에 저장 (Commit)
+        async function saveToGitHub() {
+            if(!ghConfig.owner || !ghConfig.token) return alert("상단의 [⚙️ 설정] 버튼을 눌러 GitHub 정보를 먼저 입력하세요!");
+            
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
+            // 한글 깨짐 방지를 위한 Base64 인코딩 (UTF-8)
+            const contentEncoded = btoa(unescape(encodeURIComponent(content)));
+            
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js`;
+
+            try {
+                // 1. 기존 파일의 SHA 값 가져오기 (덮어쓰기 위해 필요)
+                const getRes = await fetch(url, {
+                    headers: { Authorization: `token ${ghConfig.token}` }
+                });
+                const getData = await getRes.json();
+                const sha = getData.sha;
+
+                // 2. 파일 업데이트 (PUT)
+                const putRes = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `token ${ghConfig.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Admin Update: ${new Date().toLocaleString()}`, // 커밋 메시지
+                        content: contentEncoded,
+                        sha: sha
+                    })
+                });
+
+                if(putRes.ok) {
+                    alert("성공적으로 저장되었습니다! \n(웹사이트 반영까지 1~3분 정도 소요됩니다)");
+                } else {
+                    alert("저장 실패: " + putRes.statusText);
+                }
+
+            } catch (err) {
+                alert("오류 발생: " + err);
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        }
+
+        // 2. 히스토리 목록 불러오기
+        async function loadHistory() {
+            if(!ghConfig.owner || !ghConfig.token) return alert("설정 먼저 해주세요.");
+            
+            document.getElementById('loadingSpinner').style.display = 'block';
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/commits?path=data.js`;
+
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+                const commits = await res.json();
+
+                commits.forEach(commit => {
+                    const date = new Date(commit.commit.author.date).toLocaleString();
+                    const msg = commit.commit.message;
+                    const sha = commit.sha;
+
+                    const li = document.createElement('li');
+                    li.className = 'history-item';
+                    li.innerHTML = `
+                        <div class="history-info">
+                            <div>${msg}</div>
+                            <span>${date}</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="restoreVersion('${sha}')">이 버전으로 복구</button>
+                    `;
+                    list.appendChild(li);
+                });
+
+                document.getElementById('historyModal').style.display = 'flex';
+
+            } catch(err) {
+                alert("히스토리 로드 실패: " + err);
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        }
+
+        // 3. 특정 버전으로 복구
+        async function restoreVersion(sha) {
+            if(!confirm("정말 이 버전으로 되돌리시겠습니까?\n(현재 작업 중인 내용은 사라집니다)")) return;
+
+            document.getElementById('loadingSpinner').style.display = 'block';
+            
+            // 해당 커밋 시점의 파일 내용 가져오기
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=${sha}`;
+
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+                const data = await res.json();
+                
+                // Base64 디코딩 (한글 처리 포함)
+                const decodedContent = decodeURIComponent(escape(atob(data.content)));
+                
+                // eval()을 사용하여 문자열을 실제 JS 객체로 변환 (주의: portfolioData 변수 갱신)
+                // data.js 파일 구조가 'const portfolioData = { ... };' 형태라고 가정
+                const cleanJson = decodedContent.replace('const portfolioData =', '').replace(';', '');
+                portfolioData = JSON.parse(cleanJson);
+
+                // 화면 갱신
+                initAdmin();
+                closeHistory();
+                alert("복구되었습니다! (완전히 적용하려면 'GitHub 자동 저장'을 꼭 눌러주세요)");
+
+            } catch(err) {
+                alert("복구 실패: " + err);
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        }
+
+        function closeHistory() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
