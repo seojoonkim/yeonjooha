@@ -487,7 +487,7 @@ const portfolioData = {
         {
             "category": "VARIETY",
             "year": "2019",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Variety",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915314365_다운로드 (1).jpg",
             "broadcast": "SBS",
             "title": {
                 "ko": "정글의 법칙 in 순다열도",
@@ -512,7 +512,7 @@ const portfolioData = {
         {
             "category": "VARIETY",
             "year": "2014",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Variety",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915334708_fYiO-TkPL_wN0Vw1fwJ6ipqlqypp-hG_j2C12glS2ORx3Ebwc_HZfRvLoiLsUy_dRfWYz4eKAZrlYv-BphuufA.webp",
             "broadcast": "tvN",
             "title": {
                 "ko": "더 지니어스: 블랙가넷",
@@ -537,7 +537,7 @@ const portfolioData = {
         {
             "category": "VARIETY",
             "year": "2016",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Variety",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915388692_2016121501002244600182351.jpg",
             "broadcast": "SBS",
             "title": {
                 "ko": "런닝맨",
@@ -562,7 +562,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2014",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915458953_unnamed.jpg",
             "broadcast": "",
             "title": {
                 "ko": "충북소주 (시원한 청풍)",
@@ -587,7 +587,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2011",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915839515_images.png",
             "broadcast": "",
             "title": {
                 "ko": "존슨앤드존슨 (클린앤클리어)",
@@ -612,7 +612,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2010",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915523396_images (1).jpg",
             "broadcast": "",
             "title": {
                 "ko": "오뚜기 (스낵면)",
@@ -637,7 +637,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2010",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915695286_제목 없음.png",
             "broadcast": "",
             "title": {
                 "ko": "피자헛",
@@ -662,7 +662,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2010",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915893039_images (1).png",
             "broadcast": "",
             "title": {
                 "ko": "와바 (Wa Bar)",
@@ -687,7 +687,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2010",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915777884_images (2).jpg",
             "broadcast": "",
             "title": {
                 "ko": "SK텔레콤 (생각대로 T)",
@@ -712,7 +712,7 @@ const portfolioData = {
         {
             "category": "COMMERCIALS (ADS)",
             "year": "2009",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=AD",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915814356_9db868b74ad8a.jpg",
             "broadcast": "",
             "title": {
                 "ko": "공익광고협의회 (약물중독)",
