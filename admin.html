@@ -2,33 +2,39 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio Admin (Instant Preview)</title>
+    <title>Portfolio Admin (Final Pro)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* --- [스타일 정의 (이전과 동일)] --- */
+        /* --- [스타일 정의] --- */
         body { font-family: 'Pretendard', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        
         .sticky-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000; padding: 15px 0; border-bottom: 1px solid #eee; margin-bottom: 20px; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .config-panel { background: #eef2f5; padding: 15px; border-radius: 8px; font-size: 0.9rem; display: none; margin-bottom: 15px; }
         .config-panel.open { display: block; }
         .config-row { display: flex; gap: 10px; margin-bottom: 5px; }
+        
         .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .btn-primary { background: #2c3e50; color: white; }
         .btn-primary:hover { background: #1a252f; }
         .btn-outline { border: 1px solid #ddd; background: white; color: #555; }
         .btn-danger { background: #ff6b6b; color: white; font-size: 0.8rem; padding: 5px 10px; }
+        
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
         input[type="text"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; }
         .preview-img { max-width: 150px; max-height: 150px; border: 1px solid #eee; margin-top: 10px; border-radius: 4px; object-fit: cover;}
+        
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
         .gallery-item { position: relative; aspect-ratio: 1/1; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
         .remove-btn { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; }
+
         .category-section { margin-bottom: 30px; background: #f8f9fa; border-radius: 8px; padding: 20px; border: 1px solid #e9ecef; }
         .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
         .category-title { font-size: 1.2rem; font-weight: 800; color: #2c3e50; }
+        
         .filmo-item { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
         .filmo-summary { display: flex; align-items: center; padding: 15px; cursor: pointer; }
         .filmo-summary:hover { background: #f1f3f5; }
@@ -36,9 +42,11 @@
         .filmo-item.active .filmo-details { display: block; }
         .thumb-preview { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; background: #eee; }
         .info-preview { flex: 1; }
+        
         .btn-add-section { width: 100%; padding: 12px; background-color: white; border: 2px dashed #cbd5e0; color: #4a5568; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 10px;}
         .empty-message { text-align: center; color: #888; padding: 20px; }
         .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; color: white; }
         .spinner { border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -53,14 +61,14 @@
     <div class="container">
         <div class="sticky-header">
             <div class="header-top">
-                <h1>ADMIN PAGE (Instant Preview)</h1>
+                <h1>ADMIN PAGE</h1>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-outline" onclick="toggleConfig()">⚙️ 설정</button>
                     <button class="btn btn-primary" onclick="saveDataJsToGitHub()">☁️ 전체 저장 (Publish)</button>
                 </div>
             </div>
             <div id="configPanel" class="config-panel">
-                <p style="margin:0 0 10px 0; font-weight:bold; color:#e74c3c;">※ GitHub 정보 설정 (최초 1회)</p>
+                <p style="margin:0 0 10px 0; font-weight:bold; color:#e74c3c;">※ GitHub 정보 설정</p>
                 <div class="config-row">
                     <input type="text" id="confOwner" placeholder="GitHub 아이디">
                     <input type="text" id="confRepo" placeholder="레포지토리 이름">
@@ -102,7 +110,9 @@
 
     <script src="data.js"></script>
     <script>
-        const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "COMMERCIALS (ADS)"];
+        /* --- [카테고리 설정에 AUDIOBOOK 추가] --- */
+        const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "AUDIOBOOK", "COMMERCIALS (ADS)"];
+        
         let ghConfig = JSON.parse(localStorage.getItem('ghConfig')) || { owner: '', repo: '', token: '' };
 
         window.onload = function() {
@@ -124,72 +134,54 @@
             alert("설정 저장 완료!"); toggleConfig();
         }
 
-        /* =========================================
-           ★ 핵심 변경: 업로드 후 즉시 미리보기 적용
-           ========================================= */
-        
-        // 단일 파일 업로드
+        // 이미지 업로드 관련
         async function uploadImage(input, targetKey, index = null) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
             showLoading(`이미지 업로드 중...`);
-
             try {
-                const base64Content = await toBase64(file); // 로컬 미리보기용 Base64
+                const base64Content = await toBase64(file);
                 const fileName = `images/${new Date().getTime()}_${file.name}`;
-                const uploadedUrl = await uploadFileToGitHub(fileName, base64Content); // 실제 저장될 URL
-
+                const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
                 if (index !== null) {
-                    // 필모그래피: 데이터엔 실제 URL 저장, 화면엔 즉시 Base64로 갱신
                     portfolioData.filmography[index].thumb = uploadedUrl;
                     renderFilmoGroups(); 
-                    // 렌더링 후 강제로 미리보기 이미지만 Base64로 교체 (UX 트릭)
                     const itemEl = document.querySelector(`.filmo-item[data-origin-index="${index}"]`);
                     if(itemEl) {
                         itemEl.querySelector('.thumb-preview').src = base64Content;
                         itemEl.querySelector('.preview-img').src = base64Content;
                     }
                 } else {
-                    // 메인 이미지
                     portfolioData[targetKey] = uploadedUrl;
-                    document.getElementById('mainImagePreview').src = base64Content; // 즉시 미리보기
+                    document.getElementById('mainImagePreview').src = base64Content;
                 }
-                alert("업로드 성공! (미리보기가 적용되었습니다)");
-
-            } catch (err) { alert("업로드 실패: " + err.message); } 
+                alert("업로드 성공!");
+            } catch (err) { alert("실패: " + err.message); } 
             finally { hideLoading(); input.value = ''; }
         }
 
-        // 갤러리 다중 업로드
         async function uploadGalleryImages(input) {
             if (!input.files || input.files.length === 0) return;
             const files = Array.from(input.files);
             let successCount = 0;
-            
-            // 임시로 보여줄 Base64 배열 준비
             const tempPreviews = [];
-
             try {
                 for (let i = 0; i < files.length; i++) {
                     showLoading(`갤러리 업로드 중... (${i + 1}/${files.length})`);
                     const file = files[i];
                     const base64Content = await toBase64(file);
-                    tempPreviews.push(base64Content); // 미리보기용 저장
-
+                    tempPreviews.push(base64Content);
                     const fileName = `images/${new Date().getTime()}_${i}_${file.name}`;
                     const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
-                    portfolioData.gallery.unshift(uploadedUrl); // 실제 데이터 저장
+                    portfolioData.gallery.unshift(uploadedUrl);
                     successCount++;
                 }
-                
                 renderGallery();
-                // 렌더링 후 맨 앞의 아이템들을 Base64 미리보기로 교체
                 const galleryItems = document.querySelectorAll('.gallery-item img');
                 for(let i=0; i < tempPreviews.length; i++) {
                     if(galleryItems[i]) galleryItems[i].src = tempPreviews[files.length - 1 - i];
                 }
-
-                alert(`${successCount}개의 이미지가 업로드되었습니다.`);
+                alert(`${successCount}장 업로드 완료`);
             } catch (err) { alert("일부 실패: " + err.message); }
             finally { hideLoading(); input.value = ''; }
         }
@@ -212,12 +204,13 @@
             });
         }
 
-        /* --- [렌더링 및 기타 로직 (동일)] --- */
+        // 렌더링 로직
         function renderGallery() {
             document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `
                 <div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>
             `).join('');
         }
+
         function renderFilmoGroups() {
             const container = document.getElementById('filmoContainer'); container.innerHTML = '';
             const groups = {}; CATEGORY_ORDER.forEach(cat => groups[cat] = []);
@@ -231,16 +224,46 @@
                 container.appendChild(section);
             });
         }
+
         function createFilmoItem(item) {
             const el = document.createElement('div'); el.className = 'filmo-item'; el.draggable = true; el.dataset.originIndex = item._originIndex;
+            // 드래그 이벤트
+            el.addEventListener('dragstart', dragStart); el.addEventListener('dragend', dragEnd);
+            
             el.innerHTML = `
                 <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')"><div class="drag-handle">≡</div><img src="${item.thumb}" class="thumb-preview"><div class="info-preview"><div style="font-weight:bold">${item.title.ko || '(제목)'}</div><div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div></div><div>▼</div></div>
                 <div class="filmo-details"><div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div><div class="form-group"><label>썸네일 업로드</label><input type="file" accept="image/*" onchange="uploadImage(this, 'thumb', ${item._originIndex})"></div><div class="form-group"><img src="${item.thumb}" class="preview-img"></div><div class="lang-grid"><div class="form-group"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div><div class="form-group"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div></div><div class="form-group"><label>제목 (KO)</label><input type="text" value="${item.title.ko}" onchange="portfolioData.filmography[${item._originIndex}].title.ko=this.value"></div><div class="form-group"><label>제목 (EN)</label><input type="text" value="${item.title.en}" onchange="portfolioData.filmography[${item._originIndex}].title.en=this.value"></div><div class="form-group"><label>역할 (KO)</label><input type="text" value="${item.role.ko}" onchange="portfolioData.filmography[${item._originIndex}].role.ko=this.value"></div></div>`;
             return el;
         }
+
         function addFilmo(cat) { portfolioData.filmography.unshift({ category: cat, year: new Date().getFullYear(), thumb: "https://placehold.co/200", broadcast:"", title:{ko:"새 작품", en:""}, role:{ko:"", en:""} }); renderFilmoGroups(); }
         function deleteFilmo(i) { if(confirm('삭제?')) { portfolioData.filmography.splice(i, 1); renderFilmoGroups(); } }
-        
+
+        // 드래그 로직
+        let draggedItem = null;
+        function dragStart(e) { draggedItem = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+        function dragEnd() { 
+            this.classList.remove('dragging'); draggedItem = null;
+            const newOrder = [];
+            document.querySelectorAll('.filmo-item').forEach(el => { newOrder.push(portfolioData.filmography[el.dataset.originIndex]); });
+            portfolioData.filmography = newOrder;
+            renderFilmoGroups();
+        }
+        document.querySelectorAll('.filmo-list').forEach(list => {
+            list.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(list, e.clientY);
+                if (draggedItem) { if (afterElement == null) list.appendChild(draggedItem); else list.insertBefore(draggedItem, afterElement); }
+            });
+        });
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
         async function saveDataJsToGitHub() {
             if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("데이터 저장 중...");
             const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
