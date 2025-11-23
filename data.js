@@ -1,5 +1,5 @@
 const portfolioData = {
-    "mainImage": "https://seojoonkim.github.io/yeonjooha/images/1763913075290_하연주.jpg",
+    "mainImage": "https://seojoonkim.github.io/yeonjooha/images/1763916263932_eBpEi7Ii48OMvhi5MPEw8Upb0Ij7luJIN4ap9vK_vrEwf2fwNc6xUZgG8iKmFMrezpSVtO9bj7PuI9zJb6YkPU927AD00dRD-z9ehEyZIjnY3tKBIONmlzhWQBKlBQ3iO_4SRFmeNL1SHa4qZkslcw.webp",
     "gallery": [
         "https://seojoonkim.github.io/yeonjooha/images/1763913143178_0_download.jpg",
         "https://seojoonkim.github.io/yeonjooha/images/1763913138212_0_high.avif",
