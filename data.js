@@ -1,10 +1,15 @@
 const portfolioData = {
-    "mainImage": "https://seojoonkim.github.io/yeonjooha/images/1763916263932_eBpEi7Ii48OMvhi5MPEw8Upb0Ij7luJIN4ap9vK_vrEwf2fwNc6xUZgG8iKmFMrezpSVtO9bj7PuI9zJb6YkPU927AD00dRD-z9ehEyZIjnY3tKBIONmlzhWQBKlBQ3iO_4SRFmeNL1SHa4qZkslcw.webp",
+    "mainImage": "https://seojoonkim.github.io/yeonjooha/images/1763913075290_하연주.jpg",
     "gallery": [
-        "https://seojoonkim.github.io/yeonjooha/images/1763913143178_0_download.jpg",
-        "https://seojoonkim.github.io/yeonjooha/images/1763913138212_0_high.avif",
-        "https://seojoonkim.github.io/yeonjooha/images/1763913132960_0_optimize.jpg",
-        "https://seojoonkim.github.io/yeonjooha/images/1763913127644_0_2024061415582152999_1.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916536653_0_b5.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916529094_0_b4.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916522596_0_b3.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916517155_0_b2.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916509822_0_b1.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916499294_0_w3.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916491264_0_w2.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916484003_0_w1.jpg",
+        "https://seojoonkim.github.io/yeonjooha/images/1763916476502_0_2024061415582152999_1.jpg",
         "https://seojoonkim.github.io/yeonjooha/images/1763913119761_0_30000679444_500.jpg",
         "https://seojoonkim.github.io/yeonjooha/images/1763913111178_0_eBpEi7Ii48OMvhi5MPEw8Upb0Ij7luJIN4ap9vK_vrEwf2fwNc6xUZgG8iKmFMrezpSVtO9bj7PuI9zJb6YkPU927AD00dRD-z9ehEyZIjnY3tKBIONmlzhWQBKlBQ3iO_4SRFmeNL1SHa4qZkslcw.webp"
     ],
