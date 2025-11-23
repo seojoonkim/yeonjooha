@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio Admin (Final Pro)</title>
+    <title>Portfolio Admin (Multilingual)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         /* --- [스타일 정의] --- */
@@ -20,6 +20,7 @@
         .btn-primary:hover { background: #1a252f; }
         .btn-outline { border: 1px solid #ddd; background: white; color: #555; }
         .btn-danger { background: #ff6b6b; color: white; font-size: 0.8rem; padding: 5px 10px; }
+        .btn-sync { background: #27ae60; color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
         
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
@@ -45,11 +46,18 @@
         
         .btn-add-section { width: 100%; padding: 12px; background-color: white; border: 2px dashed #cbd5e0; color: #4a5568; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 10px;}
         .empty-message { text-align: center; color: #888; padding: 20px; }
-        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        /* [수정됨] 다국어 입력창 그리드 스타일 */
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .lang-item label { font-size: 0.8rem; color: #888; margin-bottom: 2px; }
+        .lang-item input { font-size: 0.9rem; padding: 8px; }
         
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; color: white; }
         .spinner { border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .status-badge { font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; background: #eee; color: #555; margin-left: 10px; }
+        .status-badge.active { background: #e8f5e9; color: #27ae60; border: 1px solid #27ae60; }
     </style>
 </head>
 <body>
@@ -61,9 +69,13 @@
     <div class="container">
         <div class="sticky-header">
             <div class="header-top">
-                <h1>ADMIN PAGE</h1>
+                <div style="display: flex; align-items: center;">
+                    <h1>ADMIN PAGE</h1>
+                    <span id="syncStatus" class="status-badge">Local Mode</span>
+                </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-outline" onclick="toggleConfig()">⚙️ 설정</button>
+                    <button class="btn btn-sync" onclick="forceLoadFromGitHub()">🔄 GitHub 데이터 불러오기</button>
                     <button class="btn btn-primary" onclick="saveDataJsToGitHub()">☁️ 전체 저장 (Publish)</button>
                 </div>
             </div>
@@ -110,16 +122,25 @@
 
     <script src="data.js"></script>
     <script>
-        /* --- [카테고리 설정에 AUDIOBOOK 추가] --- */
+        /* --- [설정] --- */
         const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "AUDIOBOOK", "COMMERCIALS (ADS)"];
-        
+        const LANG_LIST = ['ko', 'en', 'cn', 'ja', 'pt', 'es', 'ar']; // 지원 언어 목록
+        const LANG_LABEL = { ko:'한국어', en:'English', cn:'中文', ja:'日本語', pt:'Português', es:'Español', ar:'العربية' };
+
         let ghConfig = JSON.parse(localStorage.getItem('ghConfig')) || { owner: '', repo: '', token: '' };
 
         window.onload = function() {
             document.getElementById('confOwner').value = ghConfig.owner;
             document.getElementById('confRepo').value = ghConfig.repo;
             document.getElementById('confToken').value = ghConfig.token;
-            if(typeof portfolioData !== 'undefined') initAdmin();
+            
+            if(typeof portfolioData !== 'undefined') {
+                initAdmin();
+            }
+            
+            if(ghConfig.owner && ghConfig.token) {
+                forceLoadFromGitHub(true);
+            }
         };
 
         function initAdmin() {
@@ -132,9 +153,32 @@
             ghConfig = { owner: document.getElementById('confOwner').value.trim(), repo: document.getElementById('confRepo').value.trim(), token: document.getElementById('confToken').value.trim() };
             localStorage.setItem('ghConfig', JSON.stringify(ghConfig));
             alert("설정 저장 완료!"); toggleConfig();
+            forceLoadFromGitHub();
         }
 
-        // 이미지 업로드 관련
+        async function forceLoadFromGitHub(silent = false) {
+            if(!ghConfig.owner || !ghConfig.token) return;
+            if(!silent) showLoading("GitHub 데이터 불러오는 중...");
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=main&timestamp=${new Date().getTime()}`;
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+                if(!res.ok) throw new Error("불러오기 실패");
+                const json = await res.json();
+                const content = decodeURIComponent(escape(window.atob(json.content)));
+                const jsonStr = content.replace('const portfolioData =', '').replace(';', '');
+                portfolioData = JSON.parse(jsonStr);
+                initAdmin();
+                const statusBadge = document.getElementById('syncStatus');
+                statusBadge.textContent = "Synced with GitHub";
+                statusBadge.classList.add('active');
+                if(!silent) alert("동기화 완료!");
+            } catch(err) {
+                console.error(err);
+                if(!silent) alert("데이터 로드 실패");
+            } finally { hideLoading(); }
+        }
+
+        /* --- [이미지 업로드] --- */
         async function uploadImage(input, targetKey, index = null) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
@@ -204,7 +248,7 @@
             });
         }
 
-        // 렌더링 로직
+        /* --- [렌더링] --- */
         function renderGallery() {
             document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `
                 <div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>
@@ -225,18 +269,81 @@
             });
         }
 
+        // [수정됨] 모든 언어 입력창 생성
         function createFilmoItem(item) {
             const el = document.createElement('div'); el.className = 'filmo-item'; el.draggable = true; el.dataset.originIndex = item._originIndex;
-            // 드래그 이벤트
             el.addEventListener('dragstart', dragStart); el.addEventListener('dragend', dragEnd);
             
+            // 다국어 입력창 생성 헬퍼
+            const createLangInputs = (type) => {
+                return LANG_LIST.map(lang => `
+                    <div class="lang-item">
+                        <label>${LANG_LABEL[lang]} (${lang.toUpperCase()})</label>
+                        <input type="text" value="${item[type][lang] || ''}" onchange="portfolioData.filmography[${item._originIndex}].${type}.${lang}=this.value">
+                    </div>
+                `).join('');
+            };
+
             el.innerHTML = `
-                <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')"><div class="drag-handle">≡</div><img src="${item.thumb}" class="thumb-preview"><div class="info-preview"><div style="font-weight:bold">${item.title.ko || '(제목)'}</div><div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div></div><div>▼</div></div>
-                <div class="filmo-details"><div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div><div class="form-group"><label>썸네일 업로드</label><input type="file" accept="image/*" onchange="uploadImage(this, 'thumb', ${item._originIndex})"></div><div class="form-group"><img src="${item.thumb}" class="preview-img"></div><div class="lang-grid"><div class="form-group"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div><div class="form-group"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div></div><div class="form-group"><label>제목 (KO)</label><input type="text" value="${item.title.ko}" onchange="portfolioData.filmography[${item._originIndex}].title.ko=this.value"></div><div class="form-group"><label>제목 (EN)</label><input type="text" value="${item.title.en}" onchange="portfolioData.filmography[${item._originIndex}].title.en=this.value"></div><div class="form-group"><label>역할 (KO)</label><input type="text" value="${item.role.ko}" onchange="portfolioData.filmography[${item._originIndex}].role.ko=this.value"></div></div>`;
+                <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')">
+                    <div class="drag-handle">≡</div>
+                    <img src="${item.thumb}" class="thumb-preview">
+                    <div class="info-preview">
+                        <div style="font-weight:bold">${item.title.ko || '(제목)'}</div>
+                        <div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div>
+                    </div>
+                    <div>▼</div>
+                </div>
+                <div class="filmo-details">
+                    <div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div>
+                    
+                    <div class="form-group" style="background:#f9f9f9; padding:10px; border-radius:6px;">
+                        <label>기본 정보</label>
+                        <div style="display:flex; gap:10px; margin-bottom:10px;">
+                            <div style="flex:1"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div>
+                            <div style="flex:1"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div>
+                        </div>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <img src="${item.thumb}" class="preview-img" style="width:60px; height:90px; margin:0;">
+                            <div style="flex:1">
+                                <label>포스터 변경</label>
+                                <input type="file" accept="image/*" onchange="uploadImage(this, 'thumb', ${item._originIndex})">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size:1rem; border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:10px;">제목 (Title)</label>
+                        <div class="lang-grid">
+                            ${createLangInputs('title')}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-size:1rem; border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:10px;">역할 (Role)</label>
+                        <div class="lang-grid">
+                            ${createLangInputs('role')}
+                        </div>
+                    </div>
+                </div>`;
             return el;
         }
 
-        function addFilmo(cat) { portfolioData.filmography.unshift({ category: cat, year: new Date().getFullYear(), thumb: "https://placehold.co/200", broadcast:"", title:{ko:"새 작품", en:""}, role:{ko:"", en:""} }); renderFilmoGroups(); }
+        function addFilmo(cat) { 
+            // 새 아이템 생성 시 모든 언어 키 초기화
+            const emptyLangObj = {};
+            LANG_LIST.forEach(lang => emptyLangObj[lang] = "");
+            
+            portfolioData.filmography.unshift({ 
+                category: cat, 
+                year: new Date().getFullYear(), 
+                thumb: "https://placehold.co/200", 
+                broadcast:"", 
+                title: { ...emptyLangObj, ko: "새 작품" }, 
+                role: { ...emptyLangObj } 
+            }); 
+            renderFilmoGroups(); 
+        }
         function deleteFilmo(i) { if(confirm('삭제?')) { portfolioData.filmography.splice(i, 1); renderFilmoGroups(); } }
 
         // 드래그 로직
