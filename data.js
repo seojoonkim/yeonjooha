@@ -571,11 +571,21 @@ const portfolioData = {
             "broadcast": "김영사",
             "title": {
                 "ko": "플라이룸",
-                "en": "FLY ROOM"
+                "en": "FLY ROOM",
+                "cn": "飞行室",
+                "ja": "フライルーム",
+                "pt": "SALA DE MOSCAS",
+                "es": "SALA DE VUELO",
+                "ar": "غرفة الذبابة"
             },
             "role": {
                 "ko": "낭독",
-                "en": ""
+                "en": "Reading",
+                "cn": "阅读",
+                "ja": "表示設定",
+                "pt": "Leitura",
+                "es": "Lectura",
+                "ar": "القراءة"
             },
             "_originIndex": 22
         },
