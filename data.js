@@ -12,7 +12,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2025",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913826981_2rQ581UPYgr0X3q6wP0xXs5NifwEyk0rceDnYwW6rdYqySd-K-akhhOT_4EkuGKfMUN1hPIvdAgVAxp1f6xEfA.webp",
             "broadcast": "Netflix",
             "title": {
                 "ko": "청담국제고등학교 시즌 2",
@@ -37,7 +37,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2024",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913847855_A2wMTBayuJjSqoIyLk3clWlkMM9JREsQUKJ5awmPZZmJL44CFZ5l7wyWssp33L4KMcubPAX7M7qchLoe1E1Opg.webp",
             "broadcast": "KBS2",
             "title": {
                 "ko": "피도 눈물도 없이",
@@ -62,7 +62,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2019",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913877743_6eIE76Jt2F9CoZqRU7w0NrmHjKYUXJ8mIsBmYt3cEt4QSTRBxUrLwRgARce-xQOzb3BO3VFO4xqx8uxqyIhZgw.webp",
             "broadcast": "KBS2",
             "title": {
                 "ko": "왼손잡이 아내",
@@ -87,7 +87,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2016",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913935579_vASIdRB17o6R5hRACYJFOc1RZXc.webp",
             "broadcast": "MBC",
             "title": {
                 "ko": "행복을 주는 사람",
@@ -112,7 +112,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2016",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913976466_images.jpg",
             "broadcast": "MBC",
             "title": {
                 "ko": "굿바이 미스터 블랙",
@@ -137,7 +137,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2015",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914002889_P000180779.jpg",
             "broadcast": "OCN",
             "title": {
                 "ko": "처용 2",
@@ -162,7 +162,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2015",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914042922_tfn6sLHCV5XfrjD5cl7qMSojp6m.webp",
             "broadcast": "MBC",
             "title": {
                 "ko": "불굴의 차여사",
@@ -187,7 +187,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2014",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914061911_IE001757613_STD.jpg",
             "broadcast": "tvN",
             "title": {
                 "ko": "마이 시크릿 호텔",
@@ -212,7 +212,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2014",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914080699_mDzOfO3I99wihXUChiAXe8fk7FBqLu6J0KexTgwzd3S9gVR1McQxuy5iOPPhkszmsGDQQKXR7l3C9yXdvDmceA.webp",
             "broadcast": "SBS",
             "title": {
                 "ko": "괜찮아, 사랑이야",
@@ -237,7 +237,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2013",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914161530_rsvYNxJdZpftq8AZ0I2vV7qfQau.webp",
             "broadcast": "MBC",
             "title": {
                 "ko": "미스코리아",
@@ -262,7 +262,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2013",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914181235_dEUnkiDFFeFK4utYQBF40HkylG6.webp",
             "broadcast": "KBS1",
             "title": {
                 "ko": "지성이면 감천",
@@ -287,7 +287,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2012",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914293974_다운로드.jpg",
             "broadcast": "tvN",
             "title": {
                 "ko": "막돼먹은 영애씨 시즌 10",
@@ -312,7 +312,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2011",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914326080_로맨스_포스터C-2.jpg",
             "broadcast": "tvN",
             "title": {
                 "ko": "로맨스가 필요해",
@@ -337,7 +337,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2010",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914355226_nnCma0e35LNC066hneSvDqZXuvX.webp",
             "broadcast": "MBC",
             "title": {
                 "ko": "글로리아",
@@ -362,7 +362,7 @@ const portfolioData = {
         {
             "category": "DRAMA",
             "year": "2008",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Poster",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914416077_1-Sk8eWo5Uw-9r_LZJXgvLZFAeb7KWKhjOcfQG1YamVqaISjYaNgcdmwGGyMZyaP7Scofndy6EidMajb_vawVQ.webp",
             "broadcast": "MBC",
             "title": {
                 "ko": "그 분이 오신다",
@@ -387,7 +387,7 @@ const portfolioData = {
         {
             "category": "MOVIE",
             "year": "2015",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Movie",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914458123_unnamed.webp",
             "broadcast": "",
             "title": {
                 "ko": "파일 : 4022일의 사육",
@@ -412,7 +412,7 @@ const portfolioData = {
         {
             "category": "MOVIE",
             "year": "2014",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Movie",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914483385_tzsungHZIKhgesqpMXOuK6RCFmu8ZTsa_Id_Dsw-eEQOvkTIZCAZ7neToOy8agfNLjnNAFCslun-oveEnfE6og.webp",
             "broadcast": "",
             "title": {
                 "ko": "수상한 그녀",
@@ -462,7 +462,7 @@ const portfolioData = {
         {
             "category": "MOVIE",
             "year": "2009",
-            "thumb": "https://placehold.co/200x300/e0e0e0/999?text=Movie",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763914557348_aYH5vm5C-Y1nEDJdm5oXiE2oE7wCeRmJm1d5Xl9_jwaCIuXwlu0aevWtjFnnOpF1JR_LJ-YleVMCMETO6wmpig.webp",
             "broadcast": "",
             "title": {
                 "ko": "젓가락",
