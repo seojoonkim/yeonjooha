@@ -15,7 +15,7 @@
         /* --- [CSS Variables] --- */
         :root {
             --text-primary: #1a1a1a;
-            --text-secondary: #555555;
+            --text-secondary: #444444;
             --text-light: #888888;
             --bg-white: #ffffff;
             --line-color: #e0e0e0;
@@ -29,7 +29,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--font-sans); color: var(--text-primary); background-color: var(--bg-white); line-height: 1.7; word-break: keep-all; overflow-x: hidden; }
+        body { 
+            font-family: var(--font-sans); color: var(--text-primary); background-color: var(--bg-white);
+            line-height: 1.6; word-break: keep-all; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; } a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
@@ -42,14 +47,14 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
-        /* Typography */
+        /* Typography (PC 기준) */
         h1 { font-family: var(--font-serif); font-size: 5.5rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin-bottom: 20px; }
         h2 { font-family: var(--font-serif); font-size: 3rem; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; }
         h2::after { content: ''; display: block; width: 1px; height: 60px; background: #000; margin: 30px auto 0; }
         h3 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; letter-spacing: 1px; }
 
-        /* --- [Header & Nav] --- */
-        header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 20px 0; transition: all 0.3s; }
+        /* --- [Header] --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 20px 0; transition: all 0.3s; }
         nav { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
         .nav-left { display: flex; align-items: center; gap: 50px; }
         .logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; white-space: nowrap; }
@@ -58,9 +63,8 @@
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
 
-        /* --- [Dropdown Language Switcher] --- */
+        /* --- [Language Switcher] --- */
         .lang-dropdown { position: relative; font-family: var(--font-sans); z-index: 200; }
-        
         .current-lang { 
             font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; 
             display: flex; align-items: center; gap: 5px; padding: 5px 0;
@@ -68,41 +72,24 @@
         .current-lang:hover { opacity: 0.7; }
         .arrow-icon { font-size: 0.7rem; transition: transform 0.3s; }
         .lang-dropdown.active .arrow-icon { transform: rotate(180deg); }
-
         .lang-list {
             position: absolute; top: 120%; right: 0; 
             background: white; border: 1px solid #eee; border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            padding: 10px 0; 
-            min-width: 160px; 
-            white-space: nowrap;
-            opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); padding: 10px 0; 
+            min-width: 160px; white-space: nowrap;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease;
         }
         .lang-dropdown.active .lang-list { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        .lang-option {
-            display: block; padding: 10px 20px; 
-            font-size: 0.85rem; color: #555; cursor: pointer; text-align: left;
-            transition: background 0.2s;
-        }
+        .lang-option { display: block; padding: 10px 20px; font-size: 0.85rem; color: #555; cursor: pointer; text-align: left; transition: background 0.2s; }
         .lang-option:hover { background: #f5f5f5; color: #000; }
         .lang-option.selected { font-weight: 700; color: #000; background-color: #f9f9f9; }
 
-
-        /* --- [Hero] (수정됨) --- */
+        /* --- [Hero] --- */
         .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; padding-top: 100px; }
         .hero-text span.subtitle { display: block; font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; }
-        
-        /* [핵심 수정] 이미지 컨테이너 */
         .hero-img { 
-            width: 100%; 
-            /* height: 85vh; -> 고정 높이 삭제 */
-            aspect-ratio: 4 / 5; /* [추가] 가로:세로 비율 고정 (가로가 늘면 세로도 같이 늠) */
-            max-height: 90vh; /* [추가] 너무 커져서 화면을 넘어가는 것 방지 */
-            background: #f5f5f5; 
-            overflow: hidden; 
-            position: relative; 
+            width: 100%; aspect-ratio: 4 / 5; max-height: 90vh;
+            background: #f5f5f5; overflow: hidden; position: relative; 
         }
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
@@ -141,8 +128,6 @@
         /* --- [Gallery] --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px; }
         .gallery-item { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #f0f0f0; cursor: pointer; }
-        .gallery-item::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.1); opacity: 0; transition: 0.3s; }
-        .gallery-item:hover::after { opacity: 1; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .gallery-item:hover img { transform: scale(1.05); }
         
@@ -158,39 +143,59 @@
         .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* --- [Mobile Responsive] --- */
+        /* =========================================
+           ★ [모바일 최적화 (Mobile Responsive) - 수정됨]
+           ========================================= */
         @media (max-width: 1024px) {
-            h1 { font-size: 3.5rem; }
-            section { padding: 100px 0; }
+            /* Layout & Spacing */
+            .container { padding: 0 25px; }
+            section { padding: 80px 0; }
             
-            /* 모바일 헤더 고정 (1줄 유지) */
-            nav { 
-                flex-direction: row; 
-                align-items: center; 
-                justify-content: space-between; 
-                padding: 0 20px;
-            }
+            /* Header */
+            nav { flex-direction: row; align-items: center; justify-content: space-between; padding: 0 20px; height: 70px; }
             .nav-left { width: auto; margin-bottom: 0; gap: 0; }
             .menu { display: none; }
+            .logo { font-size: 1.4rem; }
             
-            .logo { font-size: 1.2rem; }
+            /* 언어 선택기 사이즈 업 */
+            .current-lang { font-size: 1rem; padding: 10px; }
+            .arrow-icon { font-size: 0.8rem; }
 
-            .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; min-height: auto; }
-            
-            /* 모바일 이미지 높이 재조정 (필요시 aspect-ratio 사용 가능) */
-            .hero-img { 
-                height: auto; /* 고정 높이 해제 */
-                aspect-ratio: 4/5; /* 모바일에서도 비율 유지 */
-                max-height: 60vh; /* 모바일 화면 너무 차지하지 않게 */
-                order: -1; 
-            }
+            /* Hero Section */
+            .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 100px; text-align: left; display: flex; flex-direction: column; }
+            .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 10px; }
+            .hero-text h1 { font-size: 3.8rem; margin-bottom: 15px; letter-spacing: -1px; }
+            .hero-text span.subtitle { font-size: 1.4rem; }
+            .hero-text p { font-size: 1.15rem; line-height: 1.6; margin-top: 20px; color: #444; }
 
+            /* Profile Section - 텍스트 키움 */
             .profile-wrap { grid-template-columns: 1fr; gap: 50px; }
-            .specs-grid { gap: 40px; }
-            .career-item { grid-template-columns: 70px 1fr; gap: 15px; }
-            .career-thumb { width: 70px; height: 105px; }
-            .career-title { font-size: 1.2rem; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .specs-grid { grid-template-columns: 1fr; gap: 35px; }
+            .spec-item strong { font-size: 1.6rem; margin-bottom: 8px; }
+            .spec-item h3 { font-size: 1rem; margin-bottom: 5px; }
+            .spec-desc { font-size: 1.1rem; line-height: 1.5; }
+
+            /* Filmography Section - 썸네일 & 텍스트 확대 */
+            .filmo-grid { grid-template-columns: 1fr; gap: 30px; }
+            .career-item { 
+                grid-template-columns: 110px 1fr; /* 썸네일 너비 확대 (70 -> 110) */
+                gap: 20px; padding-bottom: 25px;
+            }
+            .career-thumb { 
+                width: 110px; height: 165px; /* 썸네일 크기 대폭 확대 */
+            }
+            .career-info { gap: 6px; }
+            .year { font-size: 1rem; margin-bottom: 2px; }
+            .career-title { font-size: 1.5rem; line-height: 1.2; margin-bottom: 5px; } /* 제목 시원하게 */
+            .career-role { font-size: 1.1rem; color: #555; }
+            .broadcast { font-size: 0.85rem; padding: 2px 8px; }
+
+            /* Gallery Section */
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            
+            /* Footer */
+            footer { padding: 60px 0; }
+            .footer-sns a { font-size: 1rem; }
         }
 
         /* 다국어 처리 */
@@ -202,6 +207,7 @@
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
+        
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -244,7 +250,7 @@
                     <span class="lang-text ko">배우</span><span class="lang-text en">Actress</span><span class="lang-text cn">演员</span><span class="lang-text ja">女優</span><span class="lang-text pt">Atriz</span><span class="lang-text es">Actriz</span><span class="lang-text ar">ممثلة</span>
                 </span>
                 <h1 class="fade-wrap delay-2">HA<br>YEON JOO</h1>
-                <p class="fade-wrap delay-3" style="margin-top: 30px; font-size: 1.1rem; color: #555;">
+                <p class="fade-wrap delay-3">
                     <span class="lang-text ko">화려함보다는 깊이를, 정답보다는 끊임없는 탐구를 지향합니다.<br>이성과 감성 사이에서 균형을 잃지 않고, 주어진 역할에 감사하며 묵묵히 저만의 호흡으로 성장하겠습니다.</span>
                     <span class="lang-text en">I aim for depth rather than splendor, and constant inquiry rather than a single correct answer.<br>Without losing balance between reason and emotion, I will grow at my own pace, grateful for every given role.</span>
                     <span class="lang-text cn">比起华丽，我更追求深度；比起标准答案，我更向往不断的探索。<br>在理性与感性之间保持平衡，对每一个角色心存感激，默默地以自己的节奏不断成长。</span>
