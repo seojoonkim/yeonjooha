@@ -142,6 +142,7 @@
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
+        
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
     </style>
@@ -178,13 +179,19 @@
                 </span>
                 <h1 class="fade-wrap delay-2">HA<br>YEON JOO</h1>
                 <p class="fade-wrap delay-3" style="margin-top: 30px; font-size: 1.1rem; color: #555;">
-                    <span class="lang-text ko">지적인 이미지와 탄탄한 연기력.<br>배우 하연주는 깊이 있는 필모그래피를 만들어갑니다.</span>
-                    <span class="lang-text en">With an intellectual image and solid acting skills,<br>Ha Yeon-joo builds a profound filmography.</span>
-                    <span class="lang-text cn">拥有知性形象与扎实演技。<br>演员河恋姝正构建着富有深度的影视作品。</span>
-                    <span class="lang-text ja">知的なイメージと確かな演技力。<br>女優ハ・ヨンジュは深みのあるフィルモグラフィーを築いています。</span>
-                    <span class="lang-text pt">Com uma imagem intelectual e atuação sólida,<br>Ha Yeon-joo constrói uma filmografia profunda.</span>
-                    <span class="lang-text es">Con una imagen intelectual y una actuación sólida,<br>Ha Yeon-joo construye una filmografía profunda.</span>
-                    <span class="lang-text ar">تتميز بصورة مثقفة ومهارات تمثيلية قوية.<br>الممثلة ها يون جو تبني مسيرتها الفنية العميقة.</span>
+                    <span class="lang-text ko">화려함보다는 깊이를, 정답보다는 끊임없는 탐구를 지향합니다.<br>이성과 감성 사이에서 균형을 잃지 않고, 주어진 역할에 감사하며 묵묵히 저만의 호흡으로 성장하겠습니다.</span>
+                    
+                    <span class="lang-text en">I aim for depth rather than splendor, and constant inquiry rather than a single correct answer.<br>Without losing balance between reason and emotion, I will grow at my own pace, grateful for every given role.</span>
+                    
+                    <span class="lang-text cn">比起华丽，我更追求深度；比起标准答案，我更向往不断的探索。<br>在理性与感性之间保持平衡，对每一个角色心存感激，默默地以自己的节奏不断成长。</span>
+                    
+                    <span class="lang-text ja">華やかさより深みを、正解より絶え間ない探求を志向します。<br>理性と感性のバランスを保ちながら、与えられた役割に感謝し、黙々と自分だけの呼吸で成長していきます。</span>
+                    
+                    <span class="lang-text pt">Busco profundidade em vez de esplendor, e questionamento constante em vez de uma única resposta certa.<br>Sem perder o equilíbrio entre a razão e a emoção, crescerei no meu próprio ritmo, grata por cada papel.</span>
+                    
+                    <span class="lang-text es">Busco profundidad en lugar de esplendor, e indagación constante en lugar de una respuesta correcta.<br>Sin perder el equilibrio entre la razón y la emoción, creceré a mi propio ritmo, agradecida por cada papel.</span>
+                    
+                    <span class="lang-text ar">أسعى إلى العمق بدلاً من الروعة، وإلى البحث المستمر بدلاً من الإجابة الصحيحة.<br>دون أن أفقد التوازن بين العقل والعاطفة، سأنمو بإيقاعي الخاص، ممتنة لكل دور يُمنح لي.</span>
                 </p>
             </div>
             <div class="hero-img fade-wrap delay-2">
@@ -229,13 +236,13 @@
                     <div class="spec-item">
                         <h3>Hobbies</h3>
                         <strong>
-                            <span class="lang-text ko">요가, 발레, 골프, 이케바나</span>
-                            <span class="lang-text en">Yoga, Ballet, Golf, Ikebana</span>
-                            <span class="lang-text cn">瑜伽, 芭蕾, 高尔夫, 插花</span>
-                            <span class="lang-text ja">ヨガ, バレエ, ゴルフ, 生け花</span>
-                            <span class="lang-text pt">Ioga, Balé, Golfe, Ikebana</span>
-                            <span class="lang-text es">Yoga, Ballet, Golf, Ikebana</span>
-                            <span class="lang-text ar">اليوجا، الباليه، الجولف، إيكيبانا</span>
+                            <span class="lang-text ko">독서, 요가, 발레, 골프, 이케바나</span>
+                            <span class="lang-text en">Reading, Yoga, Ballet, Golf, Ikebana</span>
+                            <span class="lang-text cn">阅读, 瑜伽, 芭蕾, 高尔夫, 插花</span>
+                            <span class="lang-text ja">読書, ヨガ, バレエ, ゴルフ, 生け花</span>
+                            <span class="lang-text pt">Leitura, Ioga, Balé, Golfe, Ikebana</span>
+                            <span class="lang-text es">Lectura, Yoga, Ballet, Golf, Ikebana</span>
+                            <span class="lang-text ar">القراءة، اليوجا، الباليه، الجولف، إيكيبانا</span>
                         </strong>
                     </div>
 
@@ -346,7 +353,7 @@
                         observer.observe(catDiv);
                     }
 
-                    // [수정됨] 방송사 정보가 있을 때만 노출 (조건부 렌더링)
+                    // 방송사 빈칸 숨김 처리
                     const broadcastHtml = item.broadcast ? `<span class="broadcast">${item.broadcast}</span>` : '';
 
                     const div = document.createElement('div');
