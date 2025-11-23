@@ -2,31 +2,40 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio Admin (Multilingual)</title>
+    <title>Portfolio Admin (Full Version)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* --- [스타일 정의] --- */
+        /* --- [기본 스타일] --- */
         body { font-family: 'Pretendard', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
         .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
         
+        /* 헤더 */
         .sticky-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000; padding: 15px 0; border-bottom: 1px solid #eee; margin-bottom: 20px; }
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .config-panel { background: #eef2f5; padding: 15px; border-radius: 8px; font-size: 0.9rem; display: none; margin-bottom: 15px; }
         .config-panel.open { display: block; }
         .config-row { display: flex; gap: 10px; margin-bottom: 5px; }
         
+        /* 버튼 */
         .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
         .btn-primary { background: #2c3e50; color: white; }
         .btn-primary:hover { background: #1a252f; }
         .btn-outline { border: 1px solid #ddd; background: white; color: #555; }
         .btn-danger { background: #ff6b6b; color: white; font-size: 0.8rem; padding: 5px 10px; }
         .btn-sync { background: #27ae60; color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+        .btn-history { background: #f39c12; color: white; font-size: 0.9rem; } /* 히스토리 버튼 색상 */
         
-        .form-group { margin-bottom: 15px; }
+        /* 자동 번역 버튼 */
+        .btn-auto-trans { background: #fff; border: 1px solid #6c5ce7; color: #6c5ce7; padding: 4px 10px; font-size: 0.8rem; border-radius: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: 0.2s; }
+        .btn-auto-trans:hover { background: #6c5ce7; color: white; }
+        
+        /* 폼 요소 */
+        .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
         input[type="text"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; }
         .preview-img { max-width: 150px; max-height: 150px; border: 1px solid #eee; margin-top: 10px; border-radius: 4px; object-fit: cover;}
         
+        /* 레이아웃 */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
         .gallery-item { position: relative; aspect-ratio: 1/1; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
@@ -46,11 +55,18 @@
         
         .btn-add-section { width: 100%; padding: 12px; background-color: white; border: 2px dashed #cbd5e0; color: #4a5568; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 10px;}
         .empty-message { text-align: center; color: #888; padding: 20px; }
-        
-        /* [수정됨] 다국어 입력창 그리드 스타일 */
-        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .lang-item label { font-size: 0.8rem; color: #888; margin-bottom: 2px; }
-        .lang-item input { font-size: 0.9rem; padding: 8px; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        /* [복원] 히스토리 모달 스타일 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 600px; max-height: 80vh; border-radius: 12px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0; }
+        .history-item:hover { background: #f9f9f9; }
+        .history-info div { font-size: 0.9rem; font-weight: bold; }
+        .history-info span { font-size: 0.8rem; color: #888; }
         
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; color: white; }
         .spinner { border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
@@ -75,8 +91,9 @@
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-outline" onclick="toggleConfig()">⚙️ 설정</button>
-                    <button class="btn btn-sync" onclick="forceLoadFromGitHub()">🔄 GitHub 데이터 불러오기</button>
-                    <button class="btn btn-primary" onclick="saveDataJsToGitHub()">☁️ 전체 저장 (Publish)</button>
+                    <button class="btn btn-history" onclick="loadHistory()">🕒 히스토리</button>
+                    <button class="btn btn-sync" onclick="forceLoadFromGitHub()">🔄 불러오기</button>
+                    <button class="btn btn-primary" onclick="saveDataJsToGitHub()">☁️ 저장</button>
                 </div>
             </div>
             <div id="configPanel" class="config-panel">
@@ -120,11 +137,22 @@
         </section>
     </div>
 
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>버전 히스토리 (최근 30개)</h3>
+                <button class="btn btn-outline" onclick="closeHistory()">닫기</button>
+            </div>
+            <ul class="history-list" id="historyList">
+                </ul>
+        </div>
+    </div>
+
     <script src="data.js"></script>
     <script>
         /* --- [설정] --- */
         const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "AUDIOBOOK", "COMMERCIALS (ADS)"];
-        const LANG_LIST = ['ko', 'en', 'cn', 'ja', 'pt', 'es', 'ar']; // 지원 언어 목록
+        const LANG_LIST = ['ko', 'en', 'cn', 'ja', 'pt', 'es', 'ar'];
         const LANG_LABEL = { ko:'한국어', en:'English', cn:'中文', ja:'日本語', pt:'Português', es:'Español', ar:'العربية' };
 
         let ghConfig = JSON.parse(localStorage.getItem('ghConfig')) || { owner: '', repo: '', token: '' };
@@ -133,14 +161,8 @@
             document.getElementById('confOwner').value = ghConfig.owner;
             document.getElementById('confRepo').value = ghConfig.repo;
             document.getElementById('confToken').value = ghConfig.token;
-            
-            if(typeof portfolioData !== 'undefined') {
-                initAdmin();
-            }
-            
-            if(ghConfig.owner && ghConfig.token) {
-                forceLoadFromGitHub(true);
-            }
+            if(typeof portfolioData !== 'undefined') initAdmin();
+            if(ghConfig.owner && ghConfig.token) forceLoadFromGitHub(true);
         };
 
         function initAdmin() {
@@ -152,8 +174,7 @@
         function saveConfig() {
             ghConfig = { owner: document.getElementById('confOwner').value.trim(), repo: document.getElementById('confRepo').value.trim(), token: document.getElementById('confToken').value.trim() };
             localStorage.setItem('ghConfig', JSON.stringify(ghConfig));
-            alert("설정 저장 완료!"); toggleConfig();
-            forceLoadFromGitHub();
+            alert("설정 저장 완료!"); toggleConfig(); forceLoadFromGitHub();
         }
 
         async function forceLoadFromGitHub(silent = false) {
@@ -169,67 +190,117 @@
                 portfolioData = JSON.parse(jsonStr);
                 initAdmin();
                 const statusBadge = document.getElementById('syncStatus');
-                statusBadge.textContent = "Synced with GitHub";
-                statusBadge.classList.add('active');
+                statusBadge.textContent = "Synced with GitHub"; statusBadge.classList.add('active');
                 if(!silent) alert("동기화 완료!");
-            } catch(err) {
-                console.error(err);
-                if(!silent) alert("데이터 로드 실패");
-            } finally { hideLoading(); }
+            } catch(err) { console.error(err); if(!silent) alert("데이터 로드 실패"); } finally { hideLoading(); }
         }
 
-        /* --- [이미지 업로드] --- */
+        /* =========================================
+           ★ [복원] 히스토리 기능
+           ========================================= */
+        async function loadHistory() {
+            if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요");
+            showLoading("히스토리 불러오는 중...");
+            const list = document.getElementById('historyList'); list.innerHTML = '';
+            // data.js 파일의 커밋 기록 조회 API
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/commits?path=data.js`;
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+                const commits = await res.json();
+                commits.forEach(commit => {
+                    const date = new Date(commit.commit.author.date).toLocaleString();
+                    const msg = commit.commit.message;
+                    const sha = commit.sha;
+                    const li = document.createElement('li');
+                    li.className = 'history-item';
+                    li.innerHTML = `
+                        <div class="history-info"><div>${msg}</div><span>${date}</span></div>
+                        <button class="btn btn-outline" onclick="restoreVersion('${sha}')">이 버전으로 복구</button>`;
+                    list.appendChild(li);
+                });
+                document.getElementById('historyModal').style.display = 'flex';
+            } catch(err) { alert("히스토리 로드 실패: " + err); } finally { hideLoading(); }
+        }
+
+        async function restoreVersion(sha) {
+            if(!confirm("이 버전으로 되돌리시겠습니까?\n(현재 내용은 사라집니다)")) return;
+            showLoading("버전 복구 중...");
+            // 특정 커밋(sha) 시점의 파일 내용 조회 API
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=${sha}`;
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
+                const data = await res.json();
+                const content = decodeURIComponent(escape(window.atob(data.content)));
+                const jsonStr = content.replace('const portfolioData =', '').replace(';', '');
+                portfolioData = JSON.parse(jsonStr);
+                initAdmin();
+                closeHistory();
+                alert("복구되었습니다! '☁️ 저장' 버튼을 눌러 확정해주세요.");
+            } catch(err) { alert("복구 실패: " + err); } finally { hideLoading(); }
+        }
+        function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
+
+
+        /* --- [자동 번역] --- */
+        async function runAutoTranslate(index, fieldType) {
+            const item = portfolioData.filmography[index];
+            const sourceText = item[fieldType].en || item[fieldType].ko;
+            if (!sourceText) { alert("KO 또는 EN 내용이 있어야 합니다."); return; }
+            if (!confirm(`[${sourceText}] 내용으로 자동 번역하시겠습니까?`)) return;
+            showLoading("자동 번역 중...");
+            const targets = ['cn', 'ja', 'pt', 'es', 'ar'];
+            try {
+                for (const lang of targets) {
+                    let apiLang = lang === 'cn' ? 'zh-CN' : lang;
+                    const translated = await fetchTranslation(sourceText, apiLang);
+                    portfolioData.filmography[index][fieldType][lang] = translated;
+                    const inputEl = document.getElementById(`input-${index}-${fieldType}-${lang}`);
+                    if (inputEl) inputEl.value = translated;
+                }
+                alert("번역 완료!");
+            } catch (err) { alert("번역 오류: " + err.message); } finally { hideLoading(); }
+        }
+        async function fetchTranslation(text, targetLang) {
+            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
+            try { const res = await fetch(url); const data = await res.json(); return data.responseData ? data.responseData.translatedText : ""; } 
+            catch (e) { console.error(e); return ""; }
+        }
+
+        /* --- [이미지/파일 처리] --- */
         async function uploadImage(input, targetKey, index = null) {
             if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
-            showLoading(`이미지 업로드 중...`);
+            const file = input.files[0]; showLoading(`이미지 업로드 중...`);
             try {
                 const base64Content = await toBase64(file);
                 const fileName = `images/${new Date().getTime()}_${file.name}`;
                 const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
                 if (index !== null) {
-                    portfolioData.filmography[index].thumb = uploadedUrl;
-                    renderFilmoGroups(); 
+                    portfolioData.filmography[index].thumb = uploadedUrl; renderFilmoGroups(); 
                     const itemEl = document.querySelector(`.filmo-item[data-origin-index="${index}"]`);
-                    if(itemEl) {
-                        itemEl.querySelector('.thumb-preview').src = base64Content;
-                        itemEl.querySelector('.preview-img').src = base64Content;
-                    }
+                    if(itemEl) { itemEl.querySelector('.thumb-preview').src = base64Content; itemEl.querySelector('.preview-img').src = base64Content; }
                 } else {
-                    portfolioData[targetKey] = uploadedUrl;
-                    document.getElementById('mainImagePreview').src = base64Content;
+                    portfolioData[targetKey] = uploadedUrl; document.getElementById('mainImagePreview').src = base64Content;
                 }
                 alert("업로드 성공!");
-            } catch (err) { alert("실패: " + err.message); } 
-            finally { hideLoading(); input.value = ''; }
+            } catch (err) { alert("실패: " + err.message); } finally { hideLoading(); input.value = ''; }
         }
-
         async function uploadGalleryImages(input) {
             if (!input.files || input.files.length === 0) return;
-            const files = Array.from(input.files);
-            let successCount = 0;
-            const tempPreviews = [];
+            const files = Array.from(input.files); let successCount = 0; const tempPreviews = [];
             try {
                 for (let i = 0; i < files.length; i++) {
                     showLoading(`갤러리 업로드 중... (${i + 1}/${files.length})`);
-                    const file = files[i];
-                    const base64Content = await toBase64(file);
-                    tempPreviews.push(base64Content);
+                    const file = files[i]; const base64Content = await toBase64(file); tempPreviews.push(base64Content);
                     const fileName = `images/${new Date().getTime()}_${i}_${file.name}`;
                     const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
-                    portfolioData.gallery.unshift(uploadedUrl);
-                    successCount++;
+                    portfolioData.gallery.unshift(uploadedUrl); successCount++;
                 }
                 renderGallery();
                 const galleryItems = document.querySelectorAll('.gallery-item img');
-                for(let i=0; i < tempPreviews.length; i++) {
-                    if(galleryItems[i]) galleryItems[i].src = tempPreviews[files.length - 1 - i];
-                }
+                for(let i=0; i < tempPreviews.length; i++) { if(galleryItems[i]) galleryItems[i].src = tempPreviews[files.length - 1 - i]; }
                 alert(`${successCount}장 업로드 완료`);
-            } catch (err) { alert("일부 실패: " + err.message); }
-            finally { hideLoading(); input.value = ''; }
+            } catch (err) { alert("일부 실패: " + err.message); } finally { hideLoading(); input.value = ''; }
         }
-
         async function uploadFileToGitHub(path, content) {
             if(!ghConfig.owner || !ghConfig.token) throw new Error("GitHub 설정 필요");
             const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${path}`;
@@ -238,23 +309,10 @@
             if (!res.ok) throw new Error(res.statusText);
             return `https://${ghConfig.owner}.github.io/${ghConfig.repo}/${path}`;
         }
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
+        function toBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => resolve(reader.result); reader.onerror = error => reject(error); }); }
 
         /* --- [렌더링] --- */
-        function renderGallery() {
-            document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `
-                <div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>
-            `).join('');
-        }
-
+        function renderGallery() { document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `<div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>`).join(''); }
         function renderFilmoGroups() {
             const container = document.getElementById('filmoContainer'); container.innerHTML = '';
             const groups = {}; CATEGORY_ORDER.forEach(cat => groups[cat] = []);
@@ -268,121 +326,23 @@
                 container.appendChild(section);
             });
         }
-
-        // [수정됨] 모든 언어 입력창 생성
         function createFilmoItem(item) {
             const el = document.createElement('div'); el.className = 'filmo-item'; el.draggable = true; el.dataset.originIndex = item._originIndex;
             el.addEventListener('dragstart', dragStart); el.addEventListener('dragend', dragEnd);
-            
-            // 다국어 입력창 생성 헬퍼
-            const createLangInputs = (type) => {
-                return LANG_LIST.map(lang => `
-                    <div class="lang-item">
-                        <label>${LANG_LABEL[lang]} (${lang.toUpperCase()})</label>
-                        <input type="text" value="${item[type][lang] || ''}" onchange="portfolioData.filmography[${item._originIndex}].${type}.${lang}=this.value">
-                    </div>
-                `).join('');
-            };
-
+            const createLangInputs = (type) => LANG_LIST.map(lang => `<div class="lang-item"><label>${LANG_LABEL[lang]} (${lang.toUpperCase()})</label><input type="text" id="input-${item._originIndex}-${type}-${lang}" value="${item[type][lang] || ''}" onchange="portfolioData.filmography[${item._originIndex}].${type}.${lang}=this.value"></div>`).join('');
             el.innerHTML = `
-                <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')">
-                    <div class="drag-handle">≡</div>
-                    <img src="${item.thumb}" class="thumb-preview">
-                    <div class="info-preview">
-                        <div style="font-weight:bold">${item.title.ko || '(제목)'}</div>
-                        <div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div>
-                    </div>
-                    <div>▼</div>
-                </div>
-                <div class="filmo-details">
-                    <div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div>
-                    
-                    <div class="form-group" style="background:#f9f9f9; padding:10px; border-radius:6px;">
-                        <label>기본 정보</label>
-                        <div style="display:flex; gap:10px; margin-bottom:10px;">
-                            <div style="flex:1"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div>
-                            <div style="flex:1"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div>
-                        </div>
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <img src="${item.thumb}" class="preview-img" style="width:60px; height:90px; margin:0;">
-                            <div style="flex:1">
-                                <label>포스터 변경</label>
-                                <input type="file" accept="image/*" onchange="uploadImage(this, 'thumb', ${item._originIndex})">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="font-size:1rem; border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:10px;">제목 (Title)</label>
-                        <div class="lang-grid">
-                            ${createLangInputs('title')}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="font-size:1rem; border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:10px;">역할 (Role)</label>
-                        <div class="lang-grid">
-                            ${createLangInputs('role')}
-                        </div>
-                    </div>
-                </div>`;
+                <div class="filmo-summary" onclick="this.parentElement.classList.toggle('active')"><div class="drag-handle">≡</div><img src="${item.thumb}" class="thumb-preview"><div class="info-preview"><div style="font-weight:bold">${item.title.ko || '(제목)'}</div><div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div></div><div>▼</div></div>
+                <div class="filmo-details"><div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div><div class="form-group" style="background:#f9f9f9; padding:10px; border-radius:6px;"><label>기본 정보</label><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:1"><label>연도</label><input type="text" value="${item.year}" onchange="portfolioData.filmography[${item._originIndex}].year=this.value"></div><div style="flex:1"><label>방송사</label><input type="text" value="${item.broadcast}" onchange="portfolioData.filmography[${item._originIndex}].broadcast=this.value"></div></div><div style="display:flex; gap:10px; align-items:center;"><img src="${item.thumb}" class="preview-img" style="width:60px; height:90px; margin:0;"><div style="flex:1"><label>포스터 변경</label><input type="file" accept="image/*" onchange="uploadImage(this, 'thumb', ${item._originIndex})"></div></div></div><div class="form-group"><div class="label-row"><label style="margin:0">제목 (Title)</label><button class="btn-auto-trans" onclick="runAutoTranslate(${item._originIndex}, 'title')">⚡ 나머지 언어 자동 번역</button></div><div class="lang-grid">${createLangInputs('title')}</div></div><div class="form-group"><div class="label-row"><label style="margin:0">역할 (Role)</label><button class="btn-auto-trans" onclick="runAutoTranslate(${item._originIndex}, 'role')">⚡ 나머지 언어 자동 번역</button></div><div class="lang-grid">${createLangInputs('role')}</div></div></div>`;
             return el;
         }
-
-        function addFilmo(cat) { 
-            // 새 아이템 생성 시 모든 언어 키 초기화
-            const emptyLangObj = {};
-            LANG_LIST.forEach(lang => emptyLangObj[lang] = "");
-            
-            portfolioData.filmography.unshift({ 
-                category: cat, 
-                year: new Date().getFullYear(), 
-                thumb: "https://placehold.co/200", 
-                broadcast:"", 
-                title: { ...emptyLangObj, ko: "새 작품" }, 
-                role: { ...emptyLangObj } 
-            }); 
-            renderFilmoGroups(); 
-        }
+        function addFilmo(cat) { const emptyLangObj = {}; LANG_LIST.forEach(lang => emptyLangObj[lang] = ""); portfolioData.filmography.unshift({ category: cat, year: new Date().getFullYear(), thumb: "https://placehold.co/200", broadcast:"", title: { ...emptyLangObj, ko: "새 작품" }, role: { ...emptyLangObj } }); renderFilmoGroups(); }
         function deleteFilmo(i) { if(confirm('삭제?')) { portfolioData.filmography.splice(i, 1); renderFilmoGroups(); } }
-
-        // 드래그 로직
         let draggedItem = null;
         function dragStart(e) { draggedItem = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
-        function dragEnd() { 
-            this.classList.remove('dragging'); draggedItem = null;
-            const newOrder = [];
-            document.querySelectorAll('.filmo-item').forEach(el => { newOrder.push(portfolioData.filmography[el.dataset.originIndex]); });
-            portfolioData.filmography = newOrder;
-            renderFilmoGroups();
-        }
-        document.querySelectorAll('.filmo-list').forEach(list => {
-            list.addEventListener('dragover', e => {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(list, e.clientY);
-                if (draggedItem) { if (afterElement == null) list.appendChild(draggedItem); else list.insertBefore(draggedItem, afterElement); }
-            });
-        });
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest;
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        async function saveDataJsToGitHub() {
-            if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("데이터 저장 중...");
-            const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
-            const contentEncoded = btoa(unescape(encodeURIComponent(content)));
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js`;
-            try {
-                const getRes = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
-                const getData = await getRes.json();
-                const putRes = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Update data.js`, content: contentEncoded, sha: getData.sha }) });
-                if(putRes.ok) alert("저장 완료! (1~3분 후 반영됩니다)"); else alert("저장 실패");
-            } catch(err) { alert("오류: " + err); } finally { hideLoading(); }
-        }
+        function dragEnd() { this.classList.remove('dragging'); draggedItem = null; const newOrder = []; document.querySelectorAll('.filmo-item').forEach(el => { newOrder.push(portfolioData.filmography[el.dataset.originIndex]); }); portfolioData.filmography = newOrder; renderFilmoGroups(); }
+        document.querySelectorAll('.filmo-list').forEach(list => { list.addEventListener('dragover', e => { e.preventDefault(); const afterElement = getDragAfterElement(list, e.clientY); if (draggedItem) { if (afterElement == null) list.appendChild(draggedItem); else list.insertBefore(draggedItem, afterElement); } }); });
+        function getDragAfterElement(container, y) { const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')]; return draggableElements.reduce((closest, child) => { const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2; if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest; }, { offset: Number.NEGATIVE_INFINITY }).element; }
+        async function saveDataJsToGitHub() { if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("데이터 저장 중..."); const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";"; const contentEncoded = btoa(unescape(encodeURIComponent(content))); const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js`; try { const getRes = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const getData = await getRes.json(); const putRes = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Update data.js`, content: contentEncoded, sha: getData.sha }) }); if(putRes.ok) alert("저장 완료! (1~3분 후 반영됩니다)"); else alert("저장 실패"); } catch(err) { alert("오류: " + err); } finally { hideLoading(); } }
         function showLoading(msg) { document.getElementById('loadingText').textContent = msg; document.getElementById('loadingSpinner').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingSpinner').style.display = 'none'; }
     </script>
