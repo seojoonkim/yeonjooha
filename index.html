@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HA YEON JOO | Official Portfolio</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- [CSS Variables] --- */
+        :root {
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --text-light: #999999;
+            --bg-white: #ffffff;
+            --line-color: #e5e5e5;
+            --accent-color: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Pretendard', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans Arabic', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            word-break: keep-all;
+            transition: all 0.3s ease;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.3s; }
+        a:hover { opacity: 0.6; }
+        ul { list-style: none; }
+
+        /* --- [Language Logic] --- */
+        .lang-text { display: none; }
+        html[lang="ko"] .ko { display: inline !important; }
+        html[lang="en"] .en { display: inline !important; }
+        html[lang="zh"] .cn { display: inline !important; }
+        html[lang="ja"] .jp { display: inline !important; }
+        html[lang="pt"] .pt { display: inline !important; }
+        html[lang="es"] .es { display: inline !important; }
+        html[lang="ar"] .ar { display: inline !important; }
+
+        /* RTL (Arabic) Support */
+        html[lang="ar"] body { direction: rtl; text-align: right; }
+        html[lang="ar"] .menu { gap: 30px; }
+        
+        /* --- [Header & Nav] --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 100; border-bottom: 1px solid var(--line-color);
+            padding: 15px 0;
+        }
+        nav { 
+            max-width: 1280px; margin: 0 auto; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .nav-left { display: flex; align-items: center; gap: 40px; }
+        .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; white-space: nowrap; }
+        .menu { display: flex; gap: 25px; }
+        .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; }
+
+        /* --- [Language Switcher] --- */
+        .lang-switch {
+            display: flex; border: 1px solid var(--line-color); border-radius: 4px;
+            overflow: hidden; background: white; flex-wrap: wrap; max-width: 300px;
+        }
+        .lang-btn {
+            padding: 5px 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; background: transparent; border-right: 1px solid #eee;
+        }
+        .lang-btn:last-child { border-right: none; }
+        .lang-btn:hover { background: #f5f5f5; }
+        .lang-btn.active { background: var(--accent-color); color: white; }
+
+        /* --- [Layout Common] --- */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        section { padding: 120px 0; border-bottom: 1px solid var(--line-color); }
+        h1 { font-size: 4.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
+        h2 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
+        h3 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; letter-spacing: 1px; }
+
+        /* --- [Hero Section] --- */
+        .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding-top: 150px; }
+        .hero-text span.subtitle { display: block; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .hero-img { width: 100%; height: 700px; background: #f0f0f0; overflow: hidden; }
+        .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+        /* --- [Profile Section] --- */
+        .profile-wrap { display: grid; grid-template-columns: 350px 1fr; gap: 80px; }
+        .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; row-gap: 50px; }
+        .spec-item strong { display: block; font-size: 1.1rem; margin-bottom: 5px; color: var(--text-primary); }
+        .spec-item span { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* --- [Filmography (UPDATED WITH THUMBNAILS)] --- */
+        .career-list { margin-top: 60px; }
+        .career-category-title { margin-top: 60px; padding-bottom: 15px; border-bottom: 2px solid var(--text-primary); font-size: 1.2rem; font-weight: 700; }
+        
+        /* 새로운 리스트 아이템 구조 (썸네일 + 정보) */
+        .career-item {
+            display: grid;
+            grid-template-columns: 90px 1fr; /* 썸네일 너비 고정, 나머지 유동적 */
+            gap: 25px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--line-color);
+            align-items: start; /* 상단 정렬 */
+        }
+        .career-item:hover { background: #fafafa; }
+
+        /* 썸네일 스타일 */
+        .career-thumb {
+            width: 90px;
+            height: 135px; /* 포스터 비율 (약 2:3) */
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 텍스트 정보 컨테이너 */
+        .career-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* 텍스트 스타일 조정 */
+        .year { font-weight: 700; font-size: 0.9rem; color: var(--accent-color); }
+        .career-title { font-size: 1.3rem; font-weight: 600; line-height: 1.3; }
+        .career-role { color: var(--text-secondary); font-size: 1rem; }
+        .broadcast { color: var(--text-light); font-size: 0.85rem; margin-left: 8px; font-weight: 400; }
+
+
+        /* --- [Gallery] --- */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px; margin-top: 40px;
+        }
+        .gallery-item {
+            position: relative; padding-bottom: 100%; overflow: hidden; background: #f0f0f0; cursor: pointer;
+        }
+        .gallery-item img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .lightbox {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;
+        }
+        .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        /* --- [Footer] --- */
+        footer { padding: 60px 0; border-top: 1px solid var(--text-primary); text-align: center; font-size: 0.9rem; color: #888; }
+        .footer-sns { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
+        .footer-sns a { color: #333; font-weight: 600; }
+
+        /* --- [Mobile] --- */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; gap: 40px; }
+            .hero-img { height: 500px; }
+            .profile-wrap { grid-template-columns: 1fr; gap: 40px; }
+            
+            /* 모바일에서 필모그래피 리스트 조정 */
+            .career-item { grid-template-columns: 70px 1fr; gap: 15px; padding: 20px 0; }
+            .career-thumb { width: 70px; height: 105px; }
+            .career-title { font-size: 1.15rem; }
+            .career-role { font-size: 0.95rem; }
+            
+            nav { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .nav-left { width: 100%; justify-content: space-between; }
+            .lang-switch { width: 100%; max-width: none; justify-content: flex-start; }
+            .lang-btn { flex: 1; text-align: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+            .menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="#" class="logo">HA YEON JOO</a>
+                <div class="menu">
+                    <a href="#about">
+                        <span class="lang-text ko">소개</span><span class="lang-text en">About</span><span class="lang-text cn">介绍</span><span class="lang-text ja">紹介</span><span class="lang-text pt">Sobre</span><span class="lang-text es">Perfil</span><span class="lang-text ar">نبذة</span>
+                    </a>
+                    <a href="#filmography">
+                        <span class="lang-text ko">작품</span><span class="lang-text en">Works</span><span class="lang-text cn">作品</span><span class="lang-text ja">作品</span><span class="lang-text pt">Obras</span><span class="lang-text es">Obras</span><span class="lang-text ar">أعمال</span>
+                    </a>
+                    <a href="#gallery">
+                        <span class="lang-text ko">갤러리</span><span class="lang-text en">Gallery</span><span class="lang-text cn">画廊</span><span class="lang-text ja">ギャラリー</span><span class="lang-text pt">Galeria</span><span class="lang-text es">Galería</span><span class="lang-text ar">معرض</span>
+                    </a>
+                </div>
+            </div>
+            <div class="lang-switch">
+                <div class="lang-btn active" data-lang="ko">KO</div><div class="lang-btn" data-lang="en">EN</div><div class="lang-btn" data-lang="zh">CN</div><div class="lang-btn" data-lang="ja">JP</div><div class="lang-btn" data-lang="pt">PT</div><div class="lang-btn" data-lang="es">ES</div><div class="lang-btn" data-lang="ar">AR</div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <span class="subtitle">
+                    <span class="lang-text ko">배우</span><span class="lang-text en">Actress</span><span class="lang-text cn">演员</span><span class="lang-text ja">女優</span><span class="lang-text pt">Atriz</span><span class="lang-text es">Actriz</span><span class="lang-text ar">ممثلة</span>
+                </span>
+                <h1>HA<br>YEON JOO</h1>
+                <p style="margin-top: 30px;">
+                    <span class="lang-text ko">지적인 이미지와 탄탄한 연기력.<br>배우 하연주는 깊이 있는 필모그래피를 만들어갑니다.</span>
+                    <span class="lang-text en">With an intellectual image and solid acting skills,<br>Ha Yeon-joo builds a profound filmography.</span>
+                    <span class="lang-text cn">拥有知性形象与扎实演技。<br>演员河恋姝正构建着富有深度的影视作品。</span>
+                    <span class="lang-text ja">知的なイメージと確かな演技力。<br>女優ハ・ヨンジュは深みのあるフィルモグラフィーを築いています。</span>
+                    <span class="lang-text pt">Com uma imagem intelectual e atuação sólida,<br>Ha Yeon-joo constrói uma filmografia profunda.</span>
+                    <span class="lang-text es">Con una imagen intelectual y una actuación sólida,<br>Ha Yeon-joo construye una filmografía profunda.</span>
+                    <span class="lang-text ar">تتميز بصورة مثقفة ومهارات تمثيلية قوية.<br>الممثلة ها يون جو تبني مسيرتها الفنية العميقة.</span>
+                </p>
+            </div>
+            <div class="hero-img">
+                <img src="https://i.namu.wiki/i/TylCvGeChojXuYuCIueJWIzrXvsn7tk32IO4oU20ovmGY9wDCw3ndRIc_IhWLZucoeoAmlV72VEjVLZLe4cvRnNwj9Yvikr0y-MjsENegCP8nsS0Iu1pRXb-YXz8q50futVWiib5vUWpmXt3hn7HQw.webp" alt="Ha Yeon-joo">
+            </div>
+        </section>
+    </div>
+
+    <section id="about">
+        <div class="container">
+            <div class="profile-wrap">
+                <div class="profile-summary"><h2>PROFILE</h2><p>Updated 2025</p></div>
+                <div class="specs-grid">
+                    <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
+                    <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><span><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></span></div>
+                    <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><span><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></span></div>
+                    <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생</span><span class="lang-text en">Parents, Sister, Brother</span><span class="lang-text cn">父母, 姐姐, 弟弟</span><span class="lang-text ja">両親, 姉, 弟</span><span class="lang-text pt">Pais, Irmã, Irmão</span><span class="lang-text es">Padres, Hermana, Hermano</span><span class="lang-text ar">الوالدان، الأخت، الأخ</span></strong><span><span class="lang-text ko">배우자 (2021 결혼)</span><span class="lang-text en">Spouse (Married 2021)</span><span class="lang-text cn">配偶 (2021结婚)</span><span class="lang-text ja">配偶者 (2021年結婚)</span><span class="lang-text pt">Cônjuge (Casada em 2021)</span><span class="lang-text es">Cónyuge (Casada en 2021)</span><span class="lang-text ar">الزوج (تزوجت 2021)</span></span></div>
+                    <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><span><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></span></div>
+                    <div class="spec-item"><h3>Specialty</h3><strong>MENSA Korea</strong><span>IQ 156</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="filmography">
+        <div class="container">
+            <h2>FILMOGRAPHY</h2>
+            <p style="margin-bottom: 40px;">Selected Works</p>
+            
+            <div class="career-list">
+                <div class="career-category-title">DRAMA</div>
+
+                <div class="career-item">
+                    <div class="career-thumb">
+                        <img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="청담국제고등학교 시즌 2 Poster">
+                    </div>
+                    <div class="career-info">
+                        <div class="year">2025</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">청담국제고등학교 시즌 2</span><span class="lang-text en">Bitch x Rich season 2</span><span class="lang-text cn">清潭国际高中 第2季</span><span class="lang-text ja">清潭国際高等学校 シーズン2</span><span class="lang-text pt">Bitch x Rich 2ª Temporada</span><span class="lang-text es">Bitch x Rich Temporada 2</span><span class="lang-text ar">بيتش × ريتش الموسم 2</span>
+                            <span class="broadcast">Netflix</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 하민희</span><span class="lang-text en">Support | Ha Min-hee</span><span class="lang-text cn">配角 | 河敏熙</span><span class="lang-text ja">助演 | ハ・ミンヒ</span><span class="lang-text pt">Coadjuvante | Ha Min-hee</span><span class="lang-text es">Reparto | Ha Min-hee</span><span class="lang-text ar">دور داعم | ها مين هي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb">
+                        <img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="피도 눈물도 없이 Poster">
+                    </div>
+                    <div class="career-info">
+                        <div class="year">2024</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">피도 눈물도 없이</span><span class="lang-text en">Without Blood or Tears</span><span class="lang-text cn">无血无泪</span><span class="lang-text ja">血も涙もなく</span><span class="lang-text pt">Sem Sangue ou Lágrimas</span><span class="lang-text es">Sin Sangre ni Lágrimas</span><span class="lang-text ar">بلا دم أو دموع</span>
+                            <span class="broadcast">KBS2</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 배도은</span><span class="lang-text en">Main | Bae Do-eun</span><span class="lang-text cn">主演 | 裴道恩</span><span class="lang-text ja">主演 | ぺ・ドウン</span><span class="lang-text pt">Principal | Bae Do-eun</span><span class="lang-text es">Principal | Bae Do-eun</span><span class="lang-text ar">بطولة | باي دو أون</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2019</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">왼손잡이 아내</span><span class="lang-text en">Left-Handed Wife</span><span class="lang-text cn">左撇子妻子</span><span class="lang-text ja">左利きの妻</span><span class="lang-text pt">Esposa Canhota</span><span class="lang-text es">Esposa Zurda</span><span class="lang-text ar">الزوجة العسراء</span>
+                            <span class="broadcast">KBS2</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 장에스더</span><span class="lang-text en">Main | Jang Esther</span><span class="lang-text cn">主演 | Esther Jang</span><span class="lang-text ja">主演 | チャン・エスター</span><span class="lang-text pt">Principal | Jang Esther</span><span class="lang-text es">Principal | Jang Esther</span><span class="lang-text ar">بطولة | جانغ إستر</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2016</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">행복을 주는 사람</span><span class="lang-text en">Giving Happiness</span><span class="lang-text cn">给予幸福的人</span><span class="lang-text ja">幸せをくれる人</span><span class="lang-text pt">Pessoa que Traz Felicidade</span><span class="lang-text es">Persona que da Felicidad</span><span class="lang-text ar">من يمنح السعادة</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 김자경</span><span class="lang-text en">Main | Kim Ja-kyung</span><span class="lang-text cn">主演 | 金子京</span><span class="lang-text ja">主演 | キム・ジャギョン</span><span class="lang-text pt">Principal | Kim Ja-kyung</span><span class="lang-text es">Principal | Kim Ja-kyung</span><span class="lang-text ar">بطولة | كيم جا كيونغ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2016</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">굿바이 미스터 블랙</span><span class="lang-text en">Goodbye Mr. Black</span><span class="lang-text cn">再见布莱克先生</span><span class="lang-text ja">グッバイ ミスターブラック</span><span class="lang-text pt">Goodbye Mr. Black</span><span class="lang-text es">Adiós Mr. Black</span><span class="lang-text ar">وداعا سيد بلاك</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 메이</span><span class="lang-text en">Support | Mei</span><span class="lang-text cn">配角 | Mei</span><span class="lang-text ja">助演 | メイ</span><span class="lang-text pt">Coadjuvante | Mei</span><span class="lang-text es">Reparto | Mei</span><span class="lang-text ar">دور مساعد | ماي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2015</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">처용 2</span><span class="lang-text en">Cheo Yong 2</span><span class="lang-text cn">处容 2</span><span class="lang-text ja">チョヨン 2</span><span class="lang-text pt">Cheo Yong 2</span><span class="lang-text es">Cheo Yong 2</span><span class="lang-text ar">تشو يونغ 2</span>
+                            <span class="broadcast">OCN</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 정하윤</span><span class="lang-text en">Main | Jung Ha-yoon</span><span class="lang-text cn">主演 | 郑夏允</span><span class="lang-text ja">主演 | チョン・ハユン</span><span class="lang-text pt">Principal | Jung Ha-yoon</span><span class="lang-text es">Principal | Jung Ha-yoon</span><span class="lang-text ar">بطولة | جونغ ها يون</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2015</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">불굴의 차여사</span><span class="lang-text en">The Invincible Lady Cha</span><span class="lang-text cn">不屈的车女士</span><span class="lang-text ja">不屈のチャ・ヨサ</span><span class="lang-text pt">Lady Cha</span><span class="lang-text es">La Invencible Lady Cha</span><span class="lang-text ar">السيدة تشا التي لا تقهر</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 이윤희</span><span class="lang-text en">Main | Lee Yoon-hee</span><span class="lang-text cn">主演 | 李允熙</span><span class="lang-text ja">主演 | イ・ユンヒ</span><span class="lang-text pt">Principal | Lee Yoon-hee</span><span class="lang-text es">Principal | Lee Yoon-hee</span><span class="lang-text ar">بطولة | لي يون هي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2014</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">마이 시크릿 호텔</span><span class="lang-text en">My Secret Hotel</span><span class="lang-text cn">我的秘密饭店</span><span class="lang-text ja">マイ・シークレットホテル</span><span class="lang-text pt">Meu Hotel Secreto</span><span class="lang-text es">Mi Hotel Secreto</span><span class="lang-text ar">فندقي السري</span>
+                            <span class="broadcast">tvN</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 정수아</span><span class="lang-text en">Support | Jung Soo-ah</span><span class="lang-text cn">配角 | 郑秀雅</span><span class="lang-text ja">助演 | チョン・スア</span><span class="lang-text pt">Coadjuvante | Jung Soo-ah</span><span class="lang-text es">Reparto | Jung Soo-ah</span><span class="lang-text ar">دور مساعد | جونغ سو آه</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2014</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">괜찮아, 사랑이야</span><span class="lang-text en">It's Okay, That's Love</span><span class="lang-text cn">没关系，是爱情啊</span><span class="lang-text ja">大丈夫、愛だ</span><span class="lang-text pt">Tudo Bem, Isso é Amor</span><span class="lang-text es">Está Bien, Eso es Amor</span><span class="lang-text ar">لا بأس، إنه الحب</span>
+                            <span class="broadcast">SBS</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">특별출연 | 현주</span><span class="lang-text en">Cameo | Hyun-joo</span><span class="lang-text cn">客串 | 贤珠</span><span class="lang-text ja">特別出演 | ヒョンジュ</span><span class="lang-text pt">Cameo | Hyun-joo</span><span class="lang-text es">Cameo | Hyun-joo</span><span class="lang-text ar">ظهور خاص | هيون جو</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2013</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">미스코리아</span><span class="lang-text en">Miss Korea</span><span class="lang-text cn">韩国小姐</span><span class="lang-text ja">ミスコリア</span><span class="lang-text pt">Miss Korea</span><span class="lang-text es">Miss Korea</span><span class="lang-text ar">ملكة جمال كوريا</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 신선영</span><span class="lang-text en">Support | Shin Sun-young</span><span class="lang-text cn">配角 | 申善英</span><span class="lang-text ja">助演 | シン・ソニョン</span><span class="lang-text pt">Coadjuvante | Shin Sun-young</span><span class="lang-text es">Reparto | Shin Sun-young</span><span class="lang-text ar">دور مساعد | شين سون يونغ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2013</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">지성이면 감천</span><span class="lang-text en">Sincerity Moves Heaven</span><span class="lang-text cn">至诚感天</span><span class="lang-text ja">天まで届け、この想い</span><span class="lang-text pt">A Sinceridade Move o Céu</span><span class="lang-text es">A Tale of Two Sisters</span><span class="lang-text ar">الإخلاص يحرك السماء</span>
+                            <span class="broadcast">KBS1</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 한기은</span><span class="lang-text en">Support | Han Ki-eun</span><span class="lang-text cn">配角 | 韩基恩</span><span class="lang-text ja">助演 | ハン・ギウン</span><span class="lang-text pt">Coadjuvante | Han Ki-eun</span><span class="lang-text es">Reparto | Han Ki-eun</span><span class="lang-text ar">دور مساعد | هان كي أون</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2012</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">막돼먹은 영애씨 시즌 10</span><span class="lang-text en">Rude Miss Young-ae 10</span><span class="lang-text cn">没礼貌的英爱小姐 10</span><span class="lang-text ja">ブッとび！ヨンエさん 10</span><span class="lang-text pt">Rude Miss Young-ae 10</span><span class="lang-text es">Rude Miss Young-ae 10</span><span class="lang-text ar">الآنسة يونغ أي الوقحة 10</span>
+                            <span class="broadcast">tvN</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 하연주</span><span class="lang-text en">Support | Ha Yeon-joo</span><span class="lang-text cn">配角 | 河恋姝</span><span class="lang-text ja">助演 | ハ・ヨンジュ</span><span class="lang-text pt">Coadjuvante | Ha Yeon-joo</span><span class="lang-text es">Reparto | Ha Yeon-joo</span><span class="lang-text ar">دور مساعد | ها يون جو</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2011</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">로맨스가 필요해</span><span class="lang-text en">I Need Romance</span><span class="lang-text cn">需要浪漫</span><span class="lang-text ja">ロマンスが必要</span><span class="lang-text pt">Preciso de Romance</span><span class="lang-text es">Necesito Romance</span><span class="lang-text ar">أحتاج إلى الرومانسية</span>
+                            <span class="broadcast">tvN</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 윤강희</span><span class="lang-text en">Support | Yoon Kang-hee</span><span class="lang-text cn">配角 | 尹江熙</span><span class="lang-text ja">助演 | ユン・ガンヒ</span><span class="lang-text pt">Coadjuvante | Yoon Kang-hee</span><span class="lang-text es">Reparto | Yoon Kang-hee</span><span class="lang-text ar">دور مساعد | يون كانغ هي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">글로리아</span><span class="lang-text en">Gloria</span><span class="lang-text cn">荣耀之歌</span><span class="lang-text ja">グロリア</span><span class="lang-text pt">Gloria</span><span class="lang-text es">Gloria</span><span class="lang-text ar">غلوريا</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 유미나</span><span class="lang-text en">Support | Yoo Mi-na</span><span class="lang-text cn">配角 | 刘美娜</span><span class="lang-text ja">助演 | ユ・ミナ</span><span class="lang-text pt">Coadjuvante | Yoo Mi-na</span><span class="lang-text es">Reparto | Yoo Mi-na</span><span class="lang-text ar">دور مساعد | يو مي نا</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2008</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">그 분이 오신다</span><span class="lang-text en">Here He Comes</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span>
+                            <span class="broadcast">MBC</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">데뷔 | 이재숙</span><span class="lang-text en">Debut | Lee Jae-sook</span><span class="lang-text cn">出道 | 李在淑</span><span class="lang-text ja">デビュー | イ・ジェスク</span><span class="lang-text pt">Estreia | Lee Jae-sook</span><span class="lang-text es">Debut | Lee Jae-sook</span><span class="lang-text ar">بداية | لي جاي سوك</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="career-category-title">MOVIE</div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Movie+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2015</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">파일 : 4022일의 사육</span><span class="lang-text en">The File</span><span class="lang-text cn">文件：4022天的饲养</span><span class="lang-text ja">ファイル：4022日の飼育</span><span class="lang-text pt">O Arquivo</span><span class="lang-text es">El Archivo</span><span class="lang-text ar">الملف</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">주연 | 신미수</span><span class="lang-text en">Main | Shin Mi-soo</span><span class="lang-text cn">主演 | 申美秀</span><span class="lang-text ja">主演 | シン・ミス</span><span class="lang-text pt">Principal | Shin Mi-soo</span><span class="lang-text es">Principal | Shin Mi-soo</span><span class="lang-text ar">بطولة | شين مي سو</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Movie+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2014</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">수상한 그녀</span><span class="lang-text en">Miss Granny</span><span class="lang-text cn">奇怪的她</span><span class="lang-text ja">怪しい彼女</span><span class="lang-text pt">Miss Granny</span><span class="lang-text es">Miss Granny</span><span class="lang-text ar">الآنسة الجدة</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 수연</span><span class="lang-text en">Support | Soo-yeon</span><span class="lang-text cn">配角 | 秀妍</span><span class="lang-text ja">助演 | スヨン</span><span class="lang-text pt">Coadjuvante | Soo-yeon</span><span class="lang-text es">Reparto | Soo-yeon</span><span class="lang-text ar">دور مساعد | سو يون</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Movie+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">연쇄부인</span><span class="lang-text en">Serial Wife</span><span class="lang-text cn">连环夫人</span><span class="lang-text ja">連鎖婦人</span><span class="lang-text pt">Serial Wife</span><span class="lang-text es">Serial Wife</span><span class="lang-text ar">الزوجة المتسلسلة</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">출연</span><span class="lang-text en">Cast</span><span class="lang-text cn">出演</span><span class="lang-text ja">出演</span><span class="lang-text pt">Elenco</span><span class="lang-text es">Reparto</span><span class="lang-text ar">طاقم التمثيل</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Movie+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2009</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">젓가락</span><span class="lang-text en">Chopsticks</span><span class="lang-text cn">筷子</span><span class="lang-text ja">箸</span><span class="lang-text pt">Hashi</span><span class="lang-text es">Palillos</span><span class="lang-text ar">عيدان الطعام</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">조연 | 지숙</span><span class="lang-text en">Support | Ji-sook</span><span class="lang-text cn">配角 | 智淑</span><span class="lang-text ja">助演 | ジスク</span><span class="lang-text pt">Coadjuvante | Ji-sook</span><span class="lang-text es">Reparto | Ji-sook</span><span class="lang-text ar">دور مساعد | جي سوك</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="career-category-title">VARIETY</div>
+                 
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Variety+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2019</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">정글의 법칙 in 순다열도</span><span class="lang-text en">Law of the Jungle in Sunda Islands</span><span class="lang-text cn">丛林的法则 in 巽他群岛</span><span class="lang-text ja">ジャングルの法則 in スンダ列島</span><span class="lang-text pt">Law of the Jungle in Sunda Islands</span><span class="lang-text es">Law of the Jungle in Sunda Islands</span><span class="lang-text ar">قانون الغابة في جزر سوندا</span>
+                            <span class="broadcast">SBS</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">출연</span><span class="lang-text en">Cast</span><span class="lang-text cn">出演</span><span class="lang-text ja">出演</span><span class="lang-text pt">Elenco</span><span class="lang-text es">Reparto</span><span class="lang-text ar">طاقم التمثيل</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Variety+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2014</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">더 지니어스: 블랙가넷</span><span class="lang-text en">The Genius: Black Garnet</span><span class="lang-text cn">The Genius：黑色石榴石</span><span class="lang-text ja">ザ・ジーニアス</span><span class="lang-text pt">The Genius</span><span class="lang-text es">The Genius</span><span class="lang-text ar">العبقري</span>
+                            <span class="broadcast">tvN</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">플레이어 (TOP 4)</span><span class="lang-text en">Player (TOP 4)</span><span class="lang-text cn">参赛者 (TOP 4)</span><span class="lang-text ja">プレイヤー (TOP 4)</span><span class="lang-text pt">Jogador (TOP 4)</span><span class="lang-text es">Jugador (TOP 4)</span><span class="lang-text ar">لاعب (أفضل 4)</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=Variety+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2016</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">런닝맨</span><span class="lang-text en">Running Man</span><span class="lang-text cn">Running Man</span><span class="lang-text ja">ランニングマン</span><span class="lang-text pt">Running Man</span><span class="lang-text es">Running Man</span><span class="lang-text ar">رانينغ مان</span>
+                            <span class="broadcast">SBS</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">게스트</span><span class="lang-text en">Guest</span><span class="lang-text cn">嘉宾</span><span class="lang-text ja">ゲスト</span><span class="lang-text pt">Convidada</span><span class="lang-text es">Invitada</span><span class="lang-text ar">ضيفة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-category-title">COMMERCIALS (ADS)</div>
+                
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2014</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">충북소주 (시원한 청풍)</span><span class="lang-text en">Chungbuk Soju (C1 Blue)</span><span class="lang-text cn">忠北烧酒 (清风)</span><span class="lang-text ja">忠北焼酎 (涼しい清風)</span><span class="lang-text pt">Chungbuk Soju</span><span class="lang-text es">Chungbuk Soju</span><span class="lang-text ar">تشونغبوك سوجو</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2011</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">존슨앤드존슨 (클린앤클리어)</span><span class="lang-text en">Johnson & Johnson (Clean & Clear)</span><span class="lang-text cn">强生 (Clean & Clear)</span><span class="lang-text ja">ジョンソン・エンド・ジョンソン</span><span class="lang-text pt">Johnson & Johnson</span><span class="lang-text es">Johnson & Johnson</span><span class="lang-text ar">جونسون آند جونسون</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+                 
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">오뚜기 (스낵면)</span><span class="lang-text en">Ottogi (Snack Ramen)</span><span class="lang-text cn">不倒翁 (Snack Ramen)</span><span class="lang-text ja">オットギ (スナック麺)</span><span class="lang-text pt">Ottogi (Snack Ramen)</span><span class="lang-text es">Ottogi (Snack Ramen)</span><span class="lang-text ar">أوتوغي (سناك رامين)</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">피자헛</span><span class="lang-text en">Pizza Hut</span><span class="lang-text cn">必胜客</span><span class="lang-text ja">ピザハット</span><span class="lang-text pt">Pizza Hut</span><span class="lang-text es">Pizza Hut</span><span class="lang-text ar">بيتزا هت</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">와바 (Wa Bar)</span><span class="lang-text en">Wa Bar</span><span class="lang-text cn">Wa Bar</span><span class="lang-text ja">Wa Bar</span><span class="lang-text pt">Wa Bar</span><span class="lang-text es">Wa Bar</span><span class="lang-text ar">وا بار</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2010</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">SK텔레콤 (생각대로 T)</span><span class="lang-text en">SK Telecom</span><span class="lang-text cn">SK电讯</span><span class="lang-text ja">SKテレコム</span><span class="lang-text pt">SK Telecom</span><span class="lang-text es">SK Telecom</span><span class="lang-text ar">إس كيه تيليكوم</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="career-item">
+                    <div class="career-thumb"><img src="https://placehold.co/200x300/e0e0e0/999999?text=AD+Poster" alt="Poster"></div>
+                    <div class="career-info">
+                        <div class="year">2009</div>
+                        <div class="career-title">
+                            <span class="lang-text ko">공익광고협의회 (약물중독 남용 편)</span><span class="lang-text en">KOBACO (Public Service Ad)</span><span class="lang-text cn">KOBACO (公益广告)</span><span class="lang-text ja">公益広告協議会</span><span class="lang-text pt">KOBACO (Serviço Público)</span><span class="lang-text es">KOBACO (Servicio Público)</span><span class="lang-text ar">إعلان الخدمة العامة</span>
+                        </div>
+                        <div class="career-role">
+                            <span class="lang-text ko">모델</span><span class="lang-text en">Model</span><span class="lang-text cn">模特</span><span class="lang-text ja">モデル</span><span class="lang-text pt">Modelo</span><span class="lang-text es">Modelo</span><span class="lang-text ar">نموذج</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="container">
+            <h2 style="margin-bottom: 20px;">GALLERY</h2>
+            <p style="margin-bottom: 30px; color:#888; font-size:0.9rem;">
+                <span class="lang-text ko">클릭하면 이미지가 확대됩니다.</span><span class="lang-text en">Click on the image to enlarge.</span><span class="lang-text cn">点击图片放大。</span><span class="lang-text ja">画像をクリックすると拡大されます。</span><span class="lang-text pt">Clique na imagem para ampliar.</span><span class="lang-text es">Haga clic en la imagen para ampliar.</span><span class="lang-text ar">انقر على الصورة لتكبيرها.</span>
+            </p>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&h=500&fit=crop" alt="Gallery 1"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&h=500&fit=crop" alt="Gallery 2"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=500&fit=crop" alt="Gallery 3"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=500&fit=crop" alt="Gallery 4"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop" alt="Gallery 5"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=500&fit=crop" alt="Gallery 6"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&h=500&fit=crop" alt="Gallery 7"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop" alt="Gallery 8"></div>
+            </div>
+        </div>
+    </section>
+    
+    <div id="lightbox" class="lightbox"><span class="close-btn">&times;</span><img class="lightbox-content" id="lightbox-img"></div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-sns"><a href="https://www.instagram.com/hi_iamjoojoo" target="_blank">INSTAGRAM</a><a href="#">OFFICIAL</a></div>
+            <p>&copy; 2025 HA YEON JOO. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const langBtns = document.querySelectorAll('.lang-btn');
+        const htmlTag = document.documentElement;
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                htmlTag.setAttribute('lang', btn.getAttribute('data-lang'));
+            });
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const closeBtn = document.querySelector('.close-btn');
+        galleryItems.forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.style.display = 'flex';
+                lightboxImg.src = img.src;
+            });
+        });
+        closeBtn.addEventListener('click', () => { lightbox.style.display = 'none'; });
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) { lightbox.style.display = 'none'; } });
+    </script>
+
+</body>
+</html>
