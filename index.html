@@ -146,64 +146,65 @@
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
         /* =========================================
-           ★ [모바일 슈퍼 사이즈 (Mobile Super Size)] ★
-           - 텍스트/이미지 크기 20~30% 이상 대폭 확대
+           ★ [모바일 슈퍼 사이즈 (Mobile Super Size) - 25% 추가 확대] ★
            ========================================= */
         @media (max-width: 1024px) {
             /* Layout */
             .container { padding: 0 25px; }
-            section { padding: 80px 0; }
+            section { padding: 90px 0; }
             
-            /* [Header & Nav] */
-            nav { height: 80px; padding: 0 25px; }
-            .logo { font-size: 1.7rem; } /* 로고 확대 */
-            .current-lang { font-size: 1.2rem; padding: 12px; font-weight: 700; } /* 언어 선택 확대 */
-            .arrow-icon { font-size: 0.9rem; }
-            .lang-list { top: 110%; min-width: 180px; }
-            .lang-option { font-size: 1.2rem; padding: 15px 25px; } /* 드롭다운 메뉴 확대 */
+            /* [Header & Nav] - 더 크게 */
+            nav { height: 90px; padding: 0 25px; }
+            .logo { font-size: 2.0rem; } /* 1.7 -> 2.0 */
+            .current-lang { font-size: 1.3rem; padding: 15px; font-weight: 700; } /* 1.2 -> 1.3 */
+            .arrow-icon { font-size: 1.0rem; }
+            .lang-list { top: 110%; min-width: 200px; } /* 메뉴 너비 확대 */
+            .lang-option { font-size: 1.4rem; padding: 18px 25px; } /* 메뉴 항목 확대 */
 
             /* [Hero] */
-            .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 110px; text-align: left; display: flex; flex-direction: column; }
-            .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 10px; }
-            .hero-text h1 { font-size: 4.5rem; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.1; }
-            .hero-text span.subtitle { font-size: 1.5rem; margin-bottom: 15px; }
-            .hero-text p { font-size: 1.3rem; line-height: 1.65; color: #444; margin-top: 20px; }
+            .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 120px; text-align: left; display: flex; flex-direction: column; }
+            .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 15px; }
+            .hero-text h1 { font-size: 5.5rem; margin-bottom: 25px; letter-spacing: -1px; line-height: 1.1; } /* 4.5 -> 5.5 */
+            .hero-text span.subtitle { font-size: 1.7rem; margin-bottom: 20px; } /* 1.5 -> 1.7 */
+            .hero-text p { font-size: 1.5rem; line-height: 1.6; color: #333; margin-top: 25px; } /* 1.3 -> 1.5 */
 
             /* [Profile] */
-            .profile-wrap { grid-template-columns: 1fr; gap: 60px; }
-            .specs-grid { grid-template-columns: 1fr; gap: 40px; }
-            .profile-summary h2 { font-size: 3.2rem; margin-bottom: 40px; }
+            .profile-wrap { grid-template-columns: 1fr; gap: 70px; }
+            .specs-grid { grid-template-columns: 1fr; gap: 50px; }
+            .profile-summary h2 { font-size: 3.8rem; margin-bottom: 50px; } /* 3.2 -> 3.8 */
             
-            .spec-item strong { font-size: 1.8rem; margin-bottom: 8px; } /* 이름/항목 대폭 확대 */
-            .spec-item h3 { font-size: 1.1rem; margin-bottom: 6px; letter-spacing: 1.5px; }
-            .spec-desc { font-size: 1.3rem; line-height: 1.5; color: #444; }
+            .spec-item strong { font-size: 2.1rem; margin-bottom: 12px; } /* 1.8 -> 2.1 */
+            .spec-item h3 { font-size: 1.3rem; margin-bottom: 8px; letter-spacing: 1.5px; } /* 1.1 -> 1.3 */
+            .spec-desc { font-size: 1.5rem; line-height: 1.5; color: #444; } /* 1.3 -> 1.5 */
 
             /* [Filmography] */
-            .career-category-title { font-size: 2.0rem; padding-bottom: 15px; margin-bottom: 40px; }
+            .career-category-title { font-size: 2.4rem; padding-bottom: 20px; margin-bottom: 50px; } /* 2.0 -> 2.4 */
             
-            .filmo-grid { grid-template-columns: 1fr; gap: 35px; }
+            .filmo-grid { grid-template-columns: 1fr; gap: 40px; }
             
-            /* [중요] 썸네일 및 텍스트 확대 */
+            /* [중요] 썸네일 및 텍스트 대폭 확대 */
             .career-item { 
-                grid-template-columns: 130px 1fr; /* 썸네일 너비 130px로 고정 */
-                gap: 25px; padding-bottom: 30px;
+                grid-template-columns: 160px 1fr; /* 썸네일 너비: 130 -> 160px */
+                gap: 30px; padding-bottom: 40px;
             }
             .career-thumb { 
-                width: 130px; height: 195px; /* 썸네일 크기 대폭 확대 */
+                width: 160px; height: 240px; /* 썸네일 크기: 130x195 -> 160x240 */
             }
-            .career-info { gap: 6px; }
-            .year { font-size: 1.1rem; margin-bottom: 4px; display: block; }
-            .career-title { font-size: 1.6rem; line-height: 1.25; margin-bottom: 6px; } /* 제목 시원하게 */
-            .career-role { font-size: 1.2rem; line-height: 1.4; color: #555; }
-            .broadcast { font-size: 0.9rem; padding: 3px 10px; border-radius: 6px; }
+            
+            /* Filmo Text 확대 */
+            .career-info { gap: 8px; }
+            .year { font-size: 1.3rem; margin-bottom: 6px; display: block; } /* 1.1 -> 1.3 */
+            .career-title { font-size: 2.0rem; line-height: 1.2; margin-bottom: 8px; } /* 1.6 -> 2.0 */
+            .career-role { font-size: 1.5rem; line-height: 1.4; color: #555; } /* 1.2 -> 1.5 */
+            .broadcast { font-size: 1.1rem; padding: 4px 12px; border-radius: 6px; } /* 0.9 -> 1.1 */
 
             /* [Gallery] */
             .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             
             /* [Footer] */
-            footer { padding: 80px 0; }
-            .footer-sns a { font-size: 1.2rem; }
-            footer p { font-size: 1rem; margin-top: 15px; }
+            footer { padding: 100px 0; }
+            .footer-sns a { font-size: 1.4rem; } /* 1.2 -> 1.4 */
+            footer p { font-size: 1.2rem; margin-top: 20px; }
         }
 
         /* 다국어 처리 */
