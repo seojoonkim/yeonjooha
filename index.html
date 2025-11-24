@@ -24,7 +24,7 @@
             --font-sans: 'Pretendard', -apple-system, sans-serif;
             --font-serif: 'Playfair Display', serif;
             --font-jp: 'Noto Sans JP', sans-serif;
-            --font-cn: 'Noto Sans SC', sans-serif; /* 중국어 폰트 변수 */
+            --font-cn: 'Noto Sans SC', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -63,7 +63,7 @@
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
 
-        /* --- [Dropdown Language Switcher] --- */
+        /* --- [Language Switcher] --- */
         .lang-dropdown { position: relative; font-family: var(--font-sans); z-index: 200; }
         .current-lang { 
             font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; 
@@ -71,6 +71,7 @@
         }
         .arrow-icon { font-size: 0.7rem; transition: transform 0.3s; }
         .lang-dropdown.active .arrow-icon { transform: rotate(180deg); }
+        
         .lang-list {
             position: absolute; top: 120%; right: 0; 
             background: white; border: 1px solid #eee; border-radius: 8px;
@@ -151,8 +152,6 @@
         @media (max-width: 1024px) {
             .container { padding: 0 25px; }
             section { padding: 90px 0; }
-            
-            /* Header */
             nav { height: 80px; padding: 0 25px; }
             .logo { font-size: 1.7rem; }
             .current-lang { font-size: 1.2rem; padding: 12px; font-weight: 700; }
@@ -160,53 +159,41 @@
             .lang-list { top: 110%; min-width: 200px; }
             .lang-option { font-size: 1.4rem; padding: 18px 25px; }
 
-            /* Hero */
             .hero { grid-template-columns: 1fr; gap: 30px; padding-top: 110px; text-align: left; display: flex; flex-direction: column; }
             .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 15px; }
             .hero-text h1 { font-size: 4.5rem; margin-bottom: 25px; letter-spacing: -1px; line-height: 1.1; }
             .hero-text span.subtitle { font-size: 1.5rem; margin-bottom: 15px; }
             .hero-text p { font-size: 1.3rem; line-height: 1.65; color: #333; margin-top: 25px; }
 
-            /* Profile */
             .profile-wrap { grid-template-columns: 1fr; gap: 60px; }
-            .specs-grid { grid-template-columns: 1fr; gap: 40px; }
+            .specs-grid { grid-template-columns: 1fr; gap: 45px; }
             .profile-summary h2 { font-size: 3.2rem; margin-bottom: 40px; }
             .spec-item strong { font-size: 1.8rem; margin-bottom: 8px; }
             .spec-item h3 { font-size: 1.1rem; margin-bottom: 6px; letter-spacing: 1.5px; }
             .spec-desc { font-size: 1.3rem; line-height: 1.5; color: #444; }
 
-            /* Filmography */
             .career-category-title { font-size: 2.0rem; padding-bottom: 15px; margin-bottom: 40px; }
             .filmo-grid { grid-template-columns: 1fr; gap: 35px; }
-            .career-item { grid-template-columns: 130px 1fr; gap: 25px; padding-bottom: 30px; }
-            .career-thumb { width: 130px; height: 195px; }
+            .career-item { grid-template-columns: 160px 1fr; gap: 25px; padding-bottom: 40px; }
+            .career-thumb { width: 160px; height: 240px; }
             .career-info { gap: 6px; }
-            .year { font-size: 1.1rem; margin-bottom: 4px; display: block; }
-            .career-title { font-size: 1.6rem; line-height: 1.25; margin-bottom: 6px; }
-            .career-role { font-size: 1.2rem; line-height: 1.4; color: #555; }
-            .broadcast { font-size: 0.9rem; padding: 3px 10px; border-radius: 6px; }
+            .year { font-size: 1.3rem; margin-bottom: 6px; display: block; }
+            .career-title { font-size: 2.0rem; line-height: 1.2; margin-bottom: 8px; }
+            .career-role { font-size: 1.5rem; line-height: 1.4; color: #555; }
+            .broadcast { font-size: 1.1rem; padding: 4px 12px; border-radius: 6px; }
 
-            /* Gallery */
             .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            
-            /* Footer */
             footer { padding: 80px 0; }
-            .footer-sns a { font-size: 1.2rem; }
-            footer p { font-size: 1rem; margin-top: 15px; }
+            .footer-sns a { font-size: 1.4rem; }
+            footer p { font-size: 1.2rem; margin-top: 20px; }
         }
 
-        /* --- [다국어 처리 (수정됨)] --- */
+        /* --- [다국어 처리 & 아랍어(RTL) 대응] --- */
         .lang-text { display: none !important; }
         html[lang="ko"] .ko { display: inline-block !important; }
         html[lang="en"] .en { display: inline-block !important; }
-        
-        /* [중요] 중국어(cn) 클래스 매핑 수정 */
-        html[lang="cn"] .cn { 
-            display: inline-block !important; 
-            font-family: var(--font-cn); 
-        }
-        
-        html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); }
+        html[lang="zh"] .cn { display: inline-block !important; font-family: var(--font-cn); word-break: break-all; }
+        html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); word-break: break-all; }
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
@@ -214,6 +201,12 @@
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
         html[lang="ar"] .hero-text p { text-align: right; }
+
+        /* [핵심 수정] 아랍어일 때 드롭다운 메뉴 위치 왼쪽으로 변경 */
+        html[lang="ar"] .lang-list {
+            right: auto; /* 기존 오른쪽 기준 해제 */
+            left: 0;     /* 왼쪽 기준으로 변경 */
+        }
     </style>
 </head>
 <body>
