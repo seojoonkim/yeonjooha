@@ -16,81 +16,6 @@ const portfolioData = {
     "filmography": [
         {
             "category": "DRAMA",
-            "year": "2010",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763965010258_r8ATUOQ9oX8u26Vltvl59oiNRSkuJabmkkq9bvilt0Ra05rDIGTOPZJqgbLiYgyNqqxRT2FwzI2TTYtFgJ3Uxg.webp",
-            "broadcast": "MBC",
-            "title": {
-                "ko": "로열 패밀리",
-                "en": "Royal Family",
-                "cn": "皇族",
-                "ja": "王室",
-                "pt": "Família real",
-                "es": "Familia real",
-                "ar": "العائلة المالكة"
-            },
-            "role": {
-                "ko": "조연 - 지은",
-                "en": "Support - Jieun",
-                "cn": "支持- Jieun",
-                "ja": "サポート-ジューン",
-                "pt": "Suporte - Jieun",
-                "es": "Asistencia - Jieun",
-                "ar": "الدعم - جيون"
-            },
-            "_originIndex": 0
-        },
-        {
-            "category": "DRAMA",
-            "year": "2013",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964936916_n_RPUkU-CbSc913nhciA3P12tBXUDkeYXOOcOSgRkf5gqf8t6kJZQYaCnmiJG43X1IH5j4ts_KYT3YvHDQzrGg.webp",
-            "broadcast": "tvN",
-            "title": {
-                "ko": "연애조작단 ; 시라노",
-                "en": "Dating Agency: Cyrano",
-                "cn": "约会机构： Cyrano",
-                "ja": "出会い系エージェンシー： Cyrano",
-                "pt": "Agência de namoro: Cyrano",
-                "es": "Agencia de citas: Cyrano",
-                "ar": "وكالة المواعدة: سيرانو"
-            },
-            "role": {
-                "ko": "조연 - 혜리",
-                "en": "Support | Hyeri",
-                "cn": "支持| Hyeri",
-                "ja": "サポート| Hyeri",
-                "pt": "Suporte | Hyeri",
-                "es": "Asistencia | Hyeri",
-                "ar": "الدعم | Hyeri"
-            },
-            "_originIndex": 1
-        },
-        {
-            "category": "DRAMA",
-            "year": "2018",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964720541_9TdDCFTn8yG55eUCMGifKg.webp",
-            "broadcast": "NAVER",
-            "title": {
-                "ko": "품위있는 여군의 삽질로맨스",
-                "en": "A dignified female soldier's shovel romance",
-                "cn": "有尊严的女兵铲子浪漫",
-                "ja": "威厳のある女性兵士のシャベルロマンス",
-                "pt": "Romance de pá de uma soldado feminina digna",
-                "es": "El romance de pala de una soldado digna",
-                "ar": "رومانسية مجرفة جندية محترمة"
-            },
-            "role": {
-                "ko": "주연 - 차송주 대위",
-                "en": "Main - Captain Cha Song-ju",
-                "cn": "",
-                "ja": "",
-                "pt": "",
-                "es": "",
-                "ar": ""
-            },
-            "_originIndex": 2
-        },
-        {
-            "category": "DRAMA",
             "year": "2025",
             "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763913826981_2rQ581UPYgr0X3q6wP0xXs5NifwEyk0rceDnYwW6rdYqySd-K-akhhOT_4EkuGKfMUN1hPIvdAgVAxp1f6xEfA.webp",
             "broadcast": "Netflix",
@@ -112,7 +37,7 @@ const portfolioData = {
                 "es": "Reparto | Ha Min-hee",
                 "ar": "دور داعم | ها مين هي"
             },
-            "_originIndex": 3
+            "_originIndex": 0
         },
         {
             "category": "DRAMA",
@@ -137,7 +62,7 @@ const portfolioData = {
                 "es": "Principal | Bae Do-eun",
                 "ar": "بطولة | باي دو أون"
             },
-            "_originIndex": 4
+            "_originIndex": 1
         },
         {
             "category": "DRAMA",
@@ -162,7 +87,32 @@ const portfolioData = {
                 "es": "Principal | Jang Esther",
                 "ar": "بطولة | جانغ إستر"
             },
-            "_originIndex": 5
+            "_originIndex": 2
+        },
+        {
+            "category": "DRAMA",
+            "year": "2018",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964720541_9TdDCFTn8yG55eUCMGifKg.webp",
+            "broadcast": "NAVER",
+            "title": {
+                "ko": "품위있는 여군의 삽질로맨스",
+                "en": "A dignified female soldier's shovel romance",
+                "cn": "有尊严的女兵铲子浪漫",
+                "ja": "威厳のある女性兵士のシャベルロマンス",
+                "pt": "Romance de pá de uma soldado feminina digna",
+                "es": "El romance de pala de una soldado digna",
+                "ar": "رومانسية مجرفة جندية محترمة"
+            },
+            "role": {
+                "ko": "주연 - 차송주 대위",
+                "en": "Main - Captain Cha Song-ju",
+                "cn": "",
+                "ja": "",
+                "pt": "",
+                "es": "",
+                "ar": ""
+            },
+            "_originIndex": 3
         },
         {
             "category": "DRAMA",
@@ -187,7 +137,7 @@ const portfolioData = {
                 "es": "Principal | Kim Ja-kyung",
                 "ar": "بطولة | كيم جا كيونغ"
             },
-            "_originIndex": 6
+            "_originIndex": 4
         },
         {
             "category": "DRAMA",
@@ -212,7 +162,7 @@ const portfolioData = {
                 "es": "Reparto | Mei",
                 "ar": "دور مساعد | ماي"
             },
-            "_originIndex": 7
+            "_originIndex": 5
         },
         {
             "category": "DRAMA",
@@ -237,7 +187,7 @@ const portfolioData = {
                 "es": "Principal | Jung Ha-yoon",
                 "ar": "بطولة | جونغ ها يون"
             },
-            "_originIndex": 8
+            "_originIndex": 6
         },
         {
             "category": "DRAMA",
@@ -262,7 +212,7 @@ const portfolioData = {
                 "es": "Principal | Lee Yoon-hee",
                 "ar": "بطولة | لي يون هي"
             },
-            "_originIndex": 9
+            "_originIndex": 7
         },
         {
             "category": "DRAMA",
@@ -287,7 +237,7 @@ const portfolioData = {
                 "es": "Reparto | Jung Soo-ah",
                 "ar": "دور مساعد | جونغ سو آه"
             },
-            "_originIndex": 10
+            "_originIndex": 8
         },
         {
             "category": "DRAMA",
@@ -312,7 +262,32 @@ const portfolioData = {
                 "es": "Cameo | Hyun-joo",
                 "ar": "ظهور خاص | هيون جو"
             },
-            "_originIndex": 11
+            "_originIndex": 9
+        },
+        {
+            "category": "DRAMA",
+            "year": "2013",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964936916_n_RPUkU-CbSc913nhciA3P12tBXUDkeYXOOcOSgRkf5gqf8t6kJZQYaCnmiJG43X1IH5j4ts_KYT3YvHDQzrGg.webp",
+            "broadcast": "tvN",
+            "title": {
+                "ko": "연애조작단 ; 시라노",
+                "en": "Dating Agency: Cyrano",
+                "cn": "约会机构： Cyrano",
+                "ja": "出会い系エージェンシー： Cyrano",
+                "pt": "Agência de namoro: Cyrano",
+                "es": "Agencia de citas: Cyrano",
+                "ar": "وكالة المواعدة: سيرانو"
+            },
+            "role": {
+                "ko": "조연 - 혜리",
+                "en": "Support | Hyeri",
+                "cn": "支持| Hyeri",
+                "ja": "サポート| Hyeri",
+                "pt": "Suporte | Hyeri",
+                "es": "Asistencia | Hyeri",
+                "ar": "الدعم | Hyeri"
+            },
+            "_originIndex": 10
         },
         {
             "category": "DRAMA",
@@ -337,7 +312,7 @@ const portfolioData = {
                 "es": "Reparto | Shin Sun-young",
                 "ar": "دور مساعد | شين سون يونغ"
             },
-            "_originIndex": 12
+            "_originIndex": 11
         },
         {
             "category": "DRAMA",
@@ -362,7 +337,7 @@ const portfolioData = {
                 "es": "Reparto | Han Ki-eun",
                 "ar": "دور مساعد | هان كي أون"
             },
-            "_originIndex": 13
+            "_originIndex": 12
         },
         {
             "category": "DRAMA",
@@ -387,7 +362,7 @@ const portfolioData = {
                 "es": "Reparto | Ha Yeon-joo",
                 "ar": "دور مساعد | ها يون جو"
             },
-            "_originIndex": 14
+            "_originIndex": 13
         },
         {
             "category": "DRAMA",
@@ -411,6 +386,31 @@ const portfolioData = {
                 "pt": "Coadjuvante | Yoon Kang-hee",
                 "es": "Reparto | Yoon Kang-hee",
                 "ar": "دور مساعد | يون كانغ هي"
+            },
+            "_originIndex": 14
+        },
+        {
+            "category": "DRAMA",
+            "year": "2010",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763965010258_r8ATUOQ9oX8u26Vltvl59oiNRSkuJabmkkq9bvilt0Ra05rDIGTOPZJqgbLiYgyNqqxRT2FwzI2TTYtFgJ3Uxg.webp",
+            "broadcast": "MBC",
+            "title": {
+                "ko": "로열 패밀리",
+                "en": "Royal Family",
+                "cn": "皇族",
+                "ja": "王室",
+                "pt": "Família real",
+                "es": "Familia real",
+                "ar": "العائلة المالكة"
+            },
+            "role": {
+                "ko": "조연 - 지은",
+                "en": "Support - Jieun",
+                "cn": "支持- Jieun",
+                "ja": "サポート-ジューン",
+                "pt": "Suporte - Jieun",
+                "es": "Asistencia - Jieun",
+                "ar": "الدعم - جيون"
             },
             "_originIndex": 15
         },
@@ -567,16 +567,16 @@ const portfolioData = {
         {
             "category": "VARIETY",
             "year": "2009",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964262607_2009072600012_0.jpg",
-            "broadcast": "SBS",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763965662972_image65_ys78nv.jpg",
+            "broadcast": "tvN",
             "title": {
-                "ko": "인기가요",
-                "en": "Popular K-POPS",
-                "cn": "热门K-POPS",
-                "ja": "人気のK - POPS",
-                "pt": "K-POPS populares",
-                "es": "K-POPS populares",
-                "ar": "شعبية K - POPS"
+                "ko": "롤러 코스터",
+                "en": "Roller Coaster",
+                "cn": "雲霄飛車",
+                "ja": "ローラーコースター",
+                "pt": "Montanha russa",
+                "es": "Montaña rusa",
+                "ar": "أفعوانية"
             },
             "role": {
                 "ko": "",
@@ -591,26 +591,26 @@ const portfolioData = {
         },
         {
             "category": "VARIETY",
-            "year": "2016",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964175870_bae.jpg",
-            "broadcast": "tvN",
+            "year": "2020",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915388692_2016121501002244600182351.jpg",
+            "broadcast": "SBS",
             "title": {
-                "ko": "배우학교",
-                "en": "Acting School",
-                "cn": "表演学校",
-                "ja": "演技学校",
-                "pt": "Escola de Atuação",
-                "es": "Escuela de actuación",
-                "ar": "مدرسة التمثيل"
+                "ko": "런닝맨",
+                "en": "Running Man",
+                "cn": "Running Man",
+                "ja": "ランニングマン",
+                "pt": "Running Man",
+                "es": "Running Man",
+                "ar": "رانينغ مان"
             },
             "role": {
-                "ko": "",
-                "en": "",
-                "cn": "",
-                "ja": "",
-                "pt": "",
-                "es": "",
-                "ar": ""
+                "ko": "게스트",
+                "en": "Guest",
+                "cn": "嘉宾",
+                "ja": "ゲスト",
+                "pt": "Convidada",
+                "es": "Invitada",
+                "ar": "ضيفة"
             },
             "_originIndex": 23
         },
@@ -641,6 +641,31 @@ const portfolioData = {
         },
         {
             "category": "VARIETY",
+            "year": "2016",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964175870_bae.jpg",
+            "broadcast": "tvN",
+            "title": {
+                "ko": "배우학교",
+                "en": "Acting School",
+                "cn": "表演学校",
+                "ja": "演技学校",
+                "pt": "Escola de Atuação",
+                "es": "Escuela de actuación",
+                "ar": "مدرسة التمثيل"
+            },
+            "role": {
+                "ko": "",
+                "en": "",
+                "cn": "",
+                "ja": "",
+                "pt": "",
+                "es": "",
+                "ar": ""
+            },
+            "_originIndex": 25
+        },
+        {
+            "category": "VARIETY",
             "year": "2014",
             "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915334708_fYiO-TkPL_wN0Vw1fwJ6ipqlqypp-hG_j2C12glS2ORx3Ebwc_HZfRvLoiLsUy_dRfWYz4eKAZrlYv-BphuufA.webp",
             "broadcast": "tvN",
@@ -662,32 +687,32 @@ const portfolioData = {
                 "es": "Jugador (TOP 4)",
                 "ar": "لاعب (أفضل 4)"
             },
-            "_originIndex": 25
+            "_originIndex": 26
         },
         {
             "category": "VARIETY",
-            "year": "2016",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915388692_2016121501002244600182351.jpg",
+            "year": "2009",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763964262607_2009072600012_0.jpg",
             "broadcast": "SBS",
             "title": {
-                "ko": "런닝맨",
-                "en": "Running Man",
-                "cn": "Running Man",
-                "ja": "ランニングマン",
-                "pt": "Running Man",
-                "es": "Running Man",
-                "ar": "رانينغ مان"
+                "ko": "인기가요",
+                "en": "Popular K-POPS",
+                "cn": "热门K-POPS",
+                "ja": "人気のK - POPS",
+                "pt": "K-POPS populares",
+                "es": "K-POPS populares",
+                "ar": "شعبية K - POPS"
             },
             "role": {
-                "ko": "게스트",
-                "en": "Guest",
-                "cn": "嘉宾",
-                "ja": "ゲスト",
-                "pt": "Convidada",
-                "es": "Invitada",
-                "ar": "ضيفة"
+                "ko": "MC",
+                "en": "MC",
+                "cn": "结婚证明",
+                "ja": "MC",
+                "pt": "MC",
+                "es": "MC",
+                "ar": "المقاول الرئيسي"
             },
-            "_originIndex": 26
+            "_originIndex": 27
         },
         {
             "category": "AUDIOBOOK",
@@ -712,7 +737,7 @@ const portfolioData = {
                 "es": "Lectura",
                 "ar": "القراءة"
             },
-            "_originIndex": 27
+            "_originIndex": 28
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -737,7 +762,7 @@ const portfolioData = {
                 "es": "",
                 "ar": ""
             },
-            "_originIndex": 28
+            "_originIndex": 29
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -762,7 +787,7 @@ const portfolioData = {
                 "es": "",
                 "ar": ""
             },
-            "_originIndex": 29
+            "_originIndex": 30
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -787,7 +812,7 @@ const portfolioData = {
                 "es": "",
                 "ar": ""
             },
-            "_originIndex": 30
+            "_originIndex": 31
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -812,7 +837,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 31
+            "_originIndex": 32
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -837,7 +862,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 32
+            "_originIndex": 33
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -862,7 +887,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 33
+            "_originIndex": 34
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -887,7 +912,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 34
+            "_originIndex": 35
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -912,7 +937,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 35
+            "_originIndex": 36
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -937,7 +962,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 36
+            "_originIndex": 37
         },
         {
             "category": "COMMERCIALS (ADS)",
@@ -962,7 +987,7 @@ const portfolioData = {
                 "es": "Modelo",
                 "ar": "نموذج"
             },
-            "_originIndex": 37
+            "_originIndex": 38
         }
     ]
 };
