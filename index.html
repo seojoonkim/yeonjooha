@@ -47,7 +47,7 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
-        /* Typography (PC Default) */
+        /* Typography */
         h1 { font-family: var(--font-serif); font-size: 5.5rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
         h2 { font-family: var(--font-serif); font-size: 3rem; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 60px; text-align: center; position: relative; }
         h2::after { content: ''; display: block; width: 1px; height: 60px; background: #000; margin: 30px auto 0; }
@@ -65,19 +65,13 @@
 
         /* --- [Dropdown Language Switcher] --- */
         .lang-dropdown { position: relative; font-family: var(--font-sans); z-index: 200; }
-        .current-lang { 
-            font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; 
-            display: flex; align-items: center; gap: 5px; padding: 5px 0;
-        }
+        .current-lang { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 5px 0; }
         .arrow-icon { font-size: 0.7rem; transition: transform 0.3s; }
         .lang-dropdown.active .arrow-icon { transform: rotate(180deg); }
         .lang-list {
-            position: absolute; top: 120%; right: 0; 
-            background: white; border: 1px solid #eee; border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            padding: 10px 0; min-width: 160px; white-space: nowrap;
-            opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: all 0.3s ease;
+            position: absolute; top: 120%; right: 0; background: white; border: 1px solid #eee; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); padding: 10px 0; min-width: 160px; white-space: nowrap;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease;
         }
         .lang-dropdown.active .lang-list { opacity: 1; visibility: visible; transform: translateY(0); }
         .lang-option { display: block; padding: 10px 20px; font-size: 0.85rem; color: #555; cursor: pointer; text-align: left; transition: background 0.2s; }
@@ -87,10 +81,7 @@
         /* --- [Hero] --- */
         .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; padding-top: 100px; }
         .hero-text span.subtitle { display: block; font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 20px; }
-        .hero-img { 
-            width: 100%; aspect-ratio: 4 / 5; max-height: 90vh;
-            background: #f5f5f5; overflow: hidden; position: relative; 
-        }
+        .hero-img { width: 100%; aspect-ratio: 4 / 5; max-height: 90vh; background: #f5f5f5; overflow: hidden; position: relative; }
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
 
@@ -103,19 +94,10 @@
         /* --- [Filmography] --- */
         .career-list { margin-top: 80px; }
         .filmo-group { margin-bottom: 100px; }
-        .career-category-title { 
-            font-family: var(--font-serif); font-size: 1.3rem; 
-            border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 30px;
-        }
+        .career-category-title { font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 30px; }
         .filmo-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media (min-width: 1025px) {
-            .filmo-grid { grid-template-columns: 1fr 1fr; column-gap: 60px; row-gap: 40px; }
-        }
-        .career-item {
-            display: grid; grid-template-columns: 80px 1fr; gap: 25px;
-            padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; 
-            align-items: center; transition: background 0.3s;
-        }
+        @media (min-width: 1025px) { .filmo-grid { grid-template-columns: 1fr 1fr; column-gap: 60px; row-gap: 40px; } }
+        .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; align-items: center; transition: background 0.3s; }
         .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
         .career-thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -138,73 +120,62 @@
         .lightbox.show { opacity: 1; }
         .lightbox-content { max-width: 85%; max-height: 85%; object-fit: contain; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
         .close-btn { position: absolute; top: 30px; right: 40px; color: #000; font-size: 50px; font-weight: 300; cursor: pointer; transition: transform 0.3s; }
-        .close-btn:hover { transform: rotate(90deg); }
 
         /* --- [Footer] --- */
         footer { padding: 100px 0 50px; text-align: center; font-size: 0.85rem; color: #aaa; letter-spacing: 1px; }
         .footer-sns { margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; }
         .footer-sns a { color: #333; font-weight: 700; font-size: 0.9rem; }
 
-        /* ==========================================================================
-           ★ [모바일 슈퍼 사이즈 & 반응형 유동적 크기] ★
-           - clamp(최소, 권장, 최대) 함수로 모든 해상도 대응
-           ========================================================================== */
+        /* =========================================
+           ★ [모바일 최적화 (Responsive)] ★
+           - clamp()로 글씨 크기 유동적 조절
+           - 좁은 화면(768px 이하)에서 헤더 얇게 & 메뉴 숨김
+           ========================================= */
         @media (max-width: 1024px) {
             /* Layout */
-            .container { padding: 0 6vw; } /* 좌우 여백 % 사용 */
-            section { padding: 12vh 0; }
+            .container { padding: 0 6vw; } 
+            section { padding: 10vh 0; }
             
-            /* [Header] */
-            nav { height: 80px; padding: 0 5vw; }
-            .logo { font-size: clamp(1.5rem, 5vw, 2rem); } /* 유동적 로고 크기 */
-            .current-lang { font-size: clamp(1rem, 3.5vw, 1.3rem); padding: 10px; font-weight: 700; }
-            
-            .lang-list { top: 110%; min-width: 200px; }
-            .lang-option { font-size: 1.4rem; padding: 18px 25px; }
-
             /* [Hero] */
-            .hero { grid-template-columns: 1fr; gap: 4vh; padding-top: 120px; text-align: left; display: flex; flex-direction: column; }
+            .hero { grid-template-columns: 1fr; gap: 4vh; padding-top: 100px; text-align: left; display: flex; flex-direction: column; }
             .hero-img { 
                 width: 100%; height: auto; aspect-ratio: 4/5; 
                 max-height: 65vh; order: -1; margin-bottom: 2vh; 
             }
-            /* 제목: 화면 너비의 13% 크기로 설정 (아이폰 Max에서 매우 커짐) */
+            /* Title & Text - clamp()로 자동 조절 */
             .hero-text h1 { 
-                font-size: clamp(3.5rem, 13vw, 6rem); 
-                margin-bottom: 3vh; letter-spacing: -1px; line-height: 1.1; word-break: break-word; 
+                font-size: clamp(3.5rem, 12vw, 5.5rem); 
+                margin-bottom: 2vh; letter-spacing: -1px; line-height: 1.1; word-break: break-word; 
             }
-            .hero-text span.subtitle { font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 2vh; }
-            .hero-text p { font-size: clamp(1.1rem, 4vw, 1.6rem); line-height: 1.6; color: #333; margin-top: 3vh; word-break: keep-all; }
+            .hero-text span.subtitle { font-size: clamp(1.3rem, 4vw, 1.6rem); margin-bottom: 1.5vh; }
+            .hero-text p { font-size: clamp(1.1rem, 3.5vw, 1.4rem); line-height: 1.6; color: #333; margin-top: 3vh; }
 
             /* [Profile] */
             .profile-wrap { grid-template-columns: 1fr; gap: 8vh; }
             .specs-grid { grid-template-columns: 1fr; gap: 5vh; }
             .profile-summary h2 { font-size: clamp(2.5rem, 10vw, 4rem); margin-bottom: 5vh; }
             
-            .spec-item strong { font-size: clamp(1.5rem, 6vw, 2.2rem); margin-bottom: 1vh; }
-            .spec-item h3 { font-size: clamp(0.9rem, 3vw, 1.2rem); margin-bottom: 0.5vh; letter-spacing: 1.5px; }
+            .spec-item strong { font-size: clamp(1.5rem, 6vw, 2.0rem); margin-bottom: 1vh; }
+            .spec-item h3 { font-size: clamp(0.9rem, 3vw, 1.2rem); margin-bottom: 0.5vh; }
             .spec-desc { font-size: clamp(1.1rem, 4vw, 1.5rem); line-height: 1.5; color: #444; }
 
             /* [Filmography] */
             .career-category-title { font-size: clamp(1.8rem, 7vw, 2.5rem); padding-bottom: 2vh; margin-bottom: 5vh; }
             .filmo-grid { grid-template-columns: 1fr; gap: 4vh; }
             
-            /* 썸네일 너비: 화면의 35% (유동적) */
+            /* 썸네일 & 텍스트 */
             .career-item { 
-                grid-template-columns: 35vw 1fr; 
+                grid-template-columns: 35vw 1fr; /* 썸네일 35% */
                 gap: 5vw; padding-bottom: 4vh; align-items: start;
             }
-            .career-thumb { 
-                width: 100%; height: auto; aspect-ratio: 2/3; 
-            }
+            .career-thumb { width: 100%; height: auto; aspect-ratio: 2/3; flex-shrink: 0; }
             .career-info { gap: 0.8vh; }
             .year { font-size: clamp(1rem, 3.5vw, 1.3rem); margin-bottom: 0.5vh; display: block; }
             .career-title { 
-                font-size: clamp(1.5rem, 6vw, 2.2rem); 
-                line-height: 1.2; margin-bottom: 1vh; 
-                word-break: keep-all; overflow-wrap: anywhere;
+                font-size: clamp(1.5rem, 6vw, 2.0rem); 
+                line-height: 1.25; margin-bottom: 1vh; word-break: keep-all; overflow-wrap: anywhere;
             }
-            .career-role { font-size: clamp(1.1rem, 4vw, 1.5rem); line-height: 1.4; color: #555; }
+            .career-role { font-size: clamp(1.1rem, 4vw, 1.4rem); line-height: 1.4; color: #555; }
             .broadcast { font-size: clamp(0.8rem, 3vw, 1.1rem); padding: 0.5vh 2vw; margin-top: 1vh; }
 
             /* [Gallery] */
@@ -216,18 +187,27 @@
             footer p { font-size: clamp(0.9rem, 3.5vw, 1.2rem); margin-top: 2vh; }
         }
 
-        /* --- [다국어 처리 (수정 완료)] --- */
+        /* --- [★ 좁은 화면 전용 (Slim Header) ★] --- */
+        @media (max-width: 768px) {
+            /* 1. 헤더 높이 줄임 & 패딩 축소 */
+            header { padding: 10px 0; }
+            nav { height: 60px; padding: 0 20px; }
+            
+            /* 2. 텍스트 메뉴(About 등) 숨김 -> 로고 & 언어만 남김 */
+            .menu { display: none !important; }
+            
+            /* 3. 로고 & 언어 버튼 크기 최적화 */
+            .logo { font-size: 1.4rem; }
+            .current-lang { font-size: 1rem; padding: 8px; }
+            .lang-list { top: 110%; min-width: 150px; }
+            .lang-option { font-size: 1.1rem; padding: 12px 20px; }
+        }
+
+        /* 다국어 처리 */
         .lang-text { display: none !important; }
         html[lang="ko"] .ko { display: inline-block !important; }
         html[lang="en"] .en { display: inline-block !important; }
-        
-        /* [수정완료] 중국어(cn) 선택자 올바르게 수정 */
-        html[lang="cn"] .cn { 
-            display: inline-block !important; 
-            font-family: var(--font-cn); 
-            word-break: break-all; 
-        }
-        
+        html[lang="zh"] .cn { display: inline-block !important; font-family: var(--font-cn); word-break: break-all; }
         html[lang="ja"] .ja { display: inline-block !important; font-family: var(--font-jp); word-break: break-all; }
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
@@ -507,3 +487,4 @@
 
 </body>
 </html>
+    
