@@ -1,4 +1,162 @@
-<script src="data.js"></script>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio Admin (Final Master)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <style>
+        /* --- [기본 스타일] --- */
+        body { font-family: 'Pretendard', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        
+        /* 헤더 */
+        .sticky-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000; padding: 15px 0; border-bottom: 1px solid #eee; margin-bottom: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .config-panel { background: #eef2f5; padding: 15px; border-radius: 8px; font-size: 0.9rem; display: none; margin-bottom: 15px; }
+        .config-panel.open { display: block; }
+        .config-row { display: flex; gap: 10px; margin-bottom: 5px; }
+        
+        /* 버튼 */
+        .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn-primary { background: #2c3e50; color: white; }
+        .btn-primary:hover { background: #1a252f; }
+        .btn-outline { border: 1px solid #ddd; background: white; color: #555; }
+        .btn-danger { background: #ff6b6b; color: white; font-size: 0.8rem; padding: 5px 10px; }
+        .btn-sync { background: #27ae60; color: white; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+        .btn-history { background: #f39c12; color: white; font-size: 0.9rem; } 
+        
+        /* 자동 번역 버튼 */
+        .btn-auto-trans { background: #fff; border: 1px solid #6c5ce7; color: #6c5ce7; padding: 4px 10px; font-size: 0.8rem; border-radius: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: 0.2s; }
+        .btn-auto-trans:hover { background: #6c5ce7; color: white; }
+        
+        /* 폼 요소 */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
+        input[type="text"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; }
+        .preview-img { max-width: 150px; max-height: 150px; border: 1px solid #eee; margin-top: 10px; border-radius: 4px; object-fit: cover;}
+        
+        /* 갤러리 */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+        .gallery-item { position: relative; aspect-ratio: 1/1; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .remove-btn { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; }
+
+        /* 필모그래피 섹션 */
+        .category-section { margin-bottom: 30px; background: #f8f9fa; border-radius: 8px; padding: 20px; border: 1px solid #e9ecef; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .category-title { font-size: 1.2rem; font-weight: 800; color: #2c3e50; }
+        
+        .filmo-list { min-height: 50px; } /* 드래그 영역 확보 */
+        
+        .filmo-item { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 10px; transition: transform 0.2s, box-shadow 0.2s; }
+        .filmo-item.dragging { opacity: 0.5; border: 2px dashed #2c3e50; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        .filmo-summary { display: flex; align-items: center; padding: 15px; cursor: pointer; }
+        .filmo-summary:hover { background: #f1f3f5; }
+        .filmo-details { display: none; padding: 20px; border-top: 1px solid #eee; background: #fafafa; }
+        .filmo-item.active .filmo-details { display: block; }
+        
+        .drag-handle { cursor: grab; padding: 10px; color: #aaa; font-size: 1.5rem; margin-right: 5px; }
+        .drag-handle:active { cursor: grabbing; color: #333; }
+        
+        .thumb-preview { width: 40px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; background: #eee; }
+        .info-preview { flex: 1; }
+        
+        .btn-add-section { width: 100%; padding: 12px; background-color: white; border: 2px dashed #cbd5e0; color: #4a5568; border-radius: 8px; cursor: pointer; font-weight: 600; margin-bottom: 10px;}
+        .empty-message { text-align: center; color: #888; padding: 20px; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        /* 히스토리 모달 & 로딩 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 600px; max-height: 80vh; border-radius: 12px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0; }
+        .history-item:hover { background: #f9f9f9; }
+        .history-info div { font-size: 0.9rem; font-weight: bold; }
+        .history-info span { font-size: 0.8rem; color: #888; }
+        
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; color: white; }
+        .spinner { border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid white; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .status-badge { font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; background: #eee; color: #555; margin-left: 10px; }
+        .status-badge.active { background: #e8f5e9; color: #27ae60; border: 1px solid #27ae60; }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingSpinner">
+        <div class="spinner"></div>
+        <div id="loadingText">처리 중입니다...</div>
+    </div>
+
+    <div class="container">
+        <div class="sticky-header">
+            <div class="header-top">
+                <div style="display: flex; align-items: center;">
+                    <h1>ADMIN PAGE</h1>
+                    <span id="syncStatus" class="status-badge">Local Mode</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" onclick="toggleConfig()">⚙️ 설정</button>
+                    <button class="btn btn-history" onclick="loadHistory()">🕒 히스토리</button>
+                    <button class="btn btn-sync" onclick="forceLoadFromGitHub()">🔄 불러오기</button>
+                    <button class="btn btn-primary" onclick="saveDataJsToGitHub()">☁️ 저장</button>
+                </div>
+            </div>
+            <div id="configPanel" class="config-panel">
+                <p style="margin:0 0 10px 0; font-weight:bold; color:#e74c3c;">※ GitHub 정보 설정</p>
+                <div class="config-row">
+                    <input type="text" id="confOwner" placeholder="GitHub 아이디">
+                    <input type="text" id="confRepo" placeholder="레포지토리 이름">
+                </div>
+                <div class="config-row">
+                    <input type="password" id="confToken" placeholder="GitHub Token">
+                    <button class="btn btn-primary" onclick="saveConfig()">설정 저장</button>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>1. 메인 프로필</h2>
+            <div class="form-group">
+                <div style="display:flex; gap:20px;">
+                    <div style="flex:1;">
+                        <label>이미지 업로드</label>
+                        <input type="file" accept="image/*" onchange="uploadImage(this, 'mainImage')">
+                    </div>
+                    <img id="mainImagePreview" class="preview-img" src="">
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. 갤러리</h2>
+            <div class="form-group">
+                <label>사진 추가 (다중 선택 가능)</label>
+                <input type="file" accept="image/*" multiple onchange="uploadGalleryImages(this)">
+            </div>
+            <div id="galleryContainer" class="gallery-grid"></div>
+        </section>
+
+        <section>
+            <h2>3. 필모그래피</h2>
+            <div id="filmoContainer"></div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>버전 히스토리</h3>
+                <button class="btn btn-outline" onclick="closeHistory()">닫기</button>
+            </div>
+            <ul class="history-list" id="historyList"></ul>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
     <script>
         /* --- [설정] --- */
         const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "AUDIOBOOK", "COMMERCIALS (ADS)"];
@@ -15,10 +173,7 @@
             if(typeof portfolioData !== 'undefined') {
                 initAdmin();
             }
-            
-            if(ghConfig.owner && ghConfig.token) {
-                forceLoadFromGitHub(true);
-            }
+            if(ghConfig.owner && ghConfig.token) forceLoadFromGitHub(true);
         };
 
         function initAdmin() {
@@ -30,257 +185,58 @@
         function saveConfig() {
             ghConfig = { owner: document.getElementById('confOwner').value.trim(), repo: document.getElementById('confRepo').value.trim(), token: document.getElementById('confToken').value.trim() };
             localStorage.setItem('ghConfig', JSON.stringify(ghConfig));
-            alert("설정 저장 완료!"); toggleConfig();
-            forceLoadFromGitHub();
+            alert("설정 저장 완료!"); toggleConfig(); forceLoadFromGitHub();
         }
 
-        /* ============================================================
-           ★ [핵심 수정] 이미지 업로드 시 '즉시 미리보기(Base64)' 적용
-           ============================================================ */
-        
-        // 1. 단일 이미지 업로드 (메인, 필모 썸네일)
-        async function uploadImage(input, targetKey, index = null) {
-            if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
-            showLoading(`이미지 업로드 중...`);
-
-            try {
-                // 1. 미리보기용 데이터 생성 (즉시 보임)
-                const base64Content = await toBase64(file);
-                
-                // 2. 실제 업로드
-                const fileName = `images/${new Date().getTime()}_${file.name}`;
-                const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
-                
-                if (index !== null) {
-                    // [필모그래피 썸네일]
-                    portfolioData.filmography[index].thumb = uploadedUrl; // 데이터엔 URL 저장
-                    renderFilmoGroups(); // UI 갱신
-                    
-                    // ★ 핵심: 갱신된 UI의 이미지를 강제로 Base64로 교체 (기다림 없이 보임)
-                    setTimeout(() => {
-                        const itemEl = document.querySelector(`.filmo-item[data-origin-index="${index}"]`);
-                        if(itemEl) {
-                            const img = itemEl.querySelector('.thumb-preview');
-                            const preview = itemEl.querySelector('.preview-img');
-                            if(img) img.src = base64Content;
-                            if(preview) preview.src = base64Content;
-                        }
-                    }, 100);
-                } else {
-                    // [메인 이미지]
-                    portfolioData[targetKey] = uploadedUrl;
-                    document.getElementById('mainImagePreview').src = base64Content; // 즉시 교체
-                }
-                alert("업로드 성공! (미리보기가 적용되었습니다)");
-
-            } catch (err) {
-                alert("실패: " + err.message);
-            } finally {
-                hideLoading();
-                input.value = '';
-            }
+        /* --- [드래그 앤 드롭 로직] --- */
+        let draggedItem = null;
+        function handleDragStart(e) { draggedItem = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/html', this.innerHTML); }
+        function handleDragEnd(e) { this.classList.remove('dragging'); draggedItem = null; reorderDataFromDOM(); }
+        function handleDragOver(e) {
+            e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+            const list = this.closest('.filmo-list'); if (!list) return;
+            const afterElement = getDragAfterElement(list, e.clientY);
+            if (afterElement == null) list.appendChild(draggedItem); else list.insertBefore(draggedItem, afterElement);
         }
-
-        // 2. 갤러리 다중 업로드
-        async function uploadGalleryImages(input) {
-            if (!input.files || input.files.length === 0) return;
-            const files = Array.from(input.files);
-            let successCount = 0;
-            
-            // ★ 미리보기용 Base64를 저장할 배열
-            const tempPreviews = [];
-
-            try {
-                for (let i = 0; i < files.length; i++) {
-                    showLoading(`갤러리 업로드 중... (${i + 1}/${files.length})`);
-                    const file = files[i];
-                    
-                    // 1. Base64 변환
-                    const base64Content = await toBase64(file);
-                    tempPreviews.push(base64Content); // 순서대로 저장
-
-                    // 2. 업로드
-                    const fileName = `images/${new Date().getTime()}_${i}_${file.name}`;
-                    const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
-                    
-                    // 3. 데이터에 URL 추가 (맨 앞에)
-                    portfolioData.gallery.unshift(uploadedUrl);
-                    successCount++;
-                }
-                
-                // 4. 렌더링
-                renderGallery();
-
-                // ★ 핵심: 방금 추가된 맨 앞 이미지들을 Base64로 강제 교체
-                const galleryItems = document.querySelectorAll('.gallery-item img');
-                // 최신순으로 추가되므로, 앞쪽 인덱스가 방금 올린 파일임
-                // tempPreviews는 [파일1, 파일2...] 순서이므로, 
-                // 갤러리의 맨 앞(가장 최신)부터 역순으로 매칭해야 함.
-                
-                // 예: 파일 2개를 올렸다면 gallery[0], gallery[1]이 방금 올린 것.
-                // gallery[0]은 files[1](나중에 처리됨), gallery[1]은 files[0]
-                
-                // 간단하게: 갤러리를 다시 그릴 때, 아직 로딩 안 된 URL은 엑박이 뜸.
-                // 방금 올린 개수만큼(successCount) 루프를 돌면서 src를 바꿔치기함.
-                for(let i=0; i < successCount; i++) {
-                    if(galleryItems[i]) {
-                        // tempPreviews 배열은 순차적으로 쌓였지만, gallery는 unshift로 역순으로 쌓임
-                        // 따라서 tempPreviews의 마지막 요소가 gallery의 0번임
-                        galleryItems[i].src = tempPreviews[tempPreviews.length - 1 - i];
-                    }
-                }
-
-                alert(`${successCount}장의 이미지가 업로드되었습니다.`);
-            } catch (err) {
-                alert("일부 업로드 실패: " + err.message);
-            } finally {
-                hideLoading();
-                input.value = '';
-            }
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
-
-        /* --- [GitHub 통신 함수] --- */
-        async function forceLoadFromGitHub(silent = false) {
-            if(!ghConfig.owner || !ghConfig.token) return;
-            if(!silent) showLoading("GitHub 데이터 불러오는 중...");
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=main&timestamp=${new Date().getTime()}`;
-            try {
-                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
-                if(!res.ok) throw new Error("불러오기 실패");
-                const json = await res.json();
-                const content = decodeURIComponent(escape(window.atob(json.content)));
-                const jsonStr = content.replace('const portfolioData =', '').replace(';', '');
-                portfolioData = JSON.parse(jsonStr);
-                initAdmin();
-                const statusBadge = document.getElementById('syncStatus');
-                statusBadge.textContent = "Synced with GitHub"; statusBadge.classList.add('active');
-                if(!silent) alert("동기화 완료!");
-            } catch(err) { console.error(err); if(!silent) alert("데이터 로드 실패"); } finally { hideLoading(); }
-        }
-
-        async function uploadFileToGitHub(path, content) {
-            if(!ghConfig.owner || !ghConfig.token) throw new Error("GitHub 설정 필요");
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${path}`;
-            const cleanContent = content.split(',')[1];
-            const res = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Upload image: ${path}`, content: cleanContent }) });
-            if (!res.ok) throw new Error(res.statusText);
-            // CDN 캐시 우회를 위해 타임스탬프를 붙이지 않고 원본 URL 반환 (사이트에선 1~3분 뒤 뜸)
-            return `https://${ghConfig.owner}.github.io/${ghConfig.repo}/${path}`;
-        }
-
-        async function saveDataJsToGitHub() {
-            if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("데이터 저장 중...");
-            const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
-            const contentEncoded = btoa(unescape(encodeURIComponent(content)));
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js`;
-            try {
-                const getRes = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
-                const getData = await getRes.json();
-                const putRes = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Update data.js`, content: contentEncoded, sha: getData.sha }) });
-                if(putRes.ok) alert("저장 완료! (1~3분 후 반영됩니다)"); else alert("저장 실패");
-            } catch(err) { alert("오류: " + err); } finally { hideLoading(); }
-        }
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
+        function reorderDataFromDOM() {
+            const newOrder = [];
+            document.querySelectorAll('.filmo-item').forEach(el => {
+                const originIdx = el.dataset.originIndex;
+                if (portfolioData.filmography[originIdx]) newOrder.push(portfolioData.filmography[originIdx]);
             });
+            portfolioData.filmography = newOrder; renderFilmoGroups(); 
         }
 
-        /* --- [자동 번역] --- */
-        async function runAutoTranslate(index, fieldType) {
-            const item = portfolioData.filmography[index];
-            const sourceText = item[fieldType].en || item[fieldType].ko;
-            if (!sourceText) { alert("KO 또는 EN 내용이 있어야 합니다."); return; }
-            if (!confirm(`[${sourceText}] 내용으로 자동 번역하시겠습니까?`)) return;
-            showLoading("자동 번역 중...");
-            const targets = ['cn', 'ja', 'pt', 'es', 'ar'];
-            try {
-                for (const lang of targets) {
-                    let apiLang = lang === 'cn' ? 'zh-CN' : lang;
-                    const translated = await fetchTranslation(sourceText, apiLang);
-                    portfolioData.filmography[index][fieldType][lang] = translated;
-                    const inputEl = document.getElementById(`input-${index}-${fieldType}-${lang}`);
-                    if (inputEl) inputEl.value = translated;
-                }
-                alert("번역 완료!");
-            } catch (err) { alert("번역 오류: " + err.message); } finally { hideLoading(); }
-        }
-        async function fetchTranslation(text, targetLang) {
-            const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
-            try { const res = await fetch(url); const data = await res.json(); return data.responseData ? data.responseData.translatedText : ""; } 
-            catch (e) { console.error(e); return ""; }
-        }
-
-        /* --- [히스토리] --- */
-        async function loadHistory() {
-            if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요");
-            showLoading("히스토리 로드...");
-            const list = document.getElementById('historyList'); list.innerHTML = '';
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/commits?path=data.js`;
-            try {
-                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
-                const commits = await res.json();
-                commits.forEach(commit => {
-                    const date = new Date(commit.commit.author.date).toLocaleString();
-                    const msg = commit.commit.message;
-                    const sha = commit.sha;
-                    const li = document.createElement('li');
-                    li.className = 'history-item';
-                    li.innerHTML = `<div class="history-info"><div>${msg}</div><span>${date}</span></div><button class="btn btn-outline" onclick="restoreVersion('${sha}')">복구</button>`;
-                    list.appendChild(li);
-                });
-                document.getElementById('historyModal').style.display = 'flex';
-            } catch(err) { alert("실패: " + err); } finally { hideLoading(); }
-        }
-        async function restoreVersion(sha) {
-            if(!confirm("복구하시겠습니까?")) return; showLoading("복구 중...");
-            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=${sha}`;
-            try {
-                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } });
-                const data = await res.json();
-                const content = decodeURIComponent(escape(window.atob(data.content)));
-                const jsonStr = content.replace('const portfolioData =', '').replace(';', '');
-                portfolioData = JSON.parse(jsonStr);
-                initAdmin(); closeHistory(); alert("복구됨! 저장 버튼을 눌러 확정하세요.");
-            } catch(err) { alert("실패: " + err); } finally { hideLoading(); }
-        }
-        function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
-
-        /* --- [렌더링 & UI] --- */
-        function renderGallery() { document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `<div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>`).join(''); }
-        
+        /* --- [렌더링] --- */
         function renderFilmoGroups() {
             const container = document.getElementById('filmoContainer'); container.innerHTML = '';
             const groups = {}; CATEGORY_ORDER.forEach(cat => groups[cat] = []);
             portfolioData.filmography.forEach((item, index) => { item._originIndex = index; if (!groups[item.category]) groups[item.category] = []; groups[item.category].push(item); });
             Object.keys(groups).forEach(cat => {
                 const section = document.createElement('section'); section.className = 'category-section';
-                section.innerHTML = `<div class="category-header"><span class="category-title">${cat}</span></div><button class="btn-add-section" onclick="addFilmo('${cat}')">+ Add to <b>${cat}</b></button><div class="filmo-list"></div>`;
-                const list = section.querySelector('.filmo-list');
-                if(groups[cat].length === 0) list.innerHTML = `<div class="empty-message">작품 없음</div>`;
-                else groups[cat].forEach(item => list.appendChild(createFilmoItem(item)));
+                section.innerHTML = `<div class="category-header"><span class="category-title">${cat}</span><span style="font-size:0.8rem; color:#888;">(${groups[cat].length})</span></div><button class="btn-add-section" onclick="addFilmo('${cat}')">+ Add to <b>${cat}</b></button><div class="filmo-list"></div>`;
+                const listContainer = section.querySelector('.filmo-list');
+                listContainer.addEventListener('dragover', handleDragOver);
+                if(groups[cat].length === 0) listContainer.innerHTML = `<div class="empty-message">작품 없음</div>`;
+                else groups[cat].forEach(item => listContainer.appendChild(createFilmoItem(item)));
                 container.appendChild(section);
             });
         }
 
         function createFilmoItem(item) {
             const el = document.createElement('div'); el.className = 'filmo-item'; el.draggable = true; el.dataset.originIndex = item._originIndex;
-            el.addEventListener('dragstart', dragStart); el.addEventListener('dragend', dragEnd);
+            el.addEventListener('dragstart', handleDragStart); el.addEventListener('dragend', handleDragEnd);
             const createLangInputs = (type) => LANG_LIST.map(lang => `<div class="lang-item"><label>${LANG_LABEL[lang]} (${lang.toUpperCase()})</label><input type="text" id="input-${item._originIndex}-${type}-${lang}" value="${item[type][lang] || ''}" onchange="portfolioData.filmography[${item._originIndex}].${type}.${lang}=this.value"></div>`).join('');
             el.innerHTML = `
                 <div class="filmo-summary" onclick="if(!event.target.classList.contains('drag-handle')) this.parentElement.classList.toggle('active')">
-                    <div class="drag-handle">≡</div>
-                    <img src="${item.thumb}" class="thumb-preview">
-                    <div class="info-preview">
-                        <div style="font-weight:bold">${item.title.ko || '(제목)'}</div>
-                        <div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div>
-                    </div>
-                    <div>▼</div>
+                    <div class="drag-handle">≡</div><img src="${item.thumb}" class="thumb-preview"><div class="info-preview"><div style="font-weight:bold">${item.title.ko || '(제목)'}</div><div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div></div><div>▼</div>
                 </div>
                 <div class="filmo-details">
                     <div style="text-align:right"><button class="btn btn-danger" onclick="deleteFilmo(${item._originIndex})">삭제</button></div>
@@ -291,16 +247,83 @@
             return el;
         }
 
+        /* --- [기능 함수들] --- */
+        function renderGallery() { document.getElementById('galleryContainer').innerHTML = portfolioData.gallery.map((url, i) => `<div class="gallery-item"><img src="${url}"><button class="remove-btn" onclick="portfolioData.gallery.splice(${i},1); renderGallery();">×</button></div>`).join(''); }
         function addFilmo(cat) { const emptyLangObj = {}; LANG_LIST.forEach(lang => emptyLangObj[lang] = ""); portfolioData.filmography.unshift({ category: cat, year: new Date().getFullYear(), thumb: "https://placehold.co/200", broadcast:"", title: { ...emptyLangObj, ko: "새 작품" }, role: { ...emptyLangObj } }); renderFilmoGroups(); }
         function deleteFilmo(i) { if(confirm('삭제?')) { portfolioData.filmography.splice(i, 1); renderFilmoGroups(); } }
-
-        // 드래그
-        let draggedItem = null;
-        function dragStart(e) { draggedItem = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
-        function dragEnd() { this.classList.remove('dragging'); draggedItem = null; const newOrder = []; document.querySelectorAll('.filmo-item').forEach(el => { newOrder.push(portfolioData.filmography[el.dataset.originIndex]); }); portfolioData.filmography = newOrder; renderFilmoGroups(); }
-        document.querySelectorAll('.filmo-list').forEach(list => { list.addEventListener('dragover', e => { e.preventDefault(); const afterElement = getDragAfterElement(list, e.clientY); if (draggedItem) { if (afterElement == null) list.appendChild(draggedItem); else list.insertBefore(draggedItem, afterElement); } }); });
-        function getDragAfterElement(container, y) { const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')]; return draggableElements.reduce((closest, child) => { const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2; if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest; }, { offset: Number.NEGATIVE_INFINITY }).element; }
-
+        
+        async function forceLoadFromGitHub(silent = false) {
+            if(!ghConfig.owner || !ghConfig.token) return; if(!silent) showLoading("GitHub 로드...");
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=main&timestamp=${new Date().getTime()}`;
+            try {
+                const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); if(!res.ok) throw new Error("실패");
+                const json = await res.json(); const content = decodeURIComponent(escape(window.atob(json.content)));
+                const jsonStr = content.replace('const portfolioData =', '').replace(';', '');
+                portfolioData = JSON.parse(jsonStr); initAdmin();
+                document.getElementById('syncStatus').textContent = "Synced with GitHub"; document.getElementById('syncStatus').classList.add('active');
+                if(!silent) alert("동기화 완료!");
+            } catch(err) { console.error(err); if(!silent) alert("실패"); } finally { hideLoading(); }
+        }
+        async function saveDataJsToGitHub() {
+            if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("저장 중...");
+            const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
+            const contentEncoded = btoa(unescape(encodeURIComponent(content)));
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js`;
+            try {
+                const getRes = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const getData = await getRes.json();
+                const putRes = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Update data.js`, content: contentEncoded, sha: getData.sha }) });
+                if(putRes.ok) alert("저장 완료!"); else alert("실패");
+            } catch(err) { alert("오류: " + err); } finally { hideLoading(); }
+        }
+        
+        async function uploadImage(input, targetKey, index = null) {
+            if (!input.files || !input.files[0]) return; const file = input.files[0]; showLoading(`이미지 업로드...`);
+            try {
+                const base64Content = await toBase64(file);
+                const fileName = `images/${new Date().getTime()}_${file.name}`;
+                const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
+                if (index !== null) {
+                    portfolioData.filmography[index].thumb = uploadedUrl; renderFilmoGroups();
+                    setTimeout(() => { const itemEl = document.querySelector(`.filmo-item[data-origin-index="${index}"]`); if(itemEl) itemEl.querySelector('.thumb-preview').src = base64Content; }, 100);
+                } else {
+                    portfolioData[targetKey] = uploadedUrl; document.getElementById('mainImagePreview').src = base64Content;
+                }
+                alert("성공!");
+            } catch (err) { alert("실패: " + err.message); } finally { hideLoading(); input.value = ''; }
+        }
+        
+        async function uploadGalleryImages(input) {
+            if (!input.files || input.files.length === 0) return; const files = Array.from(input.files);
+            let successCount = 0; const tempPreviews = [];
+            try {
+                for (let i = 0; i < files.length; i++) {
+                    showLoading(`업로드 중... (${i + 1}/${files.length})`); const file = files[i];
+                    const base64Content = await toBase64(file); tempPreviews.push(base64Content);
+                    const fileName = `images/${new Date().getTime()}_${i}_${file.name}`;
+                    const uploadedUrl = await uploadFileToGitHub(fileName, base64Content);
+                    portfolioData.gallery.unshift(uploadedUrl); successCount++;
+                }
+                renderGallery();
+                const galleryItems = document.querySelectorAll('.gallery-item img');
+                for(let i=0; i < tempPreviews.length; i++) { if(galleryItems[i]) galleryItems[i].src = tempPreviews[files.length - 1 - i]; }
+                alert(`${successCount}장 완료`);
+            } catch (err) { alert("실패: " + err.message); } finally { hideLoading(); input.value = ''; }
+        }
+        
+        async function uploadFileToGitHub(path, content) {
+            if(!ghConfig.owner || !ghConfig.token) throw new Error("설정 필요");
+            const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${path}`;
+            const cleanContent = content.split(',')[1];
+            const res = await fetch(url, { method: 'PUT', headers: { Authorization: `token ${ghConfig.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Upload image`, content: cleanContent }) });
+            if (!res.ok) throw new Error(res.statusText);
+            return `https://${ghConfig.owner}.github.io/${ghConfig.repo}/${path}`;
+        }
+        function toBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => resolve(reader.result); reader.onerror = error => reject(error); }); }
+        async function runAutoTranslate(index, fieldType) { const item = portfolioData.filmography[index]; const sourceText = item[fieldType].en || item[fieldType].ko; if (!sourceText) { alert("내용 필요"); return; } if (!confirm("자동 번역?")) return; showLoading("번역 중..."); const targets = ['cn', 'ja', 'pt', 'es', 'ar']; try { for (const lang of targets) { let apiLang = lang === 'cn' ? 'zh-CN' : lang; const translated = await fetchTranslation(sourceText, apiLang); portfolioData.filmography[index][fieldType][lang] = translated; const inputEl = document.getElementById(`input-${index}-${fieldType}-${lang}`); if (inputEl) inputEl.value = translated; } alert("완료"); } catch (err) { alert("오류: " + err.message); } finally { hideLoading(); } }
+        async function fetchTranslation(text, targetLang) { const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`; try { const res = await fetch(url); const data = await res.json(); return data.responseData ? data.responseData.translatedText : ""; } catch (e) { return ""; } }
+        async function loadHistory() { if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("히스토리..."); const list = document.getElementById('historyList'); list.innerHTML = ''; const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/commits?path=data.js`; try { const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const commits = await res.json(); commits.forEach(commit => { const li = document.createElement('li'); li.className = 'history-item'; li.innerHTML = `<div class="history-info"><div>${commit.commit.message}</div><span>${new Date(commit.commit.author.date).toLocaleString()}</span></div><button class="btn btn-outline" onclick="restoreVersion('${commit.sha}')">복구</button>`; list.appendChild(li); }); document.getElementById('historyModal').style.display = 'flex'; } catch(err) { alert("실패"); } finally { hideLoading(); } }
+        async function restoreVersion(sha) { if(!confirm("복구하시겠습니까?")) return; showLoading("복구 중..."); const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=${sha}`; try { const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const data = await res.json(); const content = decodeURIComponent(escape(window.atob(data.content))); const jsonStr = content.replace('const portfolioData =', '').replace(';', ''); portfolioData = JSON.parse(jsonStr); initAdmin(); closeHistory(); alert("복구됨!"); } catch(err) { alert("실패"); } finally { hideLoading(); } }
+        function closeHistory() { document.getElementById('historyModal').style.display = 'none'; }
         function showLoading(msg) { document.getElementById('loadingText').textContent = msg; document.getElementById('loadingSpinner').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingSpinner').style.display = 'none'; }
     </script>
