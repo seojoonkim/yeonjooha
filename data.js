@@ -566,31 +566,6 @@ const portfolioData = {
         },
         {
             "category": "VARIETY",
-            "year": "2009",
-            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763965662972_image65_ys78nv.jpg",
-            "broadcast": "tvN",
-            "title": {
-                "ko": "롤러 코스터",
-                "en": "Roller Coaster",
-                "cn": "雲霄飛車",
-                "ja": "ローラーコースター",
-                "pt": "Montanha russa",
-                "es": "Montaña rusa",
-                "ar": "أفعوانية"
-            },
-            "role": {
-                "ko": "",
-                "en": "",
-                "cn": "",
-                "ja": "",
-                "pt": "",
-                "es": "",
-                "ar": ""
-            },
-            "_originIndex": 22
-        },
-        {
-            "category": "VARIETY",
             "year": "2020",
             "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763915388692_2016121501002244600182351.jpg",
             "broadcast": "SBS",
@@ -612,7 +587,7 @@ const portfolioData = {
                 "es": "Invitada",
                 "ar": "ضيفة"
             },
-            "_originIndex": 23
+            "_originIndex": 22
         },
         {
             "category": "VARIETY",
@@ -637,7 +612,7 @@ const portfolioData = {
                 "es": "Reparto",
                 "ar": "طاقم التمثيل"
             },
-            "_originIndex": 24
+            "_originIndex": 23
         },
         {
             "category": "VARIETY",
@@ -662,7 +637,7 @@ const portfolioData = {
                 "es": "",
                 "ar": ""
             },
-            "_originIndex": 25
+            "_originIndex": 24
         },
         {
             "category": "VARIETY",
@@ -686,6 +661,31 @@ const portfolioData = {
                 "pt": "Jogador (TOP 4)",
                 "es": "Jugador (TOP 4)",
                 "ar": "لاعب (أفضل 4)"
+            },
+            "_originIndex": 25
+        },
+        {
+            "category": "VARIETY",
+            "year": "2009",
+            "thumb": "https://seojoonkim.github.io/yeonjooha/images/1763965662972_image65_ys78nv.jpg",
+            "broadcast": "tvN",
+            "title": {
+                "ko": "롤러 코스터",
+                "en": "Roller Coaster",
+                "cn": "雲霄飛車",
+                "ja": "ローラーコースター",
+                "pt": "Montanha russa",
+                "es": "Montaña rusa",
+                "ar": "أفعوانية"
+            },
+            "role": {
+                "ko": "",
+                "en": "",
+                "cn": "",
+                "ja": "",
+                "pt": "",
+                "es": "",
+                "ar": ""
             },
             "_originIndex": 26
         },
