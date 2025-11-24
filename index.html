@@ -34,30 +34,20 @@
             line-height: 1.6; word-break: keep-all; overflow-wrap: break-word; 
             overflow-x: hidden; -webkit-font-smoothing: antialiased;
             
-            opacity: 0; /* 초기 로딩 페이드인 */
-            transition: opacity 0.6s ease-out;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
         }
         body.loaded { opacity: 1; }
 
         a { text-decoration: none; color: inherit; transition: opacity 0.3s; } a:hover { opacity: 0.6; }
         ul { list-style: none; }
 
-        /* ==========================================================================
-           ★ [Animation: Soft Fade Up] ★
-           - 1.2초 동안 부드럽게 떠오르며 나타남
-           ========================================================================== */
-        .fade-wrap { 
-            opacity: 0; 
-            transform: translateY(30px); 
-            transition: opacity 1.0s ease-out, transform 1.0s cubic-bezier(0.215, 0.610, 0.355, 1.000);
-            will-change: opacity, transform;
-        }
-        .fade-wrap.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        /* --- [Animation] --- */
+        .fade-wrap { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-wrap.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
 
-        /* --- [Layout Common (PC Default)] --- */
+        /* --- [Layout Common (PC)] --- */
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
@@ -73,7 +63,7 @@
         .nav-left { display: flex; align-items: center; gap: 50px; }
         .logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; letter-spacing: 0.5px; white-space: nowrap; }
         .menu { display: flex; gap: 30px; }
-        .menu a { font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
+        .menu a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
         .menu a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background: black; transition: width 0.3s; }
         .menu a:hover::after { width: 100%; }
 
@@ -153,7 +143,7 @@
             .lang-list { top: 110%; min-width: 180px; }
             .lang-option { font-size: 1.3rem; padding: 15px 25px; }
 
-            .hero { grid-template-columns: 1fr; gap: 3vh; padding-top: 80px; text-align: left; display: flex; flex-direction: column; }
+            .hero { grid-template-columns: 1fr; gap: 3vh; padding-top: 100px; text-align: left; display: flex; flex-direction: column; }
             .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 2vh; }
             .hero-text h1 { font-size: 3.8rem; margin-bottom: 2vh; }
             .hero-text p { font-size: 1.3rem; margin-top: 2vh; }
@@ -255,6 +245,7 @@
         html[lang="pt"] .pt { display: inline-block !important; }
         html[lang="es"] .es { display: inline-block !important; }
         html[lang="ar"] .ar { display: inline-block !important; }
+        html[lang="it"] .it { display: inline-block !important; } /* 이태리어 추가 */
         
         html[lang="ar"] body { direction: rtl; text-align: right; }
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
@@ -288,6 +279,7 @@
                     <li class="lang-option" data-lang="ja" onclick="changeLang('ja')">Japanese (JA)</li>
                     <li class="lang-option" data-lang="pt" onclick="changeLang('pt')">Portuguese (PT)</li>
                     <li class="lang-option" data-lang="es" onclick="changeLang('es')">Spanish (ES)</li>
+                    <li class="lang-option" data-lang="it" onclick="changeLang('it')">Italian (IT)</li>
                     <li class="lang-option" data-lang="ar" onclick="changeLang('ar')">Arabic (AR)</li>
                 </ul>
             </div>
@@ -298,7 +290,7 @@
         <section class="hero fade-wrap">
             <div class="hero-text">
                 <span class="subtitle fade-wrap delay-1">
-                    <span class="lang-text ko">배우</span><span class="lang-text en">Actress</span><span class="lang-text cn">演员</span><span class="lang-text ja">女優</span><span class="lang-text pt">Atriz</span><span class="lang-text es">Actriz</span><span class="lang-text ar">ممثلة</span>
+                    <span class="lang-text ko">배우</span><span class="lang-text en">Actress</span><span class="lang-text cn">演员</span><span class="lang-text ja">女優</span><span class="lang-text pt">Atriz</span><span class="lang-text es">Actriz</span><span class="lang-text it">Attrice</span><span class="lang-text ar">ممثلة</span>
                 </span>
                 <h1 class="fade-wrap delay-2">HA<br>YEON JOO</h1>
                 <p class="fade-wrap delay-3">
@@ -308,6 +300,7 @@
                     <span class="lang-text ja">華やかさより深みを、正解より絶え間ない探求を志向します。<br>理性と感性のバランスを保ちながら、与えられた役割に感謝し、黙々と自分だけの呼吸で成長していきます。</span>
                     <span class="lang-text pt">Busco profundidade em vez de esplendor, e questionamento constante em vez de uma única resposta certa.<br>Sem perder o equilíbrio entre a razão e a emoção, crescerei no meu próprio ritmo, grata por cada papel.</span>
                     <span class="lang-text es">Busco profundidad en lugar de esplendor, e indagación constante en lugar de una respuesta correcta.<br>Sin perder el equilibrio entre la razón y la emoción, creceré a mi propio ritmo, agradecida por cada papel.</span>
+                    <span class="lang-text it">Punto alla profondità piuttosto che allo splendore, e all'indagine costante piuttosto che a una singola risposta corretta.<br>Senza perdere l'equilibrio tra ragione ed emozione, crescerò al mio ritmo, grata per ogni ruolo affidatomi.</span>
                     <span class="lang-text ar">أسعى إلى العمق بدلاً من الروعة، وإلى البحث المستمر بدلاً من الإجابة الصحيحة.<br>دون أن أفقد التوازن بين العقل والعاطفة، سأنمو بإيقاعي الخاص، ممتنة لكل دور يُمنح لي.</span>
                 </p>
             </div>
@@ -322,14 +315,14 @@
             <div class="profile-wrap">
                 <div class="profile-summary"><h2>PROFILE</h2></div>
                 <div class="specs-grid">
-                    <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
-                    <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><div class="spec-desc"><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text ar">سيول، كوريا</span></div></div>
-                    <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><div class="spec-desc"><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text ar">حذاء 245مم</span></div></div>
-                    <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생, 배우자</span><span class="lang-text en">Parents, Sister, Brother, Spouse</span><span class="lang-text cn">父母, 姐姐, 弟弟, 配偶</span><span class="lang-text ja">両親, 姉, 弟, 配偶者</span><span class="lang-text pt">Pais, Irmã, Irmão, Cônjuge</span><span class="lang-text es">Padres, Hermana, Hermano, Cónyuge</span><span class="lang-text ar">الوالدان، الأخت، الأخ، الزوج</span></strong></div>
-                    <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><div class="spec-desc"><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text ar">'ها قد جاء'</span></div></div>
+                    <div class="spec-item"><h3>Name</h3><strong><span class="lang-text ko">하연주</span><span class="lang-text en">Ha Yeon-joo</span><span class="lang-text cn">河恋姝</span><span class="lang-text ja">ハ・ヨンジュ</span><span class="lang-text pt">Ha Yeon-joo</span><span class="lang-text es">Ha Yeon-joo</span><span class="lang-text it">Ha Yeon-joo</span><span class="lang-text ar">ها يون جو</span></strong></div>
+                    <div class="spec-item"><h3>Birth</h3><strong>1987. 08. 06</strong><div class="spec-desc"><span class="lang-text ko">서울특별시</span><span class="lang-text en">Seoul, Korea</span><span class="lang-text cn">韩国 首尔</span><span class="lang-text ja">韓国 ソウル</span><span class="lang-text pt">Seul, Coreia</span><span class="lang-text es">Seúl, Corea</span><span class="lang-text it">Seul, Corea</span><span class="lang-text ar">سيول، كوريا</span></div></div>
+                    <div class="spec-item"><h3>Physical</h3><strong>172cm, 48kg, B-Type</strong><div class="spec-desc"><span class="lang-text ko">신발 245mm</span><span class="lang-text en">Shoes 245mm</span><span class="lang-text cn">鞋码 245mm</span><span class="lang-text ja">靴 245mm</span><span class="lang-text pt">Sapatos 245mm</span><span class="lang-text es">Zapatos 245mm</span><span class="lang-text it">Scarpe 245mm</span><span class="lang-text ar">حذاء 245مم</span></div></div>
+                    <div class="spec-item"><h3>Family</h3><strong><span class="lang-text ko">부모님, 언니, 남동생, 배우자</span><span class="lang-text en">Parents, Sister, Brother, Spouse</span><span class="lang-text cn">父母, 姐姐, 弟弟, 配偶</span><span class="lang-text ja">両親, 姉, 弟, 配偶者</span><span class="lang-text pt">Pais, Irmã, Irmão, Cônjuge</span><span class="lang-text es">Padres, Hermana, Hermano, Cónyuge</span><span class="lang-text it">Genitori, Sorella, Fratello, Coniuge</span><span class="lang-text ar">الوالدان، الأخت، الأخ، الزوج</span></strong></div>
+                    <div class="spec-item"><h3>Debut</h3><strong>2008 MBC</strong><div class="spec-desc"><span class="lang-text ko">'그 분이 오신다'</span><span class="lang-text en">'Here He Comes'</span><span class="lang-text cn">'这位来了'</span><span class="lang-text ja">'あの方がいらっしゃる'</span><span class="lang-text pt">'Here He Comes'</span><span class="lang-text es">'Here He Comes'</span><span class="lang-text it">'Arriva Lui'</span><span class="lang-text ar">'ها قد جاء'</span></div></div>
                     <div class="spec-item"><h3>Specialty</h3><strong>MENSA Korea</strong><div class="spec-desc"><span>IQ 156</span></div></div>
-                    <div class="spec-item"><h3>Hobbies</h3><strong><span class="lang-text ko">독서, 요가, 발레, 골프, 이케바나</span><span class="lang-text en">Reading, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text cn">阅读, 瑜伽, 芭蕾, 高尔夫, 插花</span><span class="lang-text ja">読書, ヨガ, バレエ, ゴルフ, 生け花</span><span class="lang-text pt">Leitura, Ioga, Balé, Golfe, Ikebana</span><span class="lang-text es">Lectura, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text ar">القراءة، اليوجا، الباليه، الجولف، إيكيبانا</span></strong></div>
-                    <div class="spec-item"><h3>Languages</h3><strong><span class="lang-text ko">한국어, 영어</span><span class="lang-text en">Korean, English</span><span class="lang-text cn">韩语, 英语</span><span class="lang-text ja">韓国語, 英語</span><span class="lang-text pt">Coreano, Inglês</span><span class="lang-text es">Coreano, Inglés</span><span class="lang-text ar">الكورية، الإنجليزية</span></strong></div>
+                    <div class="spec-item"><h3>Hobbies</h3><strong><span class="lang-text ko">독서, 요가, 발레, 골프, 이케바나</span><span class="lang-text en">Reading, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text cn">阅读, 瑜伽, 芭蕾, 高尔夫, 插花</span><span class="lang-text ja">読書, ヨガ, バレエ, ゴルフ, 生け花</span><span class="lang-text pt">Leitura, Ioga, Balé, Golfe, Ikebana</span><span class="lang-text es">Lectura, Yoga, Ballet, Golf, Ikebana</span><span class="lang-text it">Lettura, Yoga, Balletto, Golf, Ikebana</span><span class="lang-text ar">القراءة، اليوجا، الباليه، الجولف، إيكيبانا</span></strong></div>
+                    <div class="spec-item"><h3>Languages</h3><strong><span class="lang-text ko">한국어, 영어</span><span class="lang-text en">Korean, English</span><span class="lang-text cn">韩语, 英语</span><span class="lang-text ja">韓国語, 英語</span><span class="lang-text pt">Coreano, Inglês</span><span class="lang-text es">Coreano, Inglés</span><span class="lang-text it">Coreano, Inglese</span><span class="lang-text ar">الكورية، الإنجليزية</span></strong></div>
                 </div>
             </div>
         </div>
@@ -443,7 +436,7 @@
                         groupedItems[cat].forEach(item => {
                             const broadcastHtml = item.broadcast ? `<span class="broadcast">${item.broadcast}</span>` : '';
                             const itemDiv = document.createElement('div');
-                            itemDiv.className = 'career-item fade-wrap'; // [중요] 개별 애니메이션 적용 (fade-wrap 클래스)
+                            itemDiv.className = 'career-item fade-wrap'; 
                             
                             itemDiv.innerHTML = `
                                 <div class="career-thumb"><img src="${item.thumb}" alt="Poster"></div>
@@ -456,6 +449,7 @@
                                         <span class="lang-text ja">${item.title.ja}</span>
                                         <span class="lang-text pt">${item.title.pt}</span>
                                         <span class="lang-text es">${item.title.es}</span>
+                                        <span class="lang-text it">${item.title.it}</span>
                                         <span class="lang-text ar">${item.title.ar}</span>
                                         ${broadcastHtml}
                                     </div>
@@ -466,12 +460,12 @@
                                         <span class="lang-text ja">${item.role.ja}</span>
                                         <span class="lang-text pt">${item.role.pt}</span>
                                         <span class="lang-text es">${item.role.es}</span>
+                                        <span class="lang-text it">${item.role.it}</span>
                                         <span class="lang-text ar">${item.role.ar}</span>
                                     </div>
                                 </div>
                             `;
                             gridDiv.appendChild(itemDiv);
-                            // 개별 아이템을 옵저버에 등록하여 스크롤 시 각각 등장하게 함
                             observer.observe(itemDiv);
                         });
                         
@@ -481,8 +475,7 @@
                 }
             }
 
-            // 기본 큰 덩어리들 관찰 시작
-            document.querySelectorAll('.fade-wrap:not(.career-item)').forEach(el => observer.observe(el));
+            document.querySelectorAll('.fade-wrap').forEach(el => observer.observe(el));
             
             const browserLang = navigator.language || navigator.userLanguage;
             let initialLang = 'en';

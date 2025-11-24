@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio Admin (Final Master)</title>
+    <title>Portfolio Admin (Master)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         /* --- [기본 스타일] --- */
@@ -158,10 +158,10 @@
 
     <script src="data.js"></script>
     <script>
-        /* --- [설정] --- */
+        /* --- [설정: 이태리어(it) 포함 확인 필수] --- */
         const CATEGORY_ORDER = ["DRAMA", "MOVIE", "VARIETY", "AUDIOBOOK", "COMMERCIALS (ADS)"];
-        const LANG_LIST = ['ko', 'en', 'cn', 'ja', 'pt', 'es', 'ar'];
-        const LANG_LABEL = { ko:'한국어', en:'English', cn:'中文', ja:'日本語', pt:'Português', es:'Español', ar:'العربية' };
+        const LANG_LIST = ['ko', 'en', 'cn', 'ja', 'pt', 'es', 'it', 'ar'];
+        const LANG_LABEL = { ko:'한국어', en:'English', cn:'中文', ja:'日本語', pt:'Português', es:'Español', it:'Italiano', ar:'العربية' };
 
         let ghConfig = JSON.parse(localStorage.getItem('ghConfig')) || { owner: '', repo: '', token: '' };
 
@@ -188,7 +188,7 @@
             alert("설정 저장 완료!"); toggleConfig(); forceLoadFromGitHub();
         }
 
-        /* --- [드래그 앤 드롭 로직] --- */
+        /* --- [드래그 앤 드롭] --- */
         let draggedItem = null;
         function handleDragStart(e) { draggedItem = this; this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/html', this.innerHTML); }
         function handleDragEnd(e) { this.classList.remove('dragging'); draggedItem = null; reorderDataFromDOM(); }
@@ -201,7 +201,8 @@
         function getDragAfterElement(container, y) {
             const draggableElements = [...container.querySelectorAll('.filmo-item:not(.dragging)')];
             return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height / 2;
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
                 if (offset < 0 && offset > closest.offset) return { offset: offset, element: child }; else return closest;
             }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
@@ -233,7 +234,10 @@
         function createFilmoItem(item) {
             const el = document.createElement('div'); el.className = 'filmo-item'; el.draggable = true; el.dataset.originIndex = item._originIndex;
             el.addEventListener('dragstart', handleDragStart); el.addEventListener('dragend', handleDragEnd);
+            
+            // 이태리어 포함 모든 언어 입력창 생성
             const createLangInputs = (type) => LANG_LIST.map(lang => `<div class="lang-item"><label>${LANG_LABEL[lang]} (${lang.toUpperCase()})</label><input type="text" id="input-${item._originIndex}-${type}-${lang}" value="${item[type][lang] || ''}" onchange="portfolioData.filmography[${item._originIndex}].${type}.${lang}=this.value"></div>`).join('');
+            
             el.innerHTML = `
                 <div class="filmo-summary" onclick="if(!event.target.classList.contains('drag-handle')) this.parentElement.classList.toggle('active')">
                     <div class="drag-handle">≡</div><img src="${item.thumb}" class="thumb-preview"><div class="info-preview"><div style="font-weight:bold">${item.title.ko || '(제목)'}</div><div style="font-size:0.8rem; color:#888">${item.year} | ${item.role.ko}</div></div><div>▼</div>
@@ -264,6 +268,7 @@
                 if(!silent) alert("동기화 완료!");
             } catch(err) { console.error(err); if(!silent) alert("실패"); } finally { hideLoading(); }
         }
+        
         async function saveDataJsToGitHub() {
             if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("저장 중...");
             const content = "const portfolioData = " + JSON.stringify(portfolioData, null, 4) + ";";
@@ -319,7 +324,26 @@
             return `https://${ghConfig.owner}.github.io/${ghConfig.repo}/${path}`;
         }
         function toBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => resolve(reader.result); reader.onerror = error => reject(error); }); }
-        async function runAutoTranslate(index, fieldType) { const item = portfolioData.filmography[index]; const sourceText = item[fieldType].en || item[fieldType].ko; if (!sourceText) { alert("내용 필요"); return; } if (!confirm("자동 번역?")) return; showLoading("번역 중..."); const targets = ['cn', 'ja', 'pt', 'es', 'ar']; try { for (const lang of targets) { let apiLang = lang === 'cn' ? 'zh-CN' : lang; const translated = await fetchTranslation(sourceText, apiLang); portfolioData.filmography[index][fieldType][lang] = translated; const inputEl = document.getElementById(`input-${index}-${fieldType}-${lang}`); if (inputEl) inputEl.value = translated; } alert("완료"); } catch (err) { alert("오류: " + err.message); } finally { hideLoading(); } }
+        
+        /* [자동 번역 - 이태리어(it) 포함] */
+        async function runAutoTranslate(index, fieldType) { 
+            const item = portfolioData.filmography[index]; 
+            const sourceText = item[fieldType].en || item[fieldType].ko; 
+            if (!sourceText) { alert("내용 필요"); return; } 
+            if (!confirm("자동 번역?")) return; 
+            showLoading("번역 중..."); 
+            const targets = ['cn', 'ja', 'pt', 'es', 'it', 'ar']; // it 추가됨
+            try { 
+                for (const lang of targets) { 
+                    let apiLang = lang === 'cn' ? 'zh-CN' : lang; 
+                    const translated = await fetchTranslation(sourceText, apiLang); 
+                    portfolioData.filmography[index][fieldType][lang] = translated; 
+                    const inputEl = document.getElementById(`input-${index}-${fieldType}-${lang}`); 
+                    if (inputEl) inputEl.value = translated; 
+                } 
+                alert("완료"); 
+            } catch (err) { alert("오류: " + err.message); } finally { hideLoading(); } 
+        }
         async function fetchTranslation(text, targetLang) { const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`; try { const res = await fetch(url); const data = await res.json(); return data.responseData ? data.responseData.translatedText : ""; } catch (e) { return ""; } }
         async function loadHistory() { if(!ghConfig.owner || !ghConfig.token) return alert("설정 필요"); showLoading("히스토리..."); const list = document.getElementById('historyList'); list.innerHTML = ''; const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/commits?path=data.js`; try { const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const commits = await res.json(); commits.forEach(commit => { const li = document.createElement('li'); li.className = 'history-item'; li.innerHTML = `<div class="history-info"><div>${commit.commit.message}</div><span>${new Date(commit.commit.author.date).toLocaleString()}</span></div><button class="btn btn-outline" onclick="restoreVersion('${commit.sha}')">복구</button>`; list.appendChild(li); }); document.getElementById('historyModal').style.display = 'flex'; } catch(err) { alert("실패"); } finally { hideLoading(); } }
         async function restoreVersion(sha) { if(!confirm("복구하시겠습니까?")) return; showLoading("복구 중..."); const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/data.js?ref=${sha}`; try { const res = await fetch(url, { headers: { Authorization: `token ${ghConfig.token}` } }); const data = await res.json(); const content = decodeURIComponent(escape(window.atob(data.content))); const jsonStr = content.replace('const portfolioData =', '').replace(';', ''); portfolioData = JSON.parse(jsonStr); initAdmin(); closeHistory(); alert("복구됨!"); } catch(err) { alert("실패"); } finally { hideLoading(); } }
