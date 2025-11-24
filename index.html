@@ -31,8 +31,7 @@
         html { scroll-behavior: smooth; text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
         body { 
             font-family: var(--font-sans); color: var(--text-primary); background-color: var(--bg-white);
-            line-height: 1.6; 
-            word-break: keep-all; overflow-wrap: break-word; 
+            line-height: 1.6; word-break: keep-all; overflow-wrap: break-word;
             overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
 
@@ -44,7 +43,7 @@
         .fade-wrap.visible { opacity: 1; transform: translateY(0); }
         .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
 
-        /* --- [Layout Common] --- */
+        /* --- [Layout Common (PC)] --- */
         .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
         section { padding: 160px 0; }
         
@@ -82,18 +81,20 @@
         .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.5s ease; }
         .hero:hover .hero-img img { transform: scale(1.03); }
 
-        /* Profile (PC) - 2열 구조 */
+        /* Profile (PC) */
         .profile-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 100px; align-items: start; }
         .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; row-gap: 60px; }
         .spec-item strong { display: block; font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); line-height: 1.3; }
         .spec-desc { font-family: var(--font-sans); color: var(--text-secondary); font-size: 0.95rem; font-weight: 400; margin-top: 5px; line-height: 1.5; }
 
-        /* Filmography */
+        /* Filmography (PC) */
         .career-list { margin-top: 80px; }
         .filmo-group { margin-bottom: 100px; }
         .career-category-title { font-family: var(--font-serif); font-size: 1.3rem; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 30px; }
         .filmo-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        
         @media (min-width: 1025px) { .filmo-grid { grid-template-columns: 1fr 1fr; column-gap: 60px; row-gap: 40px; } }
+
         .career-item { display: grid; grid-template-columns: 80px 1fr; gap: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; align-items: center; transition: background 0.3s; }
         .career-thumb { width: 80px; height: 120px; background: #f0f0f0; overflow: hidden; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; }
         .career-item:hover .career-thumb { transform: translateY(-5px); }
@@ -126,51 +127,28 @@
 
 
         /* ============================================================
-           ★ [미디어 쿼리 1: 태블릿 & 대화면 모바일 (768px ~ 1024px)]
-           - 프로필 레이아웃 1열로 변경하여 공간 확보
+           ★ [미디어 쿼리 1: 태블릿 (769px ~ 1024px)]
+           - 2열 그리드 적용
            ============================================================ */
-        @media (max-width: 1024px) {
-            .container { padding: 0 25px; }
-            section { padding: 90px 0; }
-            
-            /* Header */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container { padding: 0 30px; }
+            section { padding: 100px 0; }
             header { padding: 10px 0; }
-            nav { height: 60px; padding: 0 20px; }
+            nav { height: 60px; padding: 0 30px; }
             .logo { font-size: 1.6rem; }
             .menu { display: none !important; }
-            .current-lang { font-size: 1.15rem; padding: 10px; font-weight: 700; }
-            .lang-list { top: 110%; min-width: 180px; }
-            .lang-option { font-size: 1.3rem; padding: 15px 25px; }
+            .current-lang { font-size: 1.1rem; padding: 10px; font-weight: 700; }
 
-            /* Hero */
             .hero { grid-template-columns: 1fr; gap: 3vh; padding-top: 100px; text-align: left; display: flex; flex-direction: column; }
             .hero-img { width: 100%; height: auto; aspect-ratio: 4/5; max-height: 60vh; order: -1; margin-bottom: 2vh; }
-            .hero-text h1 { font-size: clamp(3.0rem, 10vw, 4.2rem); margin-bottom: 2vh; }
-            .hero-text p { font-size: 1.4rem; margin-top: 2vh; }
+            .hero-text h1 { font-size: 3.8rem; margin-bottom: 2vh; }
+            .hero-text p { font-size: 1.3rem; margin-top: 2vh; }
 
-            /* [Profile] - 핵심 수정: 1열 레이아웃 강제 */
-            .profile-wrap { display: block; } /* grid -> block */
-            .profile-summary { margin-bottom: 40px; }
-            .profile-summary h2 { font-size: 3.0rem; margin-bottom: 20px; text-align: left; }
-            .profile-summary h2::after { display: none; } /* 세로선 제거 */
+            .profile-wrap { grid-template-columns: 1fr; gap: 60px; }
+            .specs-grid { grid-template-columns: 1fr; gap: 40px; }
             
-            /* 스펙 그리드 1열로 */
-            .specs-grid { display: grid; grid-template-columns: 1fr; gap: 35px; }
-            
-            .spec-item strong { font-size: 1.7rem; margin-bottom: 8px; }
-            .spec-item h3 { font-size: 1.0rem; margin-bottom: 6px; }
-            .spec-desc { font-size: 1.35rem; line-height: 1.5; }
-
-            /* Filmography */
-            .career-category-title { font-size: 2.2rem; padding-bottom: 15px; margin-bottom: 35px; }
-            
-            /* 태블릿 2열 그리드 */
             .filmo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-            
-            .career-item { grid-template-columns: 95px 1fr; gap: 20px; padding-bottom: 20px; align-items: start; }
-            .career-thumb { width: 95px; height: 142px; flex-shrink: 0; }
-            .career-title { font-size: 1.5rem; margin-bottom: 5px; }
-            .career-role { font-size: 1.2rem; }
+            .career-thumb { width: 95px; height: 142px; }
             
             .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 15px; }
             footer { padding: 80px 0; }
@@ -178,54 +156,74 @@
 
 
         /* ===========================================================
-           ★ [미디어 쿼리 2: 소형 모바일 (480px 이하)]
-           - 프로필 잘림 방지 완벽 적용
+           ★ [미디어 쿼리 2: 모든 모바일 (768px 이하)] ★
+           - "한 화면에 5개 반" 보이도록 밀도 최적화
+           - 썸네일 80px, 높이 120px 고정
            =========================================================== */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .container { padding: 0 20px; } 
-            section { padding: 60px 0; }
+            section { padding: 60px 0; } /* 섹션 위아래 간격 적당히 */
             
-            /* Header Slim */
+            /* Header */
             header { padding: 5px 0; }
             nav { height: 50px; padding: 0 20px; }
-            .logo { font-size: 1.3rem; }
-            .current-lang { font-size: 0.9rem; padding: 8px; }
-            .lang-list { min-width: 140px; top: 110%; }
-            .lang-option { font-size: 0.95rem; padding: 10px 15px; }
+            .logo { font-size: 1.4rem; }
+            .menu { display: none; }
+            .current-lang { font-size: 1rem; padding: 8px; font-weight: 700; }
+            .lang-list { min-width: 150px; top: 110%; }
+            .lang-option { font-size: 1.1rem; padding: 12px 20px; }
 
             /* Hero */
-            .hero { padding-top: 70px; gap: 20px; }
-            .hero-img { aspect-ratio: 4/5; max-height: 50vh; margin-bottom: 10px; }
-            .hero-text h1 { font-size: 2.6rem; margin-bottom: 10px; }
-            .hero-text p { font-size: 0.95rem; margin-top: 15px; line-height: 1.5; }
+            .hero { padding-top: 80px; gap: 20px; display: flex; flex-direction: column; }
+            .hero-img { aspect-ratio: 4/5; max-height: 55vh; margin-bottom: 10px; }
+            .hero-text h1 { font-size: 3.2rem; margin-bottom: 15px; line-height: 1.1; }
+            .hero-text span.subtitle { font-size: 1.2rem; margin-bottom: 10px; }
+            .hero-text p { font-size: 1.1rem; margin-top: 15px; line-height: 1.6; }
 
-            /* [Profile] - 완전 1열화 */
-            .profile-wrap { display: block; } 
-            .profile-summary h2 { font-size: 2.0rem; margin-bottom: 25px; text-align: left; }
+            /* Profile */
+            .profile-wrap { gap: 40px; display: block; }
             .specs-grid { display: block; }
             .spec-item { margin-bottom: 30px; }
+            .profile-summary h2 { font-size: 2.5rem; margin-bottom: 30px; text-align: left; }
+            .profile-summary h2::after { display: none; }
             
-            .spec-item strong { font-size: 1.3rem; margin-bottom: 4px; word-break: break-word; }
-            .spec-item h3 { font-size: 0.8rem; margin-bottom: 2px; }
-            .spec-desc { font-size: 0.95rem; line-height: 1.4; }
+            .spec-item strong { font-size: 1.5rem; margin-bottom: 5px; word-break: break-word; }
+            .spec-item h3 { font-size: 0.9rem; margin-bottom: 3px; }
+            .spec-desc { font-size: 1.05rem; line-height: 1.5; }
 
-            /* Filmography - 1열 */
-            .career-category-title { font-size: 1.35rem; padding-bottom: 8px; margin-bottom: 15px; }
+            /* ★ Filmography - 5.5 Items Density ★ */
+            .career-category-title { font-size: 1.6rem; padding-bottom: 10px; margin-bottom: 20px; }
             .filmo-grid { display: block; }
             
             .career-item { 
-                grid-template-columns: 70px 1fr; 
-                gap: 12px; padding-bottom: 12px; margin-bottom: 8px;
+                display: grid;
+                grid-template-columns: 80px 1fr; /* 썸네일 너비 80px (적당한 크기) */
+                gap: 16px; 
+                /* 높이 조절의 핵심: 패딩과 마진 최소화 */
+                padding-bottom: 15px; 
+                margin-bottom: 10px;
                 border-bottom: 1px solid #f5f5f5;
             }
-            .career-thumb { width: 70px; height: 105px; }
-            .year { font-size: 0.75rem; margin-bottom: 1px; }
-            .career-title { font-size: 1.05rem; line-height: 1.2; margin-bottom: 2px; }
-            .career-role { font-size: 0.85rem; line-height: 1.3; }
-            .broadcast { font-size: 0.7rem; padding: 0 5px; margin-top: 2px; }
+            .career-thumb { 
+                width: 80px; height: 120px; /* 2:3 비율, 높이 120px */
+            }
             
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            footer { padding: 40px 0; }
+            .career-info { gap: 2px; }
+            .year { font-size: 0.85rem; margin-bottom: 2px; }
+            .career-title { 
+                font-size: 1.2rem; line-height: 1.25; margin-bottom: 3px; /* 제목 적당히 크게 */
+                word-break: keep-all; 
+            }
+            .career-role { font-size: 0.95rem; line-height: 1.3; color: #555; }
+            .broadcast { font-size: 0.8rem; padding: 1px 6px; margin-top: 3px; }
+            
+            /* Gallery */
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            
+            /* Footer */
+            footer { padding: 50px 0; }
+            .footer-sns a { font-size: 1.1rem; }
+            footer p { font-size: 0.9rem; margin-top: 15px; }
         }
 
         /* --- [다국어 처리] --- */
@@ -243,9 +241,7 @@
         html[lang="ar"] .broadcast { margin-left: 0; margin-right: 8px; }
         html[lang="ar"] .hero-text p { text-align: right; }
         html[lang="ar"] .lang-list { right: auto; left: 0; }
-        /* 아랍어 모바일 프로필 정렬 수정 */
-        html[lang="ar"] .profile-summary h2, 
-        html[lang="ar"] .hero { text-align: right !important; }
+        html[lang="ar"] .profile-summary h2 { text-align: right; }
     </style>
 </head>
 <body>
